@@ -2,16 +2,24 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { radiestesiaGraphs, type RadiestesiaGraph } from "@/data/radiestesia-graphs";
+import GraphCard from "@/components/radiestesia/GraphCard";
+import CompassTool from "@/components/radiestesia/CompassTool";
+import PendulumTool from "@/components/radiestesia/PendulumTool";
+import MontageGuide from "@/components/radiestesia/MontageGuide";
 
 const RadiestesiaPage = () => {
   const [problem, setProblem] = useState("");
+  const [selectedGraph, setSelectedGraph] = useState<RadiestesiaGraph | null>(null);
 
   return (
-    <div className="mx-auto max-w-lg px-4 pt-6">
+    <div className="mx-auto max-w-lg px-4 pt-6 pb-24">
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        className="space-y-6"
+        className="space-y-5"
       >
         <div className="text-center">
           <span className="text-4xl">◎</span>
@@ -23,28 +31,149 @@ const RadiestesiaPage = () => {
           </p>
         </div>
 
-        <div className="space-y-4">
-          <div>
-            <label className="font-display text-xs tracking-wider text-muted-foreground uppercase">
-              Descreva sua situação
-            </label>
-            <Textarea
-              value={problem}
-              onChange={(e) => setProblem(e.target.value)}
-              placeholder="Descreva a situação que deseja harmonizar..."
-              className="mt-2 min-h-[120px] resize-none border-border bg-card font-body text-foreground placeholder:text-muted-foreground"
-            />
-          </div>
+        <Tabs defaultValue="consulta" className="w-full">
+          <TabsList className="w-full grid grid-cols-4 bg-muted/50">
+            <TabsTrigger value="consulta" className="font-display text-[10px] tracking-wider">
+              Consulta
+            </TabsTrigger>
+            <TabsTrigger value="graficos" className="font-display text-[10px] tracking-wider">
+              Gráficos
+            </TabsTrigger>
+            <TabsTrigger value="ferramentas" className="font-display text-[10px] tracking-wider">
+              Ferramentas
+            </TabsTrigger>
+            <TabsTrigger value="montar" className="font-display text-[10px] tracking-wider">
+              Como Montar
+            </TabsTrigger>
+          </TabsList>
 
-          <Button
-            className="w-full font-display tracking-widest"
-            size="lg"
-            disabled={!problem.trim()}
-          >
-            Iniciar Orientação
-          </Button>
-        </div>
+          {/* Consulta Tab */}
+          <TabsContent value="consulta" className="mt-4">
+            <div className="space-y-4">
+              <div>
+                <label className="font-display text-xs tracking-wider text-muted-foreground uppercase">
+                  Descreva sua situação
+                </label>
+                <Textarea
+                  value={problem}
+                  onChange={(e) => setProblem(e.target.value)}
+                  placeholder="Descreva a situação que deseja harmonizar..."
+                  className="mt-2 min-h-[120px] resize-none border-border bg-card font-body text-foreground placeholder:text-muted-foreground"
+                />
+              </div>
+
+              <Button
+                className="w-full font-display tracking-widest"
+                size="lg"
+                disabled={!problem.trim()}
+              >
+                Receber Orientação
+              </Button>
+
+              <p className="font-body text-xs text-muted-foreground text-center italic">
+                A IA indicará até 3 gráficos radiônicos ideais para sua situação, com cristais recomendados.
+              </p>
+            </div>
+          </TabsContent>
+
+          {/* Gráficos Tab */}
+          <TabsContent value="graficos" className="mt-4">
+            <div className="space-y-3">
+              <p className="font-body text-xs text-muted-foreground text-center mb-4">
+                Catálogo dos principais gráficos radiônicos. Toque para ver detalhes.
+              </p>
+              {radiestesiaGraphs.map((graph) => (
+                <GraphCard
+                  key={graph.id}
+                  graph={graph}
+                  onSelect={setSelectedGraph}
+                />
+              ))}
+            </div>
+          </TabsContent>
+
+          {/* Ferramentas Tab */}
+          <TabsContent value="ferramentas" className="mt-4">
+            <Tabs defaultValue="bussola" className="w-full">
+              <TabsList className="w-full grid grid-cols-2 bg-muted/30">
+                <TabsTrigger value="bussola" className="font-display text-[10px] tracking-wider">
+                  🧭 Bússola
+                </TabsTrigger>
+                <TabsTrigger value="pendulo" className="font-display text-[10px] tracking-wider">
+                  🔮 Pêndulo
+                </TabsTrigger>
+              </TabsList>
+              <TabsContent value="bussola" className="mt-4">
+                <CompassTool />
+              </TabsContent>
+              <TabsContent value="pendulo" className="mt-4">
+                <PendulumTool />
+              </TabsContent>
+            </Tabs>
+          </TabsContent>
+
+          {/* Como Montar Tab */}
+          <TabsContent value="montar" className="mt-4">
+            <MontageGuide />
+          </TabsContent>
+        </Tabs>
       </motion.div>
+
+      {/* Graph Detail Dialog */}
+      <Dialog open={!!selectedGraph} onOpenChange={(open) => !open && setSelectedGraph(null)}>
+        <DialogContent className="max-w-sm border-border bg-card">
+          {selectedGraph && (
+            <>
+              <DialogHeader>
+                <DialogTitle className="font-display tracking-widest text-foreground">
+                  {selectedGraph.name}
+                </DialogTitle>
+                <DialogDescription className="font-body text-sm text-muted-foreground">
+                  {selectedGraph.description}
+                </DialogDescription>
+              </DialogHeader>
+
+              <div className="space-y-4">
+                {/* SVG Preview */}
+                <div
+                  className="w-full max-w-[200px] mx-auto text-primary/80"
+                  dangerouslySetInnerHTML={{ __html: selectedGraph.svgPath }}
+                />
+
+                <div className="space-y-3">
+                  <div>
+                    <h4 className="font-display text-xs tracking-wider text-muted-foreground uppercase">
+                      Utilização
+                    </h4>
+                    <p className="font-body text-sm text-foreground/80 mt-1">
+                      {selectedGraph.usage}
+                    </p>
+                  </div>
+
+                  <div className="p-3 rounded-lg border border-primary/20 bg-primary/5">
+                    <h4 className="font-display text-xs tracking-wider text-primary uppercase">
+                      ◆ Cristal Recomendado
+                    </h4>
+                    <p className="font-display text-sm text-foreground mt-1">
+                      {selectedGraph.crystal}
+                    </p>
+                    <p className="font-body text-xs text-muted-foreground mt-0.5">
+                      {selectedGraph.crystalReason}
+                    </p>
+                  </div>
+
+                  {selectedGraph.needsNorth && (
+                    <div className="flex items-center gap-2 text-xs font-body text-muted-foreground">
+                      <span className="text-primary">↑</span>
+                      Este gráfico precisa ser orientado ao Norte
+                    </div>
+                  )}
+                </div>
+              </div>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

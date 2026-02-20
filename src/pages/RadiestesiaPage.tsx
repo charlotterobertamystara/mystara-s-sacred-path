@@ -4,7 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
-import { radiestesiaGraphs, type RadiestesiaGraph } from "@/data/radiestesia-graphs";
+import { Badge } from "@/components/ui/badge";
+import { radiestesiaGraphs, categoryLabels, type RadiestesiaGraph } from "@/data/radiestesia-graphs";
 import GraphCard from "@/components/radiestesia/GraphCard";
 import CompassTool from "@/components/radiestesia/CompassTool";
 import PendulumTool from "@/components/radiestesia/PendulumTool";
@@ -13,6 +14,12 @@ import MontageGuide from "@/components/radiestesia/MontageGuide";
 const RadiestesiaPage = () => {
   const [problem, setProblem] = useState("");
   const [selectedGraph, setSelectedGraph] = useState<RadiestesiaGraph | null>(null);
+  const [activeCategory, setActiveCategory] = useState<string>("todos");
+
+  const categories = ["todos", ...Array.from(new Set(radiestesiaGraphs.map(g => g.category)))];
+  const filteredGraphs = activeCategory === "todos"
+    ? radiestesiaGraphs
+    : radiestesiaGraphs.filter(g => g.category === activeCategory);
 
   return (
     <div className="mx-auto max-w-lg px-4 pt-6 pb-24">
@@ -79,10 +86,33 @@ const RadiestesiaPage = () => {
           {/* Gráficos Tab */}
           <TabsContent value="graficos" className="mt-4">
             <div className="space-y-3">
-              <p className="font-body text-xs text-muted-foreground text-center mb-4">
-                Catálogo dos principais gráficos radiônicos. Toque para ver detalhes.
-              </p>
-              {radiestesiaGraphs.map((graph) => (
+              <div className="flex items-center justify-between mb-2">
+                <p className="font-body text-xs text-muted-foreground italic">
+                  Toque em um gráfico para ver detalhes
+                </p>
+                <span className="font-display text-[10px] tracking-wider text-primary/70">
+                  {filteredGraphs.length} gráficos
+                </span>
+              </div>
+
+              {/* Category filter */}
+              <div className="flex gap-1.5 flex-wrap pb-2">
+                {categories.map((cat) => (
+                  <button
+                    key={cat}
+                    onClick={() => setActiveCategory(cat)}
+                    className={`px-2.5 py-1 rounded-full font-display text-[10px] tracking-wider transition-colors border ${
+                      activeCategory === cat
+                        ? "bg-primary text-primary-foreground border-primary"
+                        : "bg-card text-muted-foreground border-border hover:border-primary/40"
+                    }`}
+                  >
+                    {cat === "todos" ? "Todos" : categoryLabels[cat as keyof typeof categoryLabels]}
+                  </button>
+                ))}
+              </div>
+
+              {filteredGraphs.map((graph) => (
                 <GraphCard
                   key={graph.id}
                   graph={graph}
@@ -125,9 +155,14 @@ const RadiestesiaPage = () => {
           {selectedGraph && (
             <>
               <DialogHeader>
-                <DialogTitle className="font-display tracking-widest text-foreground">
-                  {selectedGraph.name}
-                </DialogTitle>
+                <div className="flex items-center gap-2 flex-wrap">
+                  <DialogTitle className="font-display tracking-widest text-foreground">
+                    {selectedGraph.name}
+                  </DialogTitle>
+                  <span className="text-[10px] font-display tracking-wider px-2 py-0.5 rounded-full border border-primary/30 bg-primary/10 text-primary">
+                    {categoryLabels[selectedGraph.category]}
+                  </span>
+                </div>
                 <DialogDescription className="font-body text-sm text-muted-foreground">
                   {selectedGraph.description}
                 </DialogDescription>

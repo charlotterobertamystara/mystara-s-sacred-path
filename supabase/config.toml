@@ -5,3 +5,6 @@ verify_jwt = false
 
 [functions.tarot-reading]
 verify_jwt = false
+
+[functions.runes-reading]
+verify_jwt = false

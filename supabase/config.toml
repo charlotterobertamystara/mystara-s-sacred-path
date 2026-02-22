@@ -8,3 +8,6 @@ verify_jwt = false
 
 [functions.runes-reading]
 verify_jwt = false
+
+[functions.mapa-astral]
+verify_jwt = false

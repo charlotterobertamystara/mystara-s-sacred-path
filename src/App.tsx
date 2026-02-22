@@ -10,7 +10,7 @@ import TarotPage from "./pages/TarotPage";
 import RunasPage from "./pages/RunasPage";
 import RadiestesiaPage from "./pages/RadiestesiaPage";
 import CristaisPage from "./pages/CristaisPage";
-import BanhosErvasPage from "./pages/BanhosErvasPage";
+import LimpezaPage from "./pages/LimpezaPage";
 import MapaAstralPage from "./pages/MapaAstralPage";
 import ProfilePage from "./pages/ProfilePage";
 import AuthPage from "./pages/AuthPage";
@@ -33,7 +33,7 @@ const App = () => (
               <Route path="/runas" element={<RunasPage />} />
               <Route path="/radiestesia" element={<RadiestesiaPage />} />
               <Route path="/cristais" element={<CristaisPage />} />
-              <Route path="/banhos" element={<BanhosErvasPage />} />
+              <Route path="/limpeza" element={<LimpezaPage />} />
               <Route path="/mapa-astral" element={<MapaAstralPage />} />
               <Route path="/perfil" element={<ProfilePage />} />
             </Route>

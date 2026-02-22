@@ -7,7 +7,7 @@ const features = [
   { title: "Runas", description: "Sabedoria ancestral nórdica", icon: "ᚱ", path: "/runas" },
   { title: "Radiestesia", description: "Orientação energética", icon: "◎", path: "/radiestesia" },
   { title: "Cristais", description: "Poder das pedras sagradas", icon: "◆", path: "/cristais" },
-  { title: "Banhos & Ervas", description: "Rituais de purificação", icon: "🌿", path: "/banhos" },
+  { title: "Limpeza Espiritual", description: "Banhos, ervas e defumações", icon: "🌿", path: "/limpeza" },
   { title: "Mapa Astral", description: "Seu mapa celeste pessoal", icon: "☉", path: "/mapa-astral" },
 ];
 

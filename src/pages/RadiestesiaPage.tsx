@@ -10,11 +10,64 @@ import GraphCard from "@/components/radiestesia/GraphCard";
 import CompassTool from "@/components/radiestesia/CompassTool";
 import PendulumTool from "@/components/radiestesia/PendulumTool";
 import MontageGuide from "@/components/radiestesia/MontageGuide";
+import { Download } from "lucide-react";
 
 const RadiestesiaPage = () => {
   const [problem, setProblem] = useState("");
   const [selectedGraph, setSelectedGraph] = useState<RadiestesiaGraph | null>(null);
   const [activeCategory, setActiveCategory] = useState<string>("todos");
+  const [downloading, setDownloading] = useState(false);
+
+  const handleDownloadPdf = async (graph: RadiestesiaGraph) => {
+    setDownloading(true);
+    try {
+      const { jsPDF } = await import("jspdf");
+      // 14x14cm PDF
+      const doc = new jsPDF({ unit: "cm", format: [14, 14] });
+
+      // Title
+      doc.setFontSize(12);
+      doc.text(graph.name, 7, 1.2, { align: "center" });
+
+      // Render SVG to canvas
+      const svgStr = graph.svgPath.replace(/currentColor/g, "#1a1a2e");
+      const canvas = document.createElement("canvas");
+      canvas.width = 1200;
+      canvas.height = 1200;
+      const ctx = canvas.getContext("2d");
+      if (ctx) {
+        const img = new Image();
+        const blob = new Blob([svgStr], { type: "image/svg+xml;charset=utf-8" });
+        const url = URL.createObjectURL(blob);
+        await new Promise<void>((resolve, reject) => {
+          img.onload = () => {
+            ctx.fillStyle = "#ffffff";
+            ctx.fillRect(0, 0, 1200, 1200);
+            ctx.drawImage(img, 50, 50, 1100, 1100);
+            URL.revokeObjectURL(url);
+            resolve();
+          };
+          img.onerror = reject;
+          img.src = url;
+        });
+        const imgData = canvas.toDataURL("image/png");
+        doc.addImage(imgData, "PNG", 0.5, 1.8, 13, 13 * (1100/1200));
+      }
+
+      // Crystal info at bottom
+      doc.setFontSize(8);
+      doc.text(`Cristal: ${graph.crystal}`, 7, 13.2, { align: "center" });
+      if (graph.needsNorth) {
+        doc.text("↑ Orientar ao Norte", 7, 13.6, { align: "center" });
+      }
+
+      doc.save(`${graph.id}-14x14.pdf`);
+    } catch (e) {
+      console.error("PDF error:", e);
+    } finally {
+      setDownloading(false);
+    }
+  };
 
   const categories = ["todos", ...Array.from(new Set(radiestesiaGraphs.map(g => g.category)))];
   const filteredGraphs = activeCategory === "todos"
@@ -202,7 +255,17 @@ const RadiestesiaPage = () => {
                       <span className="text-primary">↑</span>
                       Este gráfico precisa ser orientado ao Norte
                     </div>
-                  )}
+                   )}
+
+                  <Button
+                    variant="outline"
+                    className="w-full font-display tracking-wider text-xs gap-2"
+                    disabled={downloading}
+                    onClick={() => handleDownloadPdf(selectedGraph)}
+                  >
+                    <Download className="w-4 h-4" />
+                    {downloading ? "Gerando PDF..." : "Baixar PDF (14×14 cm)"}
+                  </Button>
                 </div>
               </div>
             </>

@@ -420,19 +420,29 @@ export const radiestesiaGraphs: RadiestesiaGraph[] = [
   {
     id: "amor-incondicional",
     name: "Amor Incondicional",
-    description: "Gráfico em forma de coração sagrado com espiral de abertura. Trabalha o amor próprio e a receptividade afetiva.",
+    description: "Gráfico baseado na Vesica Piscis, a interseção sagrada de dois círculos iguais. Símbolo universal da união divina e do amor incondicional.",
     usage: "Cura de feridas emocionais, atração de amor saudável, fortalecimento do amor próprio e harmonização de casais.",
     needsNorth: false,
     shape: "custom",
     category: "amor",
     crystal: "Rodocrosita",
     crystalReason: "Cristal do amor romântico e cura emocional, cura o coração e atrai o amor verdadeiro.",
-    svgPath: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-      <path d="M100 160 C40 120 20 80 40 55 C55 35 80 35 100 55 C120 35 145 35 160 55 C180 80 160 120 100 160Z" fill="none" stroke="currentColor" stroke-width="1.5"/>
-      <path d="M100 140 C55 110 40 80 55 62 C65 50 82 50 100 65 C118 50 135 50 145 62 C160 80 145 110 100 140Z" fill="none" stroke="currentColor" stroke-width="1"/>
-      <circle cx="100" cy="95" r="18" fill="none" stroke="currentColor" stroke-width="0.8"/>
-      <circle cx="100" cy="95" r="8" fill="none" stroke="currentColor" stroke-width="1"/>
-    </svg>`
+    svgPath: (() => {
+      const dots = Array.from({length: 6}, (_, i) => {
+        const angle = (i * 60) * Math.PI / 180;
+        const cx = 100 + 70 * Math.cos(angle);
+        const cy = 100 + 70 * Math.sin(angle);
+        return `<circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="3" fill="currentColor"/>`;
+      }).join('');
+      return `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="75" cy="100" r="50" fill="none" stroke="currentColor" stroke-width="1.5"/>
+      <circle cx="125" cy="100" r="50" fill="none" stroke="currentColor" stroke-width="1.5"/>
+      <circle cx="100" cy="100" r="70" fill="none" stroke="currentColor" stroke-width="1"/>
+      <line x1="100" y1="30" x2="100" y2="170" stroke="currentColor" stroke-width="0.6" stroke-dasharray="3,3"/>
+      ${dots}
+      <circle cx="100" cy="100" r="8" fill="none" stroke="currentColor" stroke-width="1"/>
+    </svg>`;
+    })()
   },
 
   // ─── ESPIRITUALIDADE ─────────────────────────────────────────────────────────
@@ -559,12 +569,21 @@ export const radiestesiaGraphs: RadiestesiaGraph[] = [
     category: "harmonizacao",
     crystal: "Ametista",
     crystalReason: "Promove paz, calma e espiritualidade no ambiente doméstico com sua energia suave.",
-    svgPath: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-      <path d="M100,20 L175,85 L175,175 L25,175 L25,85 Z" fill="none" stroke="currentColor" stroke-width="1.5"/>
-      <path d="M100,45 L155,90 L155,155 L45,155 L45,90 Z" fill="none" stroke="currentColor" stroke-width="1"/>
-      <circle cx="100" cy="120" r="25" fill="none" stroke="currentColor" stroke-width="1"/>
-      <circle cx="100" cy="120" r="8" fill="none" stroke="currentColor" stroke-width="1"/>
-    </svg>`
+    svgPath: (() => {
+      const lines = Array.from({length: 4}, (_, i) => {
+        const angle = (i * 90 + 45) * Math.PI / 180;
+        return `<line x1="${(100 + 35 * Math.cos(angle)).toFixed(1)}" y1="${(100 + 35 * Math.sin(angle)).toFixed(1)}" x2="${(100 + 85 * Math.cos(angle)).toFixed(1)}" y2="${(100 + 85 * Math.sin(angle)).toFixed(1)}" stroke="currentColor" stroke-width="0.7"/>`;
+      }).join('');
+      return `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="100" cy="100" r="85" fill="none" stroke="currentColor" stroke-width="1.5"/>
+      <circle cx="100" cy="100" r="60" fill="none" stroke="currentColor" stroke-width="1"/>
+      <circle cx="100" cy="100" r="35" fill="none" stroke="currentColor" stroke-width="1"/>
+      <polygon points="100,15 185,100 100,185 15,100" fill="none" stroke="currentColor" stroke-width="1.2"/>
+      <polygon points="100,40 160,100 100,160 40,100" fill="none" stroke="currentColor" stroke-width="0.8"/>
+      ${lines}
+      <circle cx="100" cy="100" r="8" fill="none" stroke="currentColor" stroke-width="1"/>
+    </svg>`;
+    })()
   },
   {
     id: "equilibrador-chakras",

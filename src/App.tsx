@@ -32,7 +32,7 @@ const App = () => (
               <Route path="/" element={<Index />} />
               <Route path="/tarot" element={<TarotPage />} />
               <Route path="/runas" element={<SubscriptionGate featureName="Runas Nórdicas"><RunasPage /></SubscriptionGate>} />
-              <Route path="/radiestesia" element={<SubscriptionGate featureName="Radiestesia"><RadiestesiaPage /></SubscriptionGate>} />
+              <Route path="/radiestesia" element={<RadiestesiaPage />} />
               <Route path="/cristais" element={<SubscriptionGate featureName="Guia de Cristais"><CristaisPage /></SubscriptionGate>} />
               <Route path="/limpeza" element={<SubscriptionGate featureName="Limpeza Energética"><LimpezaPage /></SubscriptionGate>} />
               <Route path="/mapa-astral" element={<SubscriptionGate featureName="Mapa Astral"><MapaAstralPage /></SubscriptionGate>} />

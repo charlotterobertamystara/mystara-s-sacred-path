@@ -35,7 +35,7 @@ interface Profile {
 const ProfilePage = () => {
   const navigate = useNavigate();
   const { user, loading: authLoading, signOut } = useAuth();
-  const { creditsRemaining, isUnlimited, subscription, createSubscription, loading: creditsLoading } = useCredits();
+  const { isSubscribed, subscriptionStatus, createSubscription, loading: creditsLoading } = useCredits();
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(false);
   const [editing, setEditing] = useState(false);
@@ -173,23 +173,23 @@ const ProfilePage = () => {
           <p className="mt-1 font-body text-xs text-muted-foreground">{user.email}</p>
         </div>
 
-        {/* Credits & Subscription */}
+        {/* Subscription */}
         <div className="rounded-xl border border-border bg-card p-4 space-y-3">
-          <h2 className="font-display text-xs tracking-wider text-muted-foreground uppercase">Seus Créditos</h2>
+          <h2 className="font-display text-xs tracking-wider text-muted-foreground uppercase">Sua Assinatura</h2>
           <div className="flex items-center justify-between">
             <span className="font-body text-sm text-foreground">
-              {creditsLoading ? "Carregando..." : isUnlimited ? "♾️ Ilimitado" : `${creditsRemaining ?? 0} crédito(s) restante(s)`}
+              {creditsLoading ? "Carregando..." : isSubscribed ? "Plano Premium Ativo" : "Plano Gratuito"}
             </span>
-            {isUnlimited && (
+            {isSubscribed && (
               <span className="rounded-full bg-primary/20 px-3 py-0.5 font-display text-[10px] tracking-wider text-primary">
                 PREMIUM
               </span>
             )}
           </div>
-          {!isUnlimited && subscription?.status !== "active" && (
+          {!isSubscribed && (
             <div className="space-y-2 pt-1">
               <p className="font-body text-xs text-muted-foreground">
-                Assine por R$ 5,99/mês para leituras ilimitadas
+                Assine por R$ 5,99/mês para acesso ilimitado a todas as funcionalidades
               </p>
               <Button
                 className="w-full font-display tracking-wider"
@@ -210,8 +210,8 @@ const ProfilePage = () => {
               </Button>
             </div>
           )}
-          {subscription?.status === "active" && (
-            <p className="font-body text-xs text-primary">Assinatura ativa — uso ilimitado!</p>
+          {isSubscribed && (
+            <p className="font-body text-xs text-primary">Acesso ilimitado a todas as funcionalidades!</p>
           )}
         </div>
 

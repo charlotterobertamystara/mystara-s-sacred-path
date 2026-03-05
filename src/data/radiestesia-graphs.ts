@@ -99,38 +99,58 @@ export const radiestesiaGraphs: RadiestesiaGraph[] = [
     category: "limpeza",
     crystal: "Selenita",
     crystalReason: "Cristal de limpeza rápida e intensa, amplia o efeito do vórtice purificador.",
-    svgPath: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-      <path d="${(() => {
-        let d = 'M 100 100';
-        for (let i = 0; i < 1080; i += 5) {
-          const r = 2 + i * 0.075;
-          const a = (i - 90) * Math.PI / 180;
-          d += ` L ${100 + r * Math.cos(a)} ${100 + r * Math.sin(a)}`;
-        }
-        return d;
-      })()}" fill="none" stroke="currentColor" stroke-width="1"/>
+    svgPath: (() => {
+      // Turbilhão original: arcos curvos entrelaçados formando um vórtice circular
+      const n = 8;
+      const R = 85;
+      const arcs = Array.from({length: n}, (_, i) => {
+        const a1 = (i * 360 / n) * Math.PI / 180;
+        const a2 = ((i + 3.5) * 360 / n) * Math.PI / 180;
+        const x1 = 100 + R * Math.cos(a1);
+        const y1 = 100 + R * Math.sin(a1);
+        const x2 = 100 + R * Math.cos(a2);
+        const y2 = 100 + R * Math.sin(a2);
+        // Arco curvado passando pelo centro
+        const cx1 = 100 + 20 * Math.cos(a1 + 1.2);
+        const cy1 = 100 + 20 * Math.sin(a1 + 1.2);
+        return `<path d="M${x1.toFixed(1)},${y1.toFixed(1)} Q${cx1.toFixed(1)},${cy1.toFixed(1)} ${x2.toFixed(1)},${y2.toFixed(1)}" fill="none" stroke="currentColor" stroke-width="1.5"/>`;
+      }).join('');
+      return `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      ${arcs}
       <circle cx="100" cy="100" r="4" fill="currentColor"/>
-    </svg>`
+    </svg>`;
+    })()
   },
 
   // ─── PROTEÇÃO ───────────────────────────────────────────────────────────────
   {
     id: "anti-magia",
     name: "Anti-Magia",
-    description: "Gráfico de proteção contra trabalhos espirituais negativos, inveja e mau-olhado.",
+    description: "Gráfico de proteção baseado no Selo de Salomão (hexagrama). Protege contra trabalhos espirituais negativos, inveja e mau-olhado.",
     usage: "Proteção contra magia negativa, inveja, olho gordo e trabalhos espirituais direcionados.",
     needsNorth: true,
     shape: "custom",
     category: "protecao",
     crystal: "Obsidiana Negra",
     crystalReason: "Escudo protetor poderoso que reflete energias negativas de volta à origem.",
-    svgPath: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-      <polygon points="100,10 190,100 100,190 10,100" fill="none" stroke="currentColor" stroke-width="1.5"/>
-      <polygon points="100,35 165,100 100,165 35,100" fill="none" stroke="currentColor" stroke-width="1"/>
-      <line x1="100" y1="10" x2="100" y2="190" stroke="currentColor" stroke-width="1"/>
-      <line x1="10" y1="100" x2="190" y2="100" stroke="currentColor" stroke-width="1"/>
+    svgPath: (() => {
+      // Anti-Magia: baseado no Selo de Salomão (dois triângulos sobrepostos = hexagrama) dentro de círculos
+      const pts1 = [0,1,2].map(i => {
+        const a = (i * 120 - 90) * Math.PI / 180;
+        return `${(100 + 80 * Math.cos(a)).toFixed(1)},${(100 + 80 * Math.sin(a)).toFixed(1)}`;
+      }).join(' ');
+      const pts2 = [0,1,2].map(i => {
+        const a = (i * 120 + 30) * Math.PI / 180;
+        return `${(100 + 80 * Math.cos(a)).toFixed(1)},${(100 + 80 * Math.sin(a)).toFixed(1)}`;
+      }).join(' ');
+      return `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="100" cy="100" r="90" fill="none" stroke="currentColor" stroke-width="1.5"/>
+      <circle cx="100" cy="100" r="60" fill="none" stroke="currentColor" stroke-width="0.8"/>
+      <polygon points="${pts1}" fill="none" stroke="currentColor" stroke-width="1.5"/>
+      <polygon points="${pts2}" fill="none" stroke="currentColor" stroke-width="1.5"/>
       <circle cx="100" cy="100" r="8" fill="none" stroke="currentColor" stroke-width="1"/>
-    </svg>`
+    </svg>`;
+    })()
   },
   {
     id: "pentagrama-protecao",
@@ -237,20 +257,41 @@ export const radiestesiaGraphs: RadiestesiaGraph[] = [
   },
   {
     id: "cruz-ansata",
-    name: "Cruz Ansata (Ankh)",
-    description: "Símbolo egípcio da vida eterna. Usado para vitalidade, saúde e renovação energética profunda.",
-    usage: "Revitalização, saúde física e espiritual, renovação de energias e longevidade.",
+    name: "Cruz Ansata",
+    description: "Gráfico radiônico composto por Decágono, Cruz Ankh e Pilha Magnética. Usado para cura e saúde, combina três elementos com capacidades distintas.",
+    usage: "Cura energética, problemas de saúde, revitalização. Colocar testemunho no centro do Decágono e a descrição do problema acima da Cruz.",
     needsNorth: true,
     shape: "cross",
     category: "saude",
     crystal: "Cornalina",
     crystalReason: "Cristal de vitalidade que ativa a energia vital e fortalece o corpo energético.",
-    svgPath: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-      <ellipse cx="100" cy="55" rx="35" ry="40" fill="none" stroke="currentColor" stroke-width="1.5"/>
-      <line x1="100" y1="95" x2="100" y2="190" stroke="currentColor" stroke-width="1.5"/>
-      <line x1="60" y1="130" x2="140" y2="130" stroke="currentColor" stroke-width="1.5"/>
-      <circle cx="100" cy="130" r="8" fill="none" stroke="currentColor" stroke-width="1"/>
-    </svg>`
+    svgPath: (() => {
+      // Cruz Ansata radiestésica: Decágono na parte inferior + Cruz Ankh vertical + Pilha Magnética (4 semicírculos) no topo
+      // Decágono (10 lados) no centro-baixo
+      const decPts = Array.from({length: 10}, (_, i) => {
+        const a = (i * 36 - 90) * Math.PI / 180;
+        return `${(100 + 38 * Math.cos(a)).toFixed(1)},${(145 + 38 * Math.sin(a)).toFixed(1)}`;
+      }).join(' ');
+      // Pilha magnética: 4 semicírculos no topo
+      const pilha = [0,1,2,3].map(i => {
+        const cx = 82 + i * 12;
+        return `<circle cx="${cx}" cy="28" r="5" fill="none" stroke="currentColor" stroke-width="1"/>`;
+      }).join('');
+      return `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <!-- Pilha Magnética (4 esferas no topo) -->
+      ${pilha}
+      <!-- Laço/Anel da Ankh -->
+      <ellipse cx="100" cy="50" rx="22" ry="20" fill="none" stroke="currentColor" stroke-width="1.5"/>
+      <!-- Haste vertical da Cruz -->
+      <line x1="100" y1="70" x2="100" y2="185" stroke="currentColor" stroke-width="1.5"/>
+      <!-- Braços horizontais da Cruz -->
+      <line x1="70" y1="100" x2="130" y2="100" stroke="currentColor" stroke-width="1.5"/>
+      <!-- Decágono -->
+      <polygon points="${decPts}" fill="none" stroke="currentColor" stroke-width="1.5"/>
+      <!-- Centro do Decágono -->
+      <circle cx="100" cy="145" r="5" fill="none" stroke="currentColor" stroke-width="1"/>
+    </svg>`;
+    })()
   },
   {
     id: "diafragma-1",

@@ -1,22 +1,23 @@
 import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
-import type { RadiestesiaGraph } from "@/data/radiestesia-graphs";
+import type { RadiestesiaGraph, RadiestesiaCategory } from "@/data/radiestesia-graphs";
 import { categoryLabels } from "@/data/radiestesia-graphs";
+import { ImageOff } from "lucide-react";
 
 interface GraphCardProps {
   graph: RadiestesiaGraph;
   onSelect?: (graph: RadiestesiaGraph) => void;
 }
 
-const categoryColors: Record<RadiestesiaGraph["category"], string> = {
-  limpeza: "text-sky-400 border-sky-400/30 bg-sky-400/10",
-  protecao: "text-violet-400 border-violet-400/30 bg-violet-400/10",
-  cura: "text-emerald-400 border-emerald-400/30 bg-emerald-400/10",
-  prosperidade: "text-amber-400 border-amber-400/30 bg-amber-400/10",
-  amor: "text-rose-400 border-rose-400/30 bg-rose-400/10",
-  espiritualidade: "text-indigo-400 border-indigo-400/30 bg-indigo-400/10",
-  saude: "text-teal-400 border-teal-400/30 bg-teal-400/10",
-  harmonizacao: "text-fuchsia-400 border-fuchsia-400/30 bg-fuchsia-400/10",
+const categoryColors: Record<RadiestesiaCategory, string> = {
+  analise: "text-sky-400 border-sky-400/30 bg-sky-400/10",
+  decagonos: "text-violet-400 border-violet-400/30 bg-violet-400/10",
+  dinamizacao: "text-emerald-400 border-emerald-400/30 bg-emerald-400/10",
+  reequilibrio: "text-amber-400 border-amber-400/30 bg-amber-400/10",
+  turbilhoes: "text-rose-400 border-rose-400/30 bg-rose-400/10",
+  emissores: "text-indigo-400 border-indigo-400/30 bg-indigo-400/10",
+  protecao: "text-fuchsia-400 border-fuchsia-400/30 bg-fuchsia-400/10",
+  populares: "text-teal-400 border-teal-400/30 bg-teal-400/10",
 };
 
 const GraphCard = ({ graph, onSelect }: GraphCardProps) => {
@@ -31,11 +32,24 @@ const GraphCard = ({ graph, onSelect }: GraphCardProps) => {
         onClick={() => onSelect?.(graph)}
       >
         <CardContent className="p-4 flex gap-4">
-          {/* Graph SVG preview */}
-          <div
-            className="w-16 h-16 flex-shrink-0 text-primary/70"
-            dangerouslySetInnerHTML={{ __html: graph.svgPath }}
-          />
+          {/* Graph image or placeholder */}
+          <div className="w-16 h-16 flex-shrink-0 rounded-md overflow-hidden border border-border bg-muted/30 flex items-center justify-center">
+            {graph.imageUrl ? (
+              <img
+                src={graph.imageUrl}
+                alt={graph.name}
+                className="w-full h-full object-contain"
+                loading="lazy"
+              />
+            ) : (
+              <div className="flex flex-col items-center gap-0.5">
+                <ImageOff className="w-5 h-5 text-muted-foreground/40" />
+                <span className="text-[7px] font-display tracking-wider text-muted-foreground/40 uppercase">
+                  Sem imagem
+                </span>
+              </div>
+            )}
+          </div>
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 mb-0.5">
               <h3 className="font-display text-sm tracking-wider text-foreground">

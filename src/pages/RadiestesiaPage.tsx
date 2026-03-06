@@ -4,13 +4,12 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
-import { Badge } from "@/components/ui/badge";
 import { radiestesiaGraphs, categoryLabels, type RadiestesiaGraph } from "@/data/radiestesia-graphs";
 import GraphCard from "@/components/radiestesia/GraphCard";
 import CompassTool from "@/components/radiestesia/CompassTool";
 import PendulumTool from "@/components/radiestesia/PendulumTool";
 import MontageGuide from "@/components/radiestesia/MontageGuide";
-import { Download } from "lucide-react";
+import { Download, ImageOff } from "lucide-react";
 
 const RadiestesiaPage = () => {
   const [problem, setProblem] = useState("");
@@ -19,42 +18,39 @@ const RadiestesiaPage = () => {
   const [downloading, setDownloading] = useState(false);
 
   const handleDownloadPdf = async (graph: RadiestesiaGraph) => {
+    if (!graph.imageUrl) return;
     setDownloading(true);
     try {
       const { jsPDF } = await import("jspdf");
-      // 14x14cm PDF
       const doc = new jsPDF({ unit: "cm", format: [14, 14] });
 
-      // Title
       doc.setFontSize(12);
       doc.text(graph.name, 7, 1.2, { align: "center" });
 
-      // Render SVG to canvas
-      const svgStr = graph.svgPath.replace(/currentColor/g, "#1a1a2e");
+      // Load image and add to PDF
+      const img = new Image();
+      img.crossOrigin = "anonymous";
+      await new Promise<void>((resolve, reject) => {
+        img.onload = () => resolve();
+        img.onerror = reject;
+        img.src = graph.imageUrl!;
+      });
+
       const canvas = document.createElement("canvas");
       canvas.width = 1200;
       canvas.height = 1200;
       const ctx = canvas.getContext("2d");
       if (ctx) {
-        const img = new Image();
-        const blob = new Blob([svgStr], { type: "image/svg+xml;charset=utf-8" });
-        const url = URL.createObjectURL(blob);
-        await new Promise<void>((resolve, reject) => {
-          img.onload = () => {
-            ctx.fillStyle = "#ffffff";
-            ctx.fillRect(0, 0, 1200, 1200);
-            ctx.drawImage(img, 50, 50, 1100, 1100);
-            URL.revokeObjectURL(url);
-            resolve();
-          };
-          img.onerror = reject;
-          img.src = url;
-        });
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(0, 0, 1200, 1200);
+        const size = Math.min(img.width, img.height);
+        const sx = (img.width - size) / 2;
+        const sy = (img.height - size) / 2;
+        ctx.drawImage(img, sx, sy, size, size, 50, 50, 1100, 1100);
         const imgData = canvas.toDataURL("image/png");
-        doc.addImage(imgData, "PNG", 0.5, 1.8, 13, 13 * (1100/1200));
+        doc.addImage(imgData, "PNG", 0.5, 1.8, 13, 13);
       }
 
-      // Crystal info at bottom
       doc.setFontSize(8);
       doc.text(`Cristal: ${graph.crystal}`, 7, 13.2, { align: "center" });
       if (graph.needsNorth) {
@@ -222,11 +218,21 @@ const RadiestesiaPage = () => {
               </DialogHeader>
 
               <div className="space-y-4">
-                {/* SVG Preview */}
-                <div
-                  className="w-full max-w-[200px] mx-auto text-primary/80"
-                  dangerouslySetInnerHTML={{ __html: selectedGraph.svgPath }}
-                />
+                {/* Image Preview */}
+                <div className="w-full max-w-[200px] mx-auto flex items-center justify-center rounded-lg overflow-hidden border border-border bg-muted/20 aspect-square">
+                  {selectedGraph.imageUrl ? (
+                    <img
+                      src={selectedGraph.imageUrl}
+                      alt={selectedGraph.name}
+                      className="w-full h-full object-contain p-2"
+                    />
+                  ) : (
+                    <div className="flex flex-col items-center gap-1 text-muted-foreground/40">
+                      <ImageOff className="w-10 h-10" />
+                      <span className="text-[10px] font-display tracking-wider uppercase">Sem imagem</span>
+                    </div>
+                  )}
+                </div>
 
                 <div className="space-y-3">
                   <div>
@@ -260,7 +266,7 @@ const RadiestesiaPage = () => {
                   <Button
                     variant="outline"
                     className="w-full font-display tracking-wider text-xs gap-2"
-                    disabled={downloading}
+                    disabled={downloading || !selectedGraph.imageUrl}
                     onClick={() => handleDownloadPdf(selectedGraph)}
                   >
                     <Download className="w-4 h-4" />

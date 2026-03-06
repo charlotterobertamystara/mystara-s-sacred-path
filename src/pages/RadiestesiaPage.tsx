@@ -266,7 +266,7 @@ const RadiestesiaPage = () => {
                   <Button
                     variant="outline"
                     className="w-full font-display tracking-wider text-xs gap-2"
-                    disabled={downloading}
+                    disabled={downloading || !selectedGraph.imageUrl}
                     onClick={() => handleDownloadPdf(selectedGraph)}
                   >
                     <Download className="w-4 h-4" />

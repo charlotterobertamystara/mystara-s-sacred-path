@@ -427,6 +427,7 @@ export const radiestesiaGraphs: RadiestesiaGraph[] = [
     crystal: "Quartzo Verde",
     crystalReason: "Harmoniza e equilibra as energias dos ambientes.",
     category: "emissores",
+    imageUrl: baGuaImg,
   },
   {
     id: "espiral",

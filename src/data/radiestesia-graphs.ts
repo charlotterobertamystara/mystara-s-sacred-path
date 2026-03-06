@@ -1,3 +1,15 @@
+// Image imports
+import alfabetoImg from "@/assets/radiestesia/alfabeto.png";
+import altaVitalidadeImg from "@/assets/radiestesia/alta-vitalidade.png";
+import amplificadorRadiestesicoImg from "@/assets/radiestesia/amplificador-radiestesico.png";
+import antahkaranaImg from "@/assets/radiestesia/antahkarana.png";
+import antiDorImg from "@/assets/radiestesia/anti-dor.png";
+import antiMagiaImg from "@/assets/radiestesia/anti-magia.png";
+import antiOndasImg from "@/assets/radiestesia/anti-ondas.png";
+import baGuaImg from "@/assets/radiestesia/ba-gua.png";
+import circuloEmissorImg from "@/assets/radiestesia/circulo-emissor.png";
+import compensadorMindtronImg from "@/assets/radiestesia/compensador-mindtron.png";
+
 export interface RadiestesiaGraph {
   id: string;
   name: string;
@@ -7,7 +19,7 @@ export interface RadiestesiaGraph {
   crystal: string;
   crystalReason: string;
   category: RadiestesiaCategory;
-  imageUrl?: string; // URL from storage bucket, undefined = placeholder
+  imageUrl?: string;
 }
 
 export type RadiestesiaCategory =

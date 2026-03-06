@@ -367,6 +367,7 @@ export const radiestesiaGraphs: RadiestesiaGraph[] = [
     crystal: "Quartzo Verde",
     crystalReason: "Cristal de equilíbrio e harmonização energética.",
     category: "emissores",
+    imageUrl: compensadorMindtronImg,
   },
   {
     id: "cruz-atlante",

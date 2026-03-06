@@ -479,6 +479,7 @@ export const radiestesiaGraphs: RadiestesiaGraph[] = [
     crystal: "Obsidiana Negra",
     crystalReason: "Reflete energias negativas de volta à origem.",
     category: "protecao",
+    imageUrl: antiMagiaImg,
   },
   {
     id: "nove-circulos",

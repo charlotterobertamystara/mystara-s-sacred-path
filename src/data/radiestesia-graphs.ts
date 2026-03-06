@@ -170,6 +170,7 @@ export const radiestesiaGraphs: RadiestesiaGraph[] = [
     crystal: "Cornalina",
     crystalReason: "Cristal de vitalidade e energia, ativa o fogo interior e a força vital.",
     category: "dinamizacao",
+    imageUrl: altaVitalidadeImg,
   },
   {
     id: "omega-alfa",

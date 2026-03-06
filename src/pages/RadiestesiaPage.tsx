@@ -232,6 +232,7 @@ const RadiestesiaPage = () => {
                       <span className="text-[10px] font-display tracking-wider uppercase">Sem imagem</span>
                     </div>
                   )}
+                </div>
 
                 <div className="space-y-3">
                   <div>

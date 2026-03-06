@@ -4,13 +4,12 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
-import { Badge } from "@/components/ui/badge";
 import { radiestesiaGraphs, categoryLabels, type RadiestesiaGraph } from "@/data/radiestesia-graphs";
 import GraphCard from "@/components/radiestesia/GraphCard";
 import CompassTool from "@/components/radiestesia/CompassTool";
 import PendulumTool from "@/components/radiestesia/PendulumTool";
 import MontageGuide from "@/components/radiestesia/MontageGuide";
-import { Download } from "lucide-react";
+import { Download, ImageOff } from "lucide-react";
 
 const RadiestesiaPage = () => {
   const [problem, setProblem] = useState("");

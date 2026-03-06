@@ -218,11 +218,20 @@ const RadiestesiaPage = () => {
               </DialogHeader>
 
               <div className="space-y-4">
-                {/* SVG Preview */}
-                <div
-                  className="w-full max-w-[200px] mx-auto text-primary/80"
-                  dangerouslySetInnerHTML={{ __html: selectedGraph.svgPath }}
-                />
+                {/* Image Preview */}
+                <div className="w-full max-w-[200px] mx-auto flex items-center justify-center rounded-lg overflow-hidden border border-border bg-muted/20 aspect-square">
+                  {selectedGraph.imageUrl ? (
+                    <img
+                      src={selectedGraph.imageUrl}
+                      alt={selectedGraph.name}
+                      className="w-full h-full object-contain p-2"
+                    />
+                  ) : (
+                    <div className="flex flex-col items-center gap-1 text-muted-foreground/40">
+                      <ImageOff className="w-10 h-10" />
+                      <span className="text-[10px] font-display tracking-wider uppercase">Sem imagem</span>
+                    </div>
+                  )}
 
                 <div className="space-y-3">
                   <div>

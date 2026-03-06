@@ -1,3 +1,15 @@
+// Image imports
+import alfabetoImg from "@/assets/radiestesia/alfabeto.png";
+import altaVitalidadeImg from "@/assets/radiestesia/alta-vitalidade.png";
+import amplificadorRadiestesicoImg from "@/assets/radiestesia/amplificador-radiestesico.png";
+import antahkaranaImg from "@/assets/radiestesia/antahkarana.png";
+import antiDorImg from "@/assets/radiestesia/anti-dor.png";
+import antiMagiaImg from "@/assets/radiestesia/anti-magia.png";
+import antiOndasImg from "@/assets/radiestesia/anti-ondas.png";
+import baGuaImg from "@/assets/radiestesia/ba-gua.png";
+import circuloEmissorImg from "@/assets/radiestesia/circulo-emissor.png";
+import compensadorMindtronImg from "@/assets/radiestesia/compensador-mindtron.png";
+
 export interface RadiestesiaGraph {
   id: string;
   name: string;
@@ -7,7 +19,7 @@ export interface RadiestesiaGraph {
   crystal: string;
   crystalReason: string;
   category: RadiestesiaCategory;
-  imageUrl?: string; // URL from storage bucket, undefined = placeholder
+  imageUrl?: string;
 }
 
 export type RadiestesiaCategory =
@@ -158,6 +170,7 @@ export const radiestesiaGraphs: RadiestesiaGraph[] = [
     crystal: "Cornalina",
     crystalReason: "Cristal de vitalidade e energia, ativa o fogo interior e a força vital.",
     category: "dinamizacao",
+    imageUrl: altaVitalidadeImg,
   },
   {
     id: "omega-alfa",
@@ -354,6 +367,7 @@ export const radiestesiaGraphs: RadiestesiaGraph[] = [
     crystal: "Quartzo Verde",
     crystalReason: "Cristal de equilíbrio e harmonização energética.",
     category: "emissores",
+    imageUrl: compensadorMindtronImg,
   },
   {
     id: "cruz-atlante",
@@ -414,6 +428,7 @@ export const radiestesiaGraphs: RadiestesiaGraph[] = [
     crystal: "Quartzo Verde",
     crystalReason: "Harmoniza e equilibra as energias dos ambientes.",
     category: "emissores",
+    imageUrl: baGuaImg,
   },
   {
     id: "espiral",
@@ -466,6 +481,7 @@ export const radiestesiaGraphs: RadiestesiaGraph[] = [
     crystal: "Obsidiana Negra",
     crystalReason: "Reflete energias negativas de volta à origem.",
     category: "protecao",
+    imageUrl: antiMagiaImg,
   },
   {
     id: "nove-circulos",
@@ -648,5 +664,73 @@ export const radiestesiaGraphs: RadiestesiaGraph[] = [
     crystal: "Quartzo Rosa",
     crystalReason: "Cristal de cura emocional e amor incondicional.",
     category: "populares",
+  },
+
+  // ─── GRÁFICOS ADICIONAIS (enviados pelo usuário) ──────────────────────────
+  {
+    id: "alfabeto",
+    name: "Alfabeto",
+    description: "Gráfico radiestésico com as letras do alfabeto para seleção e comunicação com o pêndulo.",
+    usage: "Comunicação radiestésica, seleção de letras e formação de palavras com o pêndulo.",
+    needsNorth: false,
+    crystal: "Fluorita",
+    crystalReason: "Favorece a clareza mental e a comunicação.",
+    category: "analise",
+    imageUrl: alfabetoImg,
+  },
+  {
+    id: "amplificador-radiestesico",
+    name: "Amplificador Radiestésico",
+    description: "Gráfico para amplificação de emissões radiestésicas e radiônicas.",
+    usage: "Amplificar a potência de outros gráficos e emissões radiônicas.",
+    needsNorth: true,
+    crystal: "Quartzo Transparente",
+    crystalReason: "Amplifica e potencializa qualquer emissão energética.",
+    category: "emissores",
+    imageUrl: amplificadorRadiestesicoImg,
+  },
+  {
+    id: "antahkarana",
+    name: "Antahkarana",
+    description: "Símbolo tibetano de cura e meditação. Representa a ponte entre o consciente e o eu superior.",
+    usage: "Meditação, cura energética, elevação espiritual e conexão com o eu superior.",
+    needsNorth: false,
+    crystal: "Ametista",
+    crystalReason: "Elevação espiritual e conexão com planos superiores.",
+    category: "populares",
+    imageUrl: antahkaranaImg,
+  },
+  {
+    id: "anti-dor",
+    name: "Anti-Dor",
+    description: "Gráfico radiônico para alívio e tratamento de dores físicas e energéticas.",
+    usage: "Alívio de dores, tratamento energético complementar, harmonização do corpo físico.",
+    needsNorth: false,
+    crystal: "Quartzo Verde",
+    crystalReason: "Cristal de cura e alívio, harmoniza o corpo físico.",
+    category: "populares",
+    imageUrl: antiDorImg,
+  },
+  {
+    id: "anti-ondas",
+    name: "Anti-Ondas",
+    description: "Gráfico de proteção contra ondas eletromagnéticas e radiações nocivas.",
+    usage: "Proteção contra ondas eletromagnéticas, Wi-Fi, celulares e radiações artificiais.",
+    needsNorth: false,
+    crystal: "Turmalina Negra",
+    crystalReason: "Absorve e neutraliza radiações eletromagnéticas nocivas.",
+    category: "protecao",
+    imageUrl: antiOndasImg,
+  },
+  {
+    id: "circulo-emissor",
+    name: "Círculo Emissor",
+    description: "Gráfico circular utilizado como emissor de energia radiônica.",
+    usage: "Emissão de energia radiônica, potencialização de testemunhos e tratamentos a distância.",
+    needsNorth: false,
+    crystal: "Quartzo Transparente",
+    crystalReason: "Amplifica e direciona a emissão radiônica.",
+    category: "emissores",
+    imageUrl: circuloEmissorImg,
   },
 ];

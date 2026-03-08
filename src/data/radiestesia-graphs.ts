@@ -9,6 +9,56 @@ import antiOndasImg from "@/assets/radiestesia/anti-ondas.png";
 import baGuaImg from "@/assets/radiestesia/ba-gua.png";
 import circuloEmissorImg from "@/assets/radiestesia/circulo-emissor.png";
 import compensadorMindtronImg from "@/assets/radiestesia/compensador-mindtron.png";
+import contraEspiritosMalignosImg from "@/assets/radiestesia/contra-espiritos-malignos.png";
+import cruzAnsataImg from "@/assets/radiestesia/cruz-ansata.png";
+import cruzAtlanteImg from "@/assets/radiestesia/cruz-atlante.png";
+import cruzCosmicaImg from "@/assets/radiestesia/cruz-cosmica.png";
+import cruzSaoMauroImg from "@/assets/radiestesia/cruz-sao-mauro.png";
+import decagonoDuploImg from "@/assets/radiestesia/decagono-duplo.png";
+import desembaracadorMaterialImg from "@/assets/radiestesia/desembaracador-material.png";
+import desembaracadorRelacionamentosImg from "@/assets/radiestesia/desembaracador-relacionamentos.png";
+import desimpregnadorImg from "@/assets/radiestesia/desimpregnador.png";
+import diafragmaImg from "@/assets/radiestesia/diafragma.png";
+import diafragma2Img from "@/assets/radiestesia/diafragma-2.png";
+import dynamizaImg from "@/assets/radiestesia/dynamiza.png";
+import energiaDivinaImg from "@/assets/radiestesia/energia-divina.png";
+import escudoMagicoImg from "@/assets/radiestesia/escudo-magico.png";
+import escudoProtetorImg from "@/assets/radiestesia/escudo-protetor.png";
+import espiralImg from "@/assets/radiestesia/espiral.png";
+import figuraHumanaImg from "@/assets/radiestesia/figura-humana.png";
+import filtroTeluricoImg from "@/assets/radiestesia/filtro-telurico.png";
+import formaIaveImg from "@/assets/radiestesia/forma-iave.png";
+import geradorHolograficoConeImg from "@/assets/radiestesia/gerador-holografico-cone.png";
+import geradorHolograficoPiramidalImg from "@/assets/radiestesia/gerador-holografico-piramidal.png";
+import geradorHolograficoQuadradoImg from "@/assets/radiestesia/gerador-holografico-quadrado.png";
+import harmoniaImg from "@/assets/radiestesia/harmonia.png";
+import hiranyaImg from "@/assets/radiestesia/hiranya.png";
+import hrimImg from "@/assets/radiestesia/hrim.png";
+import iaveImg from "@/assets/radiestesia/iave.png";
+import justicaDivinaImg from "@/assets/radiestesia/justica-divina.png";
+import keitiImg from "@/assets/radiestesia/keiti.png";
+import kitCromoImg from "@/assets/radiestesia/kit-cromo.png";
+import klimImg from "@/assets/radiestesia/klim.png";
+import krimImg from "@/assets/radiestesia/krim.png";
+import labirintoDamiensImg from "@/assets/radiestesia/labirinto-damiens.png";
+import losangoSolarImg from "@/assets/radiestesia/losango-solar.png";
+import luxorImg from "@/assets/radiestesia/luxor.png";
+import magnetronImg from "@/assets/radiestesia/magnetron.png";
+import mesaDamiensImg from "@/assets/radiestesia/mesa-damiens.png";
+import noveCirculosImg from "@/assets/radiestesia/nove-circulos.png";
+import omImg from "@/assets/radiestesia/om.png";
+import omegaAlphaImg from "@/assets/radiestesia/omega-alpha.png";
+import piramidePlanaImg from "@/assets/radiestesia/piramide-plana.png";
+import piramideTaoImg from "@/assets/radiestesia/piramide-tao.png";
+import programadorFisicoImg from "@/assets/radiestesia/programador-fisico.png";
+import prosperadorImg from "@/assets/radiestesia/prosperador.png";
+import psicoImg from "@/assets/radiestesia/psico.png";
+import quadradoMagicoImg from "@/assets/radiestesia/quadrado-magico.png";
+import quadrataImg from "@/assets/radiestesia/quadrata.png";
+import radRadiestesiaImg from "@/assets/radiestesia/rad-radiestesia.png";
+import reguladorIntestinalImg from "@/assets/radiestesia/regulador-intestinal.png";
+import rejuvenescedorImg from "@/assets/radiestesia/rejuvenescedor.png";
+import relaxSonoImg from "@/assets/radiestesia/relax-sono.png";
 
 export interface RadiestesiaGraph {
   id: string;
@@ -127,6 +177,39 @@ export const radiestesiaGraphs: RadiestesiaGraph[] = [
     crystalReason: "Amplificação e clareza nas leituras numéricas.",
     category: "analise",
   },
+  {
+    id: "alfabeto",
+    name: "Alfabeto",
+    description: "Gráfico radiestésico com as letras do alfabeto para seleção e comunicação com o pêndulo.",
+    usage: "Comunicação radiestésica, seleção de letras e formação de palavras com o pêndulo.",
+    needsNorth: false,
+    crystal: "Fluorita",
+    crystalReason: "Favorece a clareza mental e a comunicação.",
+    category: "analise",
+    imageUrl: alfabetoImg,
+  },
+  {
+    id: "figura-humana",
+    name: "Figura Humana",
+    description: "Gráfico com a figura humana para análise e diagnóstico energético corporal.",
+    usage: "Diagnóstico energético do corpo, localização de bloqueios e desequilíbrios nos órgãos e chakras.",
+    needsNorth: false,
+    crystal: "Quartzo Transparente",
+    crystalReason: "Amplifica a sensibilidade para leitura corporal.",
+    category: "analise",
+    imageUrl: figuraHumanaImg,
+  },
+  {
+    id: "rad-radiestesia",
+    name: "RAD Radiestesia",
+    description: "Gráfico RAD para análise radiestésica geral com múltiplas escalas.",
+    usage: "Análise radiestésica completa com escalas diversas para diferentes tipos de medição.",
+    needsNorth: false,
+    crystal: "Quartzo Transparente",
+    crystalReason: "Versatilidade e amplificação em análises múltiplas.",
+    category: "analise",
+    imageUrl: radRadiestesiaImg,
+  },
 
   // ─── DECÁGONOS ───────────────────────────────────────────────────────────────
   {
@@ -148,6 +231,7 @@ export const radiestesiaGraphs: RadiestesiaGraph[] = [
     crystal: "Turmalina Negra",
     crystalReason: "Amplifica a capacidade de absorção e neutralização de energias densas.",
     category: "decagonos",
+    imageUrl: decagonoDuploImg,
   },
 
   // ─── PARA DINAMIZAÇÃO ────────────────────────────────────────────────────────
@@ -160,6 +244,7 @@ export const radiestesiaGraphs: RadiestesiaGraph[] = [
     crystal: "Citrino",
     crystalReason: "Cristal solar que amplifica a energia de prosperidade e vitalidade.",
     category: "dinamizacao",
+    imageUrl: hiranyaImg,
   },
   {
     id: "alta-vitalidade",
@@ -181,6 +266,40 @@ export const radiestesiaGraphs: RadiestesiaGraph[] = [
     crystal: "Ametista",
     crystalReason: "Transmuta energias e eleva a vibração espiritual.",
     category: "dinamizacao",
+    imageUrl: omegaAlphaImg,
+  },
+  {
+    id: "dynamiza",
+    name: "Dynamiza",
+    description: "Gráfico de dinamização energética para potencializar e acelerar processos energéticos.",
+    usage: "Dinamização de tratamentos, aceleração de processos energéticos e potencialização de outros gráficos.",
+    needsNorth: true,
+    crystal: "Cornalina",
+    crystalReason: "Cristal de ação e dinamização, acelera processos.",
+    category: "dinamizacao",
+    imageUrl: dynamizaImg,
+  },
+  {
+    id: "magnetron",
+    name: "Magnetron",
+    description: "Gráfico emissor de campo magnético radiônico para dinamização e tratamento energético.",
+    usage: "Emissão de campo magnético radiônico, dinamização de testemunhos e tratamentos.",
+    needsNorth: true,
+    crystal: "Magnetita",
+    crystalReason: "Cristal magnético que amplifica o campo de emissão.",
+    category: "dinamizacao",
+    imageUrl: magnetronImg,
+  },
+  {
+    id: "luxor",
+    name: "Luxor",
+    description: "Gráfico baseado na geometria sagrada egípcia de Luxor para dinamização e elevação energética.",
+    usage: "Dinamização espiritual, conexão com a sabedoria egípcia, elevação vibracional.",
+    needsNorth: true,
+    crystal: "Lápis-Lazúli",
+    crystalReason: "Cristal egípcio de sabedoria e poder espiritual.",
+    category: "dinamizacao",
+    imageUrl: luxorImg,
   },
 
   // ─── PARA REEQUILÍBRIO AMBIENTAL ────────────────────────────────────────────
@@ -193,6 +312,7 @@ export const radiestesiaGraphs: RadiestesiaGraph[] = [
     crystal: "Quartzo Verde",
     crystalReason: "Harmoniza e equilibra as energias do ambiente.",
     category: "reequilibrio",
+    imageUrl: keitiImg,
   },
   {
     id: "scap",
@@ -223,6 +343,39 @@ export const radiestesiaGraphs: RadiestesiaGraph[] = [
     crystal: "Quartzo Verde",
     crystalReason: "Cristal de cura e harmonização, amplifica o efeito do compensador.",
     category: "reequilibrio",
+  },
+  {
+    id: "filtro-telurico",
+    name: "Filtro Telúrico",
+    description: "Gráfico para filtragem e neutralização de energias telúricas nocivas do solo.",
+    usage: "Neutralização de geopatias, filtragem de radiações telúricas nocivas em ambientes.",
+    needsNorth: true,
+    crystal: "Turmalina Negra",
+    crystalReason: "Absorve radiações nocivas do solo e protege o ambiente.",
+    category: "reequilibrio",
+    imageUrl: filtroTeluricoImg,
+  },
+  {
+    id: "harmonia",
+    name: "Harmonia",
+    description: "Gráfico de harmonização geral para equilíbrio de ambientes e pessoas.",
+    usage: "Harmonização de ambientes, equilíbrio de energias discordantes, paz e serenidade.",
+    needsNorth: false,
+    crystal: "Quartzo Rosa",
+    crystalReason: "Cristal de harmonia, amor e paz.",
+    category: "reequilibrio",
+    imageUrl: harmoniaImg,
+  },
+  {
+    id: "losango-solar",
+    name: "Losango Solar",
+    description: "Gráfico em forma de losango com energia solar para reequilíbrio e vitalização de ambientes.",
+    usage: "Vitalização de ambientes, energização solar, reequilíbrio de espaços com baixa energia.",
+    needsNorth: true,
+    crystal: "Citrino",
+    crystalReason: "Cristal solar que energiza e vitaliza o ambiente.",
+    category: "reequilibrio",
+    imageUrl: losangoSolarImg,
   },
 
   // ─── TURBILHÕES ──────────────────────────────────────────────────────────────
@@ -339,7 +492,7 @@ export const radiestesiaGraphs: RadiestesiaGraph[] = [
     category: "emissores",
   },
   {
-    id: "mesa-amiens",
+    id: "mesa-damiens",
     name: "Mesa d'Amiens",
     description: "Gráfico baseado no padrão do labirinto da Catedral de Amiens. Emissor de alta frequência.",
     usage: "Emissão de energia de alta frequência, meditação, elevação espiritual.",
@@ -347,6 +500,7 @@ export const radiestesiaGraphs: RadiestesiaGraph[] = [
     crystal: "Ametista",
     crystalReason: "Potencializa a elevação espiritual e a conexão com planos superiores.",
     category: "emissores",
+    imageUrl: mesaDamiensImg,
   },
   {
     id: "peggotty-board",
@@ -378,16 +532,18 @@ export const radiestesiaGraphs: RadiestesiaGraph[] = [
     crystal: "Quartzo Transparente",
     crystalReason: "Amplifica a potência de emissão da cruz.",
     category: "emissores",
+    imageUrl: cruzAtlanteImg,
   },
   {
-    id: "labirinto-amiens",
-    name: "Labirinto de Amiens",
+    id: "labirinto-damiens",
+    name: "Labirinto d'Amiens",
     description: "Reprodução do labirinto octogonal da Catedral de Amiens, França. Gráfico de meditação e emissão.",
     usage: "Meditação, percurso espiritual, emissão de energia de alta frequência.",
     needsNorth: true,
     crystal: "Ametista",
     crystalReason: "Conexão espiritual e meditação profunda.",
     category: "emissores",
+    imageUrl: labirintoDamiensImg,
   },
   {
     id: "vesica-piscis",
@@ -408,6 +564,7 @@ export const radiestesiaGraphs: RadiestesiaGraph[] = [
     crystal: "Quartzo Transparente",
     crystalReason: "Amplifica a energia piramidal.",
     category: "emissores",
+    imageUrl: piramidePlanaImg,
   },
   {
     id: "kit-cromo",
@@ -418,6 +575,7 @@ export const radiestesiaGraphs: RadiestesiaGraph[] = [
     crystal: "Fluorita Arco-Íris",
     crystalReason: "Cristal multicolorido que potencializa as frequências cromáticas.",
     category: "emissores",
+    imageUrl: kitCromoImg,
   },
   {
     id: "ba-gua",
@@ -439,6 +597,7 @@ export const radiestesiaGraphs: RadiestesiaGraph[] = [
     crystal: "Quartzo Transparente",
     crystalReason: "Amplifica a canalização energética da espiral.",
     category: "emissores",
+    imageUrl: espiralImg,
   },
   {
     id: "shin",
@@ -460,6 +619,94 @@ export const radiestesiaGraphs: RadiestesiaGraph[] = [
     crystalReason: "Conexão espiritual e proteção durante a emissão.",
     category: "emissores",
   },
+  {
+    id: "amplificador-radiestesico",
+    name: "Amplificador Radiestésico",
+    description: "Gráfico para amplificação de emissões radiestésicas e radiônicas.",
+    usage: "Amplificar a potência de outros gráficos e emissões radiônicas.",
+    needsNorth: true,
+    crystal: "Quartzo Transparente",
+    crystalReason: "Amplifica e potencializa qualquer emissão energética.",
+    category: "emissores",
+    imageUrl: amplificadorRadiestesicoImg,
+  },
+  {
+    id: "circulo-emissor",
+    name: "Círculo Emissor",
+    description: "Gráfico circular utilizado como emissor de energia radiônica.",
+    usage: "Emissão de energia radiônica, potencialização de testemunhos e tratamentos a distância.",
+    needsNorth: false,
+    crystal: "Quartzo Transparente",
+    crystalReason: "Amplifica e direciona a emissão radiônica.",
+    category: "emissores",
+    imageUrl: circuloEmissorImg,
+  },
+  {
+    id: "gerador-holografico-cone",
+    name: "Gerador Holográfico Cone",
+    description: "Gráfico gerador holográfico em forma de cone para emissão tridimensional de energia.",
+    usage: "Emissão holográfica de energia, tratamentos a distância com projeção tridimensional.",
+    needsNorth: true,
+    crystal: "Quartzo Transparente",
+    crystalReason: "Amplifica a projeção holográfica de energia.",
+    category: "emissores",
+    imageUrl: geradorHolograficoConeImg,
+  },
+  {
+    id: "gerador-holografico-piramidal",
+    name: "Gerador Holográfico Piramidal",
+    description: "Gráfico gerador holográfico em forma piramidal para emissão de energia concentrada.",
+    usage: "Emissão holográfica piramidal, concentração e direcionamento de energia radiônica.",
+    needsNorth: true,
+    crystal: "Quartzo Transparente",
+    crystalReason: "Amplifica e concentra a emissão piramidal.",
+    category: "emissores",
+    imageUrl: geradorHolograficoPiramidalImg,
+  },
+  {
+    id: "gerador-holografico-quadrado",
+    name: "Gerador Holográfico Quadrado",
+    description: "Gráfico gerador holográfico em forma quadrada para emissão de energia estável.",
+    usage: "Emissão holográfica estável, tratamentos prolongados com energia constante.",
+    needsNorth: true,
+    crystal: "Quartzo Transparente",
+    crystalReason: "Estabiliza e amplifica a emissão holográfica.",
+    category: "emissores",
+    imageUrl: geradorHolograficoQuadradoImg,
+  },
+  {
+    id: "piramide-tao",
+    name: "Pirâmide Tao",
+    description: "Gráfico que combina a energia piramidal com o símbolo do Tao para equilíbrio e emissão.",
+    usage: "Equilíbrio de polaridades com energia piramidal, harmonização e emissão equilibrada.",
+    needsNorth: true,
+    crystal: "Quartzo Transparente",
+    crystalReason: "Equilibra e amplifica a emissão piramidal.",
+    category: "emissores",
+    imageUrl: piramideTaoImg,
+  },
+  {
+    id: "diafragma",
+    name: "Diafragma",
+    description: "Gráfico em forma de diafragma para controle e regulação de emissão energética.",
+    usage: "Regulação de fluxo energético, controle de intensidade de emissões radiônicas.",
+    needsNorth: false,
+    crystal: "Quartzo Transparente",
+    crystalReason: "Permite regulação precisa do fluxo de energia.",
+    category: "emissores",
+    imageUrl: diafragmaImg,
+  },
+  {
+    id: "diafragma-2",
+    name: "Diafragma 2",
+    description: "Segunda versão do gráfico Diafragma com design aprimorado para maior controle.",
+    usage: "Regulação avançada de fluxo energético com maior precisão.",
+    needsNorth: false,
+    crystal: "Quartzo Transparente",
+    crystalReason: "Precisão e controle no fluxo energético.",
+    category: "emissores",
+    imageUrl: diafragma2Img,
+  },
 
   // ─── MAGIA E PROTEÇÃO ────────────────────────────────────────────────────────
   {
@@ -471,6 +718,7 @@ export const radiestesiaGraphs: RadiestesiaGraph[] = [
     crystal: "Obsidiana Negra",
     crystalReason: "Escudo protetor poderoso contra energias negativas.",
     category: "protecao",
+    imageUrl: iaveImg,
   },
   {
     id: "anti-magia",
@@ -492,26 +740,29 @@ export const radiestesiaGraphs: RadiestesiaGraph[] = [
     crystal: "Pirita",
     crystalReason: "Cria escudo energético dourado de proteção.",
     category: "protecao",
+    imageUrl: noveCirculosImg,
   },
   {
-    id: "escudo",
-    name: "Escudo",
+    id: "escudo-protetor",
+    name: "Escudo Protetor",
     description: "Gráfico em forma de escudo para proteção pessoal e ambiental.",
     usage: "Proteção contínua da aura, escudo familiar, proteção de residências e veículos.",
     needsNorth: true,
     crystal: "Pirita",
     crystalReason: "Escudo energético que repele energias indesejadas.",
     category: "protecao",
+    imageUrl: escudoProtetorImg,
   },
   {
-    id: "simbolo-mistico",
-    name: "Símbolo Místico",
-    description: "Gráfico com símbolo místico de proteção e conexão espiritual.",
-    usage: "Proteção mística, conexão com forças espirituais protetoras.",
+    id: "escudo-magico",
+    name: "Escudo Mágico",
+    description: "Gráfico de escudo com símbolos mágicos para proteção espiritual intensificada.",
+    usage: "Proteção mística, conexão com forças espirituais protetoras, escudo contra ataques.",
     needsNorth: true,
     crystal: "Ametista",
     crystalReason: "Conexão espiritual e proteção contra energias deletérias.",
     category: "protecao",
+    imageUrl: escudoMagicoImg,
   },
   {
     id: "quadrado-magico",
@@ -522,6 +773,7 @@ export const radiestesiaGraphs: RadiestesiaGraph[] = [
     crystal: "Fluorita",
     crystalReason: "Cristal de ordem e clareza, amplifica o equilíbrio numérico.",
     category: "protecao",
+    imageUrl: quadradoMagicoImg,
   },
   {
     id: "forma-iave",
@@ -532,6 +784,73 @@ export const radiestesiaGraphs: RadiestesiaGraph[] = [
     crystal: "Obsidiana Negra",
     crystalReason: "Proteção máxima contra energias negativas e ataques espirituais.",
     category: "protecao",
+    imageUrl: formaIaveImg,
+  },
+  {
+    id: "contra-espiritos-malignos",
+    name: "Contra Espíritos Malignos",
+    description: "Gráfico de proteção contra entidades e espíritos negativos.",
+    usage: "Proteção espiritual contra entidades negativas, limpeza de ambientes assombrados.",
+    needsNorth: true,
+    crystal: "Obsidiana Negra",
+    crystalReason: "Máxima proteção contra entidades e espíritos negativos.",
+    category: "protecao",
+    imageUrl: contraEspiritosMalignosImg,
+  },
+  {
+    id: "cruz-ansata",
+    name: "Cruz Ansata (Ankh)",
+    description: "Cruz egípcia com laço na parte superior, símbolo da vida eterna e proteção divina.",
+    usage: "Proteção divina, vitalidade, conexão com a energia da vida eterna.",
+    needsNorth: false,
+    crystal: "Lápis-Lazúli",
+    crystalReason: "Cristal egípcio de sabedoria e proteção divina.",
+    category: "protecao",
+    imageUrl: cruzAnsataImg,
+  },
+  {
+    id: "cruz-cosmica",
+    name: "Cruz Cósmica",
+    description: "Cruz com design cósmico para proteção e conexão com energias universais.",
+    usage: "Proteção cósmica, conexão com energias universais, escudo de luz.",
+    needsNorth: true,
+    crystal: "Quartzo Transparente",
+    crystalReason: "Amplifica a conexão com energias cósmicas universais.",
+    category: "protecao",
+    imageUrl: cruzCosmicaImg,
+  },
+  {
+    id: "cruz-sao-mauro",
+    name: "Cruz de São Mauro",
+    description: "Cruz beneditina de São Mauro com inscrições de proteção e exorcismo.",
+    usage: "Proteção contra malefícios, exorcismo energético, escudo beneditino.",
+    needsNorth: false,
+    crystal: "Obsidiana Negra",
+    crystalReason: "Proteção intensa contra forças negativas.",
+    category: "protecao",
+    imageUrl: cruzSaoMauroImg,
+  },
+  {
+    id: "energia-divina",
+    name: "Energia Divina",
+    description: "Gráfico de conexão com a energia divina para proteção e elevação espiritual.",
+    usage: "Conexão com o divino, proteção espiritual, elevação e purificação da alma.",
+    needsNorth: false,
+    crystal: "Ametista",
+    crystalReason: "Elevação espiritual e conexão com planos divinos.",
+    category: "protecao",
+    imageUrl: energiaDivinaImg,
+  },
+  {
+    id: "justica-divina",
+    name: "Justiça Divina",
+    description: "Gráfico para invocação da justiça divina em situações de injustiça e desequilíbrio.",
+    usage: "Invocação de justiça divina, resolução de conflitos, equilíbrio kármico.",
+    needsNorth: false,
+    crystal: "Sodalita",
+    crystalReason: "Cristal de verdade e justiça.",
+    category: "protecao",
+    imageUrl: justicaDivinaImg,
   },
 
   // ─── OUTROS POPULARES ────────────────────────────────────────────────────────
@@ -554,6 +873,7 @@ export const radiestesiaGraphs: RadiestesiaGraph[] = [
     crystal: "Ametista",
     crystalReason: "Transmuta energias negativas em positivas.",
     category: "populares",
+    imageUrl: desimpregnadorImg,
   },
   {
     id: "relogio-radiestesico",
@@ -584,6 +904,7 @@ export const radiestesiaGraphs: RadiestesiaGraph[] = [
     crystal: "Pirita",
     crystalReason: "Cristal de prosperidade e riqueza material.",
     category: "populares",
+    imageUrl: prosperadorImg,
   },
   {
     id: "teleinfluente",
@@ -654,6 +975,7 @@ export const radiestesiaGraphs: RadiestesiaGraph[] = [
     crystal: "Ametista",
     crystalReason: "Elevação espiritual e conexão com planos superiores.",
     category: "populares",
+    imageUrl: omImg,
   },
   {
     id: "sei-he-ki",
@@ -664,30 +986,6 @@ export const radiestesiaGraphs: RadiestesiaGraph[] = [
     crystal: "Quartzo Rosa",
     crystalReason: "Cristal de cura emocional e amor incondicional.",
     category: "populares",
-  },
-
-  // ─── GRÁFICOS ADICIONAIS (enviados pelo usuário) ──────────────────────────
-  {
-    id: "alfabeto",
-    name: "Alfabeto",
-    description: "Gráfico radiestésico com as letras do alfabeto para seleção e comunicação com o pêndulo.",
-    usage: "Comunicação radiestésica, seleção de letras e formação de palavras com o pêndulo.",
-    needsNorth: false,
-    crystal: "Fluorita",
-    crystalReason: "Favorece a clareza mental e a comunicação.",
-    category: "analise",
-    imageUrl: alfabetoImg,
-  },
-  {
-    id: "amplificador-radiestesico",
-    name: "Amplificador Radiestésico",
-    description: "Gráfico para amplificação de emissões radiestésicas e radiônicas.",
-    usage: "Amplificar a potência de outros gráficos e emissões radiônicas.",
-    needsNorth: true,
-    crystal: "Quartzo Transparente",
-    crystalReason: "Amplifica e potencializa qualquer emissão energética.",
-    category: "emissores",
-    imageUrl: amplificadorRadiestesicoImg,
   },
   {
     id: "antahkarana",
@@ -723,14 +1021,124 @@ export const radiestesiaGraphs: RadiestesiaGraph[] = [
     imageUrl: antiOndasImg,
   },
   {
-    id: "circulo-emissor",
-    name: "Círculo Emissor",
-    description: "Gráfico circular utilizado como emissor de energia radiônica.",
-    usage: "Emissão de energia radiônica, potencialização de testemunhos e tratamentos a distância.",
+    id: "hrim",
+    name: "Hrim",
+    description: "Gráfico baseado no mantra sagrado HRIM, associado à energia de purificação e ilusão cósmica.",
+    usage: "Purificação energética, dissolução de ilusões, conexão com a energia de Maya.",
     needsNorth: false,
-    crystal: "Quartzo Transparente",
-    crystalReason: "Amplifica e direciona a emissão radiônica.",
-    category: "emissores",
-    imageUrl: circuloEmissorImg,
+    crystal: "Ametista",
+    crystalReason: "Purificação e elevação espiritual.",
+    category: "populares",
+    imageUrl: hrimImg,
+  },
+  {
+    id: "klim",
+    name: "Klim",
+    description: "Gráfico baseado no mantra sagrado KLIM, associado à atração e ao amor divino.",
+    usage: "Atração de amor, magnetismo pessoal, conexão com a energia de atração divina.",
+    needsNorth: false,
+    crystal: "Quartzo Rosa",
+    crystalReason: "Cristal de amor e atração harmoniosa.",
+    category: "populares",
+    imageUrl: klimImg,
+  },
+  {
+    id: "krim",
+    name: "Krim",
+    description: "Gráfico baseado no mantra sagrado KRIM, associado à ação e à transformação pela energia de Kali.",
+    usage: "Transformação profunda, ação decisiva, remoção de obstáculos e bloqueios.",
+    needsNorth: false,
+    crystal: "Obsidiana Negra",
+    crystalReason: "Transformação e destruição de padrões negativos.",
+    category: "populares",
+    imageUrl: krimImg,
+  },
+  {
+    id: "psico",
+    name: "Psico",
+    description: "Gráfico radiônico para equilíbrio psíquico e emocional.",
+    usage: "Equilíbrio psicológico, tratamento de ansiedade, estresse e desequilíbrios emocionais.",
+    needsNorth: false,
+    crystal: "Ametista",
+    crystalReason: "Equilíbrio mental e emocional, serenidade.",
+    category: "populares",
+    imageUrl: psicoImg,
+  },
+  {
+    id: "quadrata",
+    name: "Quadrata",
+    description: "Gráfico em forma quadrada com geometria específica para estabilização energética.",
+    usage: "Estabilização de energias, firmeza, estruturação de campos energéticos.",
+    needsNorth: true,
+    crystal: "Jaspe Vermelho",
+    crystalReason: "Cristal de estabilidade e enraizamento.",
+    category: "populares",
+    imageUrl: quadrataImg,
+  },
+  {
+    id: "desembaracador-material",
+    name: "Desembaraçador Material",
+    description: "Gráfico para desbloqueio e desembaraço de questões materiais e financeiras.",
+    usage: "Desbloqueio financeiro, resolução de problemas materiais, abertura de caminhos de prosperidade.",
+    needsNorth: false,
+    crystal: "Pirita",
+    crystalReason: "Cristal de prosperidade e desbloqueio material.",
+    category: "populares",
+    imageUrl: desembaracadorMaterialImg,
+  },
+  {
+    id: "desembaracador-relacionamentos",
+    name: "Desembaraçador de Relacionamentos",
+    description: "Gráfico para desbloqueio e harmonização de relacionamentos interpessoais.",
+    usage: "Harmonização de relacionamentos, resolução de conflitos afetivos, desbloqueio emocional.",
+    needsNorth: false,
+    crystal: "Quartzo Rosa",
+    crystalReason: "Cristal de amor e harmonização de relacionamentos.",
+    category: "populares",
+    imageUrl: desembaracadorRelacionamentosImg,
+  },
+  {
+    id: "regulador-intestinal",
+    name: "Regulador Intestinal",
+    description: "Gráfico radiônico para equilíbrio e regulação do sistema digestivo.",
+    usage: "Equilíbrio do sistema digestivo, regulação intestinal, harmonização do trato gastrointestinal.",
+    needsNorth: false,
+    crystal: "Quartzo Verde",
+    crystalReason: "Cristal de cura e harmonização do corpo físico.",
+    category: "populares",
+    imageUrl: reguladorIntestinalImg,
+  },
+  {
+    id: "rejuvenescedor",
+    name: "Rejuvenescedor",
+    description: "Gráfico radiônico para rejuvenescimento e vitalização celular energética.",
+    usage: "Rejuvenescimento energético, vitalização, renovação celular e antienvelhecimento.",
+    needsNorth: false,
+    crystal: "Quartzo Rosa",
+    crystalReason: "Cristal de rejuvenescimento e vitalidade.",
+    category: "populares",
+    imageUrl: rejuvenescedorImg,
+  },
+  {
+    id: "relax-sono",
+    name: "Relax & Sono",
+    description: "Gráfico radiônico para relaxamento profundo e melhora da qualidade do sono.",
+    usage: "Relaxamento, combate à insônia, melhora do sono, redução do estresse e ansiedade.",
+    needsNorth: false,
+    crystal: "Ametista",
+    crystalReason: "Cristal de serenidade e relaxamento profundo.",
+    category: "populares",
+    imageUrl: relaxSonoImg,
+  },
+  {
+    id: "programador-fisico",
+    name: "Programador Físico",
+    description: "Gráfico radiônico para programação e tratamento do corpo físico.",
+    usage: "Programação energética do corpo físico, tratamento de doenças, fortalecimento.",
+    needsNorth: false,
+    crystal: "Quartzo Verde",
+    crystalReason: "Cristal de cura e programação do corpo físico.",
+    category: "populares",
+    imageUrl: programadorFisicoImg,
   },
 ];

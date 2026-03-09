@@ -42,6 +42,7 @@ const RunasPage = () => {
   const [interpretation, setInterpretation] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+  const { saveSession } = useSessionHistory();
 
   const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
 

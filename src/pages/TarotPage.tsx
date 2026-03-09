@@ -150,6 +150,22 @@ const TarotPage = () => {
       setStep("select");
     } finally {
       setIsLoading(false);
+      // Save to history
+      if (interpretation || accumulated) {
+        saveSession({
+          session_type: "tarot",
+          question,
+          session_data: {
+            cards: selectedCards.map((s) => ({
+              name: s.card.name,
+              position: s.position,
+              reversed: s.reversed,
+            })),
+            numCards,
+          },
+          interpretation: interpretation || accumulated,
+        });
+      }
     }
   };
 

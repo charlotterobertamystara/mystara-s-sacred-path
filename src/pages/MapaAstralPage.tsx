@@ -107,6 +107,13 @@ const MapaAstralPage = () => {
       }
 
       setDone(true);
+      // Save to history
+      saveSession({
+        session_type: "mapa-astral",
+        question: `${fullName} - ${birthDate} ${birthTime} ${birthCity}`,
+        session_data: { fullName, birthDate, birthTime, birthCity },
+        interpretation: accumulated,
+      });
     } catch (e) {
       console.error(e);
       toast({ title: "Erro", description: "Falha na conexão.", variant: "destructive" });

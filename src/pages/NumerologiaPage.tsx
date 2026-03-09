@@ -47,6 +47,22 @@ const NumerologiaPage = () => {
     const numerology = calculateFullNumerology(fullName, birthDate);
     setResult(numerology);
     setStep("result");
+
+    // Save to history
+    saveSession({
+      session_type: "numerologia",
+      question: `${fullName} - ${birthDate}`,
+      session_data: {
+        fullName,
+        birthDate,
+        lifePath: numerology.lifePath,
+        expression: numerology.expression,
+        soulUrge: numerology.soulUrge,
+        personality: numerology.personality,
+        destiny: numerology.destiny,
+        personalYear: numerology.personalYear,
+      },
+    });
   };
 
   const resetAll = () => {

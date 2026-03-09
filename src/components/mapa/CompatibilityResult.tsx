@@ -15,8 +15,18 @@ interface Props {
   userSigns: PersonSigns;
   partnerSigns: PersonSigns;
   scores: CompatibilityScores;
+  relationshipType?: string;
   onBack: () => void;
 }
+
+const RELATIONSHIP_FOCUS: Record<string, { title: string; tip: string }> = {
+  'parceiro': { title: 'Análise Romântica', tip: 'Foco em conexão emocional, atração e parceria de vida.' },
+  'crush': { title: 'Análise de Atração', tip: 'Foco em química, primeira impressão e potencial.' },
+  'amigo': { title: 'Análise de Amizade', tip: 'Foco em confiança, diversão e apoio mútuo.' },
+  'familiar': { title: 'Análise Familiar', tip: 'Foco em compreensão, paciência e vínculo ancestral.' },
+  'colega': { title: 'Análise Profissional', tip: 'Foco em comunicação, complementaridade e objetivos.' },
+  'outro': { title: 'Análise Geral', tip: 'Visão ampla de todas as dimensões da compatibilidade.' },
+};
 
 export default function CompatibilityResult({ userName, partnerName, userSigns, partnerSigns, scores, onBack }: Props) {
   const { label, emoji, colorClass } = getScoreLabel(scores.overall);

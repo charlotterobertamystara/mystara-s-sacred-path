@@ -6,6 +6,8 @@ import { useAuth } from "@/hooks/useAuth";
 import { useCompatibility, CompatibilityProfile } from "@/hooks/useCompatibility";
 import AddPersonModal from "./AddPersonModal";
 import CompatibilityResult from "./CompatibilityResult";
+import QuickComparisonModal from "./QuickComparisonModal";
+import IdealMatchSection from "./IdealMatchSection";
 import {
   SIGNS, SIGN_SYMBOLS, getCompatibleSigns, getScoreLabel,
   estimateSunSign, calculateCompatibility, PersonSigns,
@@ -23,8 +25,10 @@ export default function CompatibilityTab({ userSigns }: { userSigns?: UserSigns 
   const { user } = useAuth();
   const { profiles, loading, addProfile, deleteProfile, saveAnalysis } = useCompatibility();
   const [showModal, setShowModal] = useState(false);
+  const [showQuick, setShowQuick] = useState(false);
   const [addLoading, setAddLoading] = useState(false);
   const [selectedProfile, setSelectedProfile] = useState<CompatibilityProfile | null>(null);
+  const [activeSection, setActiveSection] = useState<"main" | "matches">("main");
 
   const uSigns: PersonSigns = {
     sun: userSigns?.sun || 'Áries',
@@ -46,7 +50,6 @@ export default function CompatibilityTab({ userSigns }: { userSigns?: UserSigns 
       photo_url: null,
     });
     if (profile) {
-      // Calculate and save analysis
       const pSigns: PersonSigns = {
         sun: profile.sun_sign || estimateSunSign(profile.birth_date),
         moon: profile.moon_sign || '',
@@ -83,6 +86,7 @@ export default function CompatibilityTab({ userSigns }: { userSigns?: UserSigns 
         userSigns={uSigns}
         partnerSigns={pSigns}
         scores={scores}
+        relationshipType={selectedProfile.relationship_type}
         onBack={() => setSelectedProfile(null)}
       />
     );
@@ -90,74 +94,111 @@ export default function CompatibilityTab({ userSigns }: { userSigns?: UserSigns 
 
   return (
     <div className="space-y-4">
-      {/* User Profile Card */}
-      {userSigns && (
-        <Card className="border-border bg-card p-4 border-glow">
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-full bg-secondary flex items-center justify-center text-xl">
-              {SIGN_SYMBOLS[userSigns.sun] || '☉'}
-            </div>
-            <div className="flex-1">
-              <p className="font-display text-sm tracking-wider text-foreground">{userSigns.name || 'Você'}</p>
-              <div className="flex gap-3 mt-1 text-[10px] text-muted-foreground">
-                {userSigns.sun && <span>☉ {userSigns.sun}</span>}
-                {userSigns.moon && <span>☽ {userSigns.moon}</span>}
-                {userSigns.ascendant && <span>↑ {userSigns.ascendant}</span>}
+      {/* Section Toggle */}
+      <div className="flex gap-1 bg-muted/30 rounded-lg p-1">
+        <button
+          onClick={() => setActiveSection("main")}
+          className={`flex-1 text-[10px] font-display tracking-wider py-1.5 rounded-md transition-all ${
+            activeSection === "main" ? "bg-primary text-primary-foreground" : "text-muted-foreground"
+          }`}
+        >
+          💫 Compatibilidade
+        </button>
+        <button
+          onClick={() => setActiveSection("matches")}
+          className={`flex-1 text-[10px] font-display tracking-wider py-1.5 rounded-md transition-all ${
+            activeSection === "matches" ? "bg-primary text-primary-foreground" : "text-muted-foreground"
+          }`}
+        >
+          🔮 Match Ideal
+        </button>
+      </div>
+
+      {activeSection === "matches" ? (
+        <IdealMatchSection userSigns={uSigns} />
+      ) : (
+        <>
+          {/* User Profile Card */}
+          {userSigns && (
+            <Card className="border-border bg-card p-4 border-glow">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-full bg-secondary flex items-center justify-center text-xl">
+                  {SIGN_SYMBOLS[userSigns.sun] || '☉'}
+                </div>
+                <div className="flex-1">
+                  <p className="font-display text-sm tracking-wider text-foreground">{userSigns.name || 'Você'}</p>
+                  <div className="flex gap-3 mt-1 text-[10px] text-muted-foreground">
+                    {userSigns.sun && <span>☉ {userSigns.sun}</span>}
+                    {userSigns.moon && <span>☽ {userSigns.moon}</span>}
+                    {userSigns.ascendant && <span>↑ {userSigns.ascendant}</span>}
+                  </div>
+                </div>
               </div>
-            </div>
+            </Card>
+          )}
+
+          {/* Action Buttons */}
+          <div className="grid grid-cols-2 gap-2">
+            <Button className="font-display tracking-wider text-xs" onClick={() => setShowModal(true)}>
+              + Adicionar Pessoa
+            </Button>
+            <Button variant="outline" className="font-display tracking-wider text-xs" onClick={() => setShowQuick(true)}>
+              ⚡ Comparação Rápida
+            </Button>
           </div>
-        </Card>
-      )}
 
-      {/* Add Person Button */}
-      <Button className="w-full font-display tracking-wider" onClick={() => setShowModal(true)}>
-        + Adicionar Pessoa para Comparar
-      </Button>
+          {/* Saved Profiles */}
+          {profiles.length > 0 && (
+            <div className="space-y-2">
+              <p className="font-display text-[10px] tracking-widest text-muted-foreground uppercase">Perfis Salvos</p>
+              {profiles.map(p => {
+                const pSigns: PersonSigns = {
+                  sun: p.sun_sign || estimateSunSign(p.birth_date),
+                  moon: p.moon_sign || '',
+                  ascendant: p.ascendant_sign || '',
+                };
+                const scores = calculateCompatibility(uSigns, pSigns);
+                const { emoji, colorClass } = getScoreLabel(scores.overall);
+                return (
+                  <motion.div key={p.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                    <Card className="border-border bg-card p-3 flex items-center justify-between">
+                      <div className="flex items-center gap-3 cursor-pointer flex-1" onClick={() => setSelectedProfile(p)}>
+                        <div className="w-9 h-9 rounded-full bg-secondary flex items-center justify-center text-sm">
+                          {SIGN_SYMBOLS[pSigns.sun] || '☉'}
+                        </div>
+                        <div>
+                          <p className="font-display text-xs tracking-wider text-foreground">{p.name}</p>
+                          <p className="text-[10px] text-muted-foreground">{p.relationship_type} · ☉ {pSigns.sun}</p>
+                        </div>
+                      </div>
+                      <div className="text-right flex items-center gap-2">
+                        <span className={`font-display text-sm ${colorClass}`}>{scores.overall}% {emoji}</span>
+                        <button onClick={() => deleteProfile(p.id)} className="text-muted-foreground hover:text-destructive text-xs ml-2">✕</button>
+                      </div>
+                    </Card>
+                  </motion.div>
+                );
+              })}
+            </div>
+          )}
 
-      {/* Saved Profiles */}
-      {profiles.length > 0 && (
-        <div className="space-y-2">
-          <p className="font-display text-[10px] tracking-widest text-muted-foreground uppercase">Perfis Salvos</p>
-          {profiles.map(p => {
-            const pSigns: PersonSigns = {
-              sun: p.sun_sign || estimateSunSign(p.birth_date),
-              moon: p.moon_sign || '',
-              ascendant: p.ascendant_sign || '',
-            };
-            const scores = calculateCompatibility(uSigns, pSigns);
-            const { emoji, colorClass } = getScoreLabel(scores.overall);
-            return (
-              <motion.div key={p.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                <Card className="border-border bg-card p-3 flex items-center justify-between">
-                  <div className="flex items-center gap-3 cursor-pointer flex-1" onClick={() => setSelectedProfile(p)}>
-                    <div className="w-9 h-9 rounded-full bg-secondary flex items-center justify-center text-sm">
-                      {SIGN_SYMBOLS[pSigns.sun] || '☉'}
-                    </div>
-                    <div>
-                      <p className="font-display text-xs tracking-wider text-foreground">{p.name}</p>
-                      <p className="text-[10px] text-muted-foreground">{p.relationship_type} · ☉ {pSigns.sun}</p>
-                    </div>
-                  </div>
-                  <div className="text-right flex items-center gap-2">
-                    <span className={`font-display text-sm ${colorClass}`}>{scores.overall}% {emoji}</span>
-                    <button onClick={() => deleteProfile(p.id)} className="text-muted-foreground hover:text-destructive text-xs ml-2">✕</button>
-                  </div>
-                </Card>
-              </motion.div>
-            );
-          })}
-        </div>
-      )}
-
-      {/* Compatible Signs Section */}
-      {userSigns?.sun && (
-        <CompatibleSignsSection sign={userSigns.sun} label="Sol" icon="☉" />
-      )}
-      {userSigns?.moon && (
-        <CompatibleSignsSection sign={userSigns.moon} label="Lua" icon="☽" />
+          {/* Compatible Signs Section */}
+          {userSigns?.sun && (
+            <CompatibleSignsSection sign={userSigns.sun} label="Sol" icon="☉" />
+          )}
+          {userSigns?.moon && (
+            <CompatibleSignsSection sign={userSigns.moon} label="Lua" icon="☽" />
+          )}
+        </>
       )}
 
       <AddPersonModal open={showModal} onClose={() => setShowModal(false)} onSubmit={handleAddPerson} loading={addLoading} />
+      <QuickComparisonModal
+        open={showQuick}
+        onClose={() => setShowQuick(false)}
+        userSigns={uSigns}
+        userName={userSigns?.name || "Você"}
+      />
     </div>
   );
 }

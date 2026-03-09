@@ -488,6 +488,10 @@ const NumerologiaPage = () => {
 
             <ScrollArea className="h-[60vh]">
               <div className="space-y-4 pr-2">
+                {/* Numerology Guide - Interactive */}
+                <NumeroGuide />
+
+                {/* Traditional Fundamentals */}
                 {FUNDAMENTALS.map((section, i) => (
                   <motion.div
                     key={i}

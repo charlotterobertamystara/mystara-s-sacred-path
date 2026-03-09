@@ -129,17 +129,7 @@ const MapaAstralPage = () => {
       .replace(/\n/g, '<br/>');
   };
 
-  // Derive user signs from birthDate for compatibility
-  const userSignsForCompat = birthDate ? {
-    sun: (() => {
-      const { estimateSunSign } = require("@/lib/astro-compatibility-utils");
-      return estimateSunSign(birthDate);
-    })(),
-    moon: '',
-    ascendant: '',
-    name: fullName || 'Você',
-    birthDate,
-  } : undefined;
+  // (userSigns derived inline in JSX below)
 
   return (
     <div className="mx-auto max-w-2xl px-4 pt-6 pb-8">

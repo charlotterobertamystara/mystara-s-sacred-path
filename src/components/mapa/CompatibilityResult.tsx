@@ -28,7 +28,7 @@ const RELATIONSHIP_FOCUS: Record<string, { title: string; tip: string }> = {
   'outro': { title: 'Análise Geral', tip: 'Visão ampla de todas as dimensões da compatibilidade.' },
 };
 
-export default function CompatibilityResult({ userName, partnerName, userSigns, partnerSigns, scores, onBack }: Props) {
+export default function CompatibilityResult({ userName, partnerName, userSigns, partnerSigns, scores, relationshipType, onBack }: Props) {
   const { label, emoji, colorClass } = getScoreLabel(scores.overall);
   const scoreColor = getScoreColor(scores.overall);
 

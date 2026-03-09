@@ -101,15 +101,9 @@ function NumbersSection() {
                       <span key={i} className="px-2 py-0.5 rounded-full bg-secondary text-muted-foreground text-[9px]">{kw}</span>
                     ))}
                   </div>
-                  <div className="grid grid-cols-2 gap-2 mt-2">
-                    <div>
-                      <p className="text-green-400 font-medium text-[9px]">Compatível com:</p>
-                      <p className="text-muted-foreground">{info.compatible?.join(', ') || '3, 5, 6'}</p>
-                    </div>
-                    <div>
-                      <p className="text-orange-400 font-medium text-[9px]">Desafiador com:</p>
-                      <p className="text-muted-foreground">{info.challenging?.join(', ') || '4, 8'}</p>
-                    </div>
+                  <div className="mt-2">
+                    <p className="text-green-400 font-medium text-[9px]">Compatível com:</p>
+                    <p className="text-muted-foreground">{info.compatibility?.join(', ') || '—'}</p>
                   </div>
                 </div>
               </CollapsibleContent>

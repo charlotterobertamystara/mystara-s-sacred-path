@@ -8,6 +8,7 @@ import {
   getScoreLabel, getScoreColor, getPairIcon, getInterpretation,
   getElementDistribution, getElementComboInterpretation, Element,
 } from "@/lib/astro-compatibility-utils";
+import PracticalTips from "./PracticalTips";
 
 interface Props {
   userName: string;

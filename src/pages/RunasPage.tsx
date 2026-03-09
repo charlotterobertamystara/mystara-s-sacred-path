@@ -7,6 +7,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Badge } from "@/components/ui/badge";
 import { ELDER_FUTHARK, Rune } from "@/data/runes";
 import { useToast } from "@/hooks/use-toast";
+import { useSessionHistory } from "@/hooks/useSessionHistory";
 import { ChevronLeft, RotateCcw, Sparkles, BookOpen, X, FlipVertical } from "lucide-react";
 
 type Step = "question" | "select" | "reading";
@@ -41,6 +42,7 @@ const RunasPage = () => {
   const [interpretation, setInterpretation] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+  const { saveSession } = useSessionHistory();
 
   const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
 
@@ -148,6 +150,23 @@ const RunasPage = () => {
             break;
           }
         }
+      }
+
+      // Save to history
+      if (accumulated) {
+        saveSession({
+          session_type: "runas",
+          question,
+          session_data: {
+            runes: selectedRunes.map((s) => ({
+              name: s.rune.name,
+              position: s.position,
+              reversed: s.reversed,
+            })),
+            numRunes,
+          },
+          interpretation: accumulated,
+        });
       }
     } catch {
       toast({

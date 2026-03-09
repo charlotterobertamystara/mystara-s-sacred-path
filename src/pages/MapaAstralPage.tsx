@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
+import { useSessionHistory } from "@/hooks/useSessionHistory";
 import CompatibilityTab from "@/components/mapa/CompatibilityTab";
 import { estimateSunSign } from "@/lib/astro-compatibility-utils";
 
@@ -41,6 +42,7 @@ const MapaAstralPage = () => {
   const [done, setDone] = useState(false);
   const resultRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
+  const { saveSession } = useSessionHistory();
 
   const canSubmit = birthDate && birthTime && birthCity;
 
@@ -105,6 +107,13 @@ const MapaAstralPage = () => {
       }
 
       setDone(true);
+      // Save to history
+      saveSession({
+        session_type: "mapa-astral",
+        question: `${fullName} - ${birthDate} ${birthTime} ${birthCity}`,
+        session_data: { fullName, birthDate, birthTime, birthCity },
+        interpretation: accumulated,
+      });
     } catch (e) {
       console.error(e);
       toast({ title: "Erro", description: "Falha na conexão.", variant: "destructive" });

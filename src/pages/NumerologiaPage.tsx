@@ -4,10 +4,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useToast } from "@/hooks/use-toast";
-import { ChevronLeft, RotateCcw, Sparkles, BookOpen, Share2, Lock } from "lucide-react";
+import { ChevronLeft, RotateCcw, Sparkles, BookOpen, Share2, Lock, Users } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useCredits } from "@/hooks/useCredits";
 import { useNavigate } from "react-router-dom";
+import NumeroCompatibilidade from "@/components/numerologia/NumeroCompatibilidade";
 import {
   calculateFullNumerology,
   isMasterNumber,
@@ -16,7 +17,7 @@ import {
   NumerologyResult,
 } from "@/lib/numerology-utils";
 
-type Step = "input" | "calculating" | "result" | "fundamentals";
+type Step = "input" | "calculating" | "result" | "fundamentals" | "compatibility";
 
 const NumerologiaPage = () => {
   const [step, setStep] = useState<Step>("input");
@@ -239,13 +240,22 @@ const NumerologiaPage = () => {
               Calcular Mapa Numerológico
             </Button>
 
-            <button
-              onClick={() => setStep("fundamentals")}
-              className="flex items-center justify-center gap-2 w-full py-2 font-body text-xs text-muted-foreground hover:text-primary transition-colors"
-            >
-              <BookOpen className="h-3.5 w-3.5" />
-              Conhecer os Fundamentos
-            </button>
+            <div className="flex gap-2">
+              <button
+                onClick={() => setStep("compatibility")}
+                className="flex items-center justify-center gap-2 flex-1 py-2 font-body text-xs text-muted-foreground hover:text-primary transition-colors"
+              >
+                <Users className="h-3.5 w-3.5" />
+                Compatibilidade
+              </button>
+              <button
+                onClick={() => setStep("fundamentals")}
+                className="flex items-center justify-center gap-2 flex-1 py-2 font-body text-xs text-muted-foreground hover:text-primary transition-colors"
+              >
+                <BookOpen className="h-3.5 w-3.5" />
+                Fundamentos
+              </button>
+            </div>
           </motion.div>
         )}
 
@@ -433,6 +443,25 @@ const NumerologiaPage = () => {
               <BookOpen className="mr-2 h-4 w-4" />
               Ver Fundamentos
             </Button>
+          </motion.div>
+        )}
+
+        {/* Step: Compatibility */}
+        {step === "compatibility" && (
+          <motion.div
+            key="compatibility"
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -16 }}
+            className="space-y-4"
+          >
+            <button
+              onClick={() => setStep(result ? "result" : "input")}
+              className="flex items-center gap-1 font-body text-xs text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <ChevronLeft className="h-3 w-3" /> Voltar
+            </button>
+            <NumeroCompatibilidade userFullName={fullName || "Você"} userBirthDate={birthDate || "2000-01-01"} />
           </motion.div>
         )}
 

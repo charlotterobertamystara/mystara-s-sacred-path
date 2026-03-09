@@ -15,18 +15,30 @@ interface Props {
   userSigns: PersonSigns;
   partnerSigns: PersonSigns;
   scores: CompatibilityScores;
+  relationshipType?: string;
   onBack: () => void;
 }
 
-export default function CompatibilityResult({ userName, partnerName, userSigns, partnerSigns, scores, onBack }: Props) {
+const RELATIONSHIP_FOCUS: Record<string, { title: string; tip: string }> = {
+  'parceiro': { title: 'Análise Romântica', tip: 'Foco em conexão emocional, atração e parceria de vida.' },
+  'crush': { title: 'Análise de Atração', tip: 'Foco em química, primeira impressão e potencial.' },
+  'amigo': { title: 'Análise de Amizade', tip: 'Foco em confiança, diversão e apoio mútuo.' },
+  'familiar': { title: 'Análise Familiar', tip: 'Foco em compreensão, paciência e vínculo ancestral.' },
+  'colega': { title: 'Análise Profissional', tip: 'Foco em comunicação, complementaridade e objetivos.' },
+  'outro': { title: 'Análise Geral', tip: 'Visão ampla de todas as dimensões da compatibilidade.' },
+};
+
+export default function CompatibilityResult({ userName, partnerName, userSigns, partnerSigns, scores, relationshipType, onBack }: Props) {
   const { label, emoji, colorClass } = getScoreLabel(scores.overall);
   const scoreColor = getScoreColor(scores.overall);
+  const relFocus = RELATIONSHIP_FOCUS[relationshipType || 'outro'] || RELATIONSHIP_FOCUS['outro'];
 
   return (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
       {/* Overall Score */}
       <Card className="border-border bg-card p-5 text-center space-y-3">
-        <p className="font-display text-[10px] tracking-widest text-muted-foreground uppercase">Compatibilidade Geral</p>
+        <p className="font-display text-[10px] tracking-widest text-muted-foreground uppercase">{relFocus.title}</p>
+        <p className="text-[9px] text-muted-foreground italic">{relFocus.tip}</p>
         <div className="relative mx-auto w-28 h-28">
           <svg viewBox="0 0 100 100" className="w-full h-full -rotate-90">
             <circle cx="50" cy="50" r="42" fill="none" stroke="hsl(var(--border))" strokeWidth="6" />

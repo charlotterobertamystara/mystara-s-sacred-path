@@ -180,7 +180,7 @@ const RunasPage = () => {
       });
     }
   };
-  };
+
 
   const resetAll = () => {
     setStep("question");

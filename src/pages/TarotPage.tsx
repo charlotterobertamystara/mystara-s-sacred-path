@@ -171,7 +171,7 @@ const TarotPage = () => {
       });
     }
   };
-  };
+
 
   const resetAll = () => {
     setStep("question");

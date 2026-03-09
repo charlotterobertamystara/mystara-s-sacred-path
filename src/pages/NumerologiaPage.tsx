@@ -4,6 +4,16 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useToast } from "@/hooks/use-toast";
+import { ChevronLeft, RotateCcw, Sparkles, BookOpen, Share2, Lock, Users } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
+import { useCredits } from "@/hooks/useCredits";
+import { useNavigate } from "react-router-dom";
+import NumeroCompatibilidade from "@/components/numerologia/NumeroCompatibilidade";
+import {
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { useToast } from "@/hooks/use-toast";
 import { ChevronLeft, RotateCcw, Sparkles, BookOpen, Share2, Lock } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useCredits } from "@/hooks/useCredits";

@@ -7,6 +7,7 @@ import { useToast } from "@/hooks/use-toast";
 import { ChevronLeft, RotateCcw, Sparkles, BookOpen, Share2, Lock, Users } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useCredits } from "@/hooks/useCredits";
+import { useSessionHistory } from "@/hooks/useSessionHistory";
 import { useNavigate } from "react-router-dom";
 import NumeroCompatibilidade from "@/components/numerologia/NumeroCompatibilidade";
 import NumeroGuide from "@/components/numerologia/NumeroGuide";

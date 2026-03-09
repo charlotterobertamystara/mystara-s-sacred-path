@@ -160,22 +160,26 @@ const RunasPage = () => {
       setStep("select");
     } finally {
       setIsLoading(false);
-      if (interpretation || accumulated) {
-        saveSession({
-          session_type: "runas",
-          question,
-          session_data: {
-            runes: selectedRunes.map((s) => ({
-              name: s.rune.name,
-              position: s.position,
-              reversed: s.reversed,
-            })),
-            numRunes,
-          },
-          interpretation: interpretation || accumulated,
-        });
-      }
     }
+  };
+
+  const saveReading = (finalInterpretation: string) => {
+    if (finalInterpretation) {
+      saveSession({
+        session_type: "runas",
+        question,
+        session_data: {
+          runes: selectedRunes.map((s) => ({
+            name: s.rune.name,
+            position: s.position,
+            reversed: s.reversed,
+          })),
+          numRunes,
+        },
+        interpretation: finalInterpretation,
+      });
+    }
+  };
   };
 
   const resetAll = () => {

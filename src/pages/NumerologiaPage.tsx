@@ -9,6 +9,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useCredits } from "@/hooks/useCredits";
 import { useNavigate } from "react-router-dom";
 import NumeroCompatibilidade from "@/components/numerologia/NumeroCompatibilidade";
+import NumeroGuide from "@/components/numerologia/NumeroGuide";
 import {
   calculateFullNumerology,
   isMasterNumber,

@@ -316,7 +316,7 @@ const MapaAstralPage = () => {
                 name: fullName || 'Você',
                 birthDate,
               } : undefined}
-          </TabsContent>
+            />
           </TabsContent>
 
           {/* Fundamentos Tab */}

@@ -151,6 +151,23 @@ const RunasPage = () => {
           }
         }
       }
+
+      // Save to history
+      if (accumulated) {
+        saveSession({
+          session_type: "runas",
+          question,
+          session_data: {
+            runes: selectedRunes.map((s) => ({
+              name: s.rune.name,
+              position: s.position,
+              reversed: s.reversed,
+            })),
+            numRunes,
+          },
+          interpretation: accumulated,
+        });
+      }
     } catch {
       toast({
         title: "Erro de conexão",
@@ -162,25 +179,6 @@ const RunasPage = () => {
       setIsLoading(false);
     }
   };
-
-  const saveReading = (finalInterpretation: string) => {
-    if (finalInterpretation) {
-      saveSession({
-        session_type: "runas",
-        question,
-        session_data: {
-          runes: selectedRunes.map((s) => ({
-            name: s.rune.name,
-            position: s.position,
-            reversed: s.reversed,
-          })),
-          numRunes,
-        },
-        interpretation: finalInterpretation,
-      });
-    }
-  };
-
 
   const resetAll = () => {
     setStep("question");

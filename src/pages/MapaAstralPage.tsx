@@ -310,24 +310,13 @@ const MapaAstralPage = () => {
           <TabsContent value="compatibilidade" className="mt-4">
             <CompatibilityTab
               userSigns={birthDate ? {
-                sun: (() => {
-                  const d = new Date(birthDate + 'T12:00:00');
-                  const m = d.getMonth() + 1, day = d.getDate();
-                  if ((m===3&&day>=21)||(m===4&&day<=19)) return 'Áries';
-                  if ((m===4&&day>=20)||(m===5&&day<=20)) return 'Touro';
-                  if ((m===5&&day>=21)||(m===6&&day<=20)) return 'Gêmeos';
-                  if ((m===6&&day>=21)||(m===7&&day<=22)) return 'Câncer';
-                  if ((m===7&&day>=23)||(m===8&&day<=22)) return 'Leão';
-                  if ((m===8&&day>=23)||(m===9&&day<=22)) return 'Virgem';
-                  if ((m===9&&day>=23)||(m===10&&day<=22)) return 'Libra';
-                  if ((m===10&&day>=23)||(m===11&&day<=21)) return 'Escorpião';
-                  if ((m===11&&day>=22)||(m===12&&day<=21)) return 'Sagitário';
-                  if ((m===12&&day>=22)||(m===1&&day<=19)) return 'Capricórnio';
-                  if ((m===1&&day>=20)||(m===2&&day<=18)) return 'Aquário';
-                  return 'Peixes';
-                })(),
+                sun: estimateSunSign(birthDate),
                 moon: '',
                 ascendant: '',
+                name: fullName || 'Você',
+                birthDate,
+              } : undefined}
+            />
                 name: fullName || 'Você',
                 birthDate,
               } : undefined}

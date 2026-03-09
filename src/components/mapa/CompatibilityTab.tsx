@@ -8,6 +8,7 @@ import AddPersonModal from "./AddPersonModal";
 import CompatibilityResult from "./CompatibilityResult";
 import QuickComparisonModal from "./QuickComparisonModal";
 import IdealMatchSection from "./IdealMatchSection";
+import AstroGuide from "./AstroGuide";
 import {
   SIGNS, SIGN_SYMBOLS, getCompatibleSigns, getScoreLabel,
   estimateSunSign, calculateCompatibility, PersonSigns,

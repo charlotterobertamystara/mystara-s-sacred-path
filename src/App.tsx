@@ -13,6 +13,7 @@ import RadiestesiaPage from "./pages/RadiestesiaPage";
 import CristaisPage from "./pages/CristaisPage";
 import LimpezaPage from "./pages/LimpezaPage";
 import MapaAstralPage from "./pages/MapaAstralPage";
+import DiarioPage from "./pages/DiarioPage";
 import ProfilePage from "./pages/ProfilePage";
 import AuthPage from "./pages/AuthPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
@@ -36,6 +37,7 @@ const App = () => (
               <Route path="/cristais" element={<SubscriptionGate featureName="Guia de Cristais"><CristaisPage /></SubscriptionGate>} />
               <Route path="/limpeza" element={<SubscriptionGate featureName="Limpeza Energética"><LimpezaPage /></SubscriptionGate>} />
               <Route path="/mapa-astral" element={<SubscriptionGate featureName="Mapa Astral"><MapaAstralPage /></SubscriptionGate>} />
+              <Route path="/diario" element={<DiarioPage />} />
               <Route path="/perfil" element={<ProfilePage />} />
             </Route>
             <Route path="/auth" element={<AuthPage />} />

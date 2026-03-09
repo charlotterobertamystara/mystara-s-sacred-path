@@ -14,6 +14,114 @@ export type Database = {
   }
   public: {
     Tables: {
+      diary_entries: {
+        Row: {
+          created_at: string
+          dream_ai_analysis: string | null
+          dream_description: string | null
+          dream_emotions: string[] | null
+          dream_symbols: string[] | null
+          dream_title: string | null
+          emotional_scale: number | null
+          energy_level: string | null
+          entry_date: string
+          entry_types: string[]
+          gratitude_1: string | null
+          gratitude_2: string | null
+          gratitude_3: string | null
+          id: string
+          insight_text: string | null
+          is_private: boolean
+          manifestation_actions: string | null
+          manifestation_intention: string | null
+          manifestation_signs: string | null
+          manifestation_status: string | null
+          manifestation_what: string | null
+          moon_illumination: number | null
+          moon_phase: string | null
+          moon_sign: string | null
+          personal_text: string | null
+          spiritual_practice: string | null
+          sync_connections: string | null
+          sync_description: string | null
+          sync_feeling: string | null
+          sync_symbols: string | null
+          tags: string[] | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          dream_ai_analysis?: string | null
+          dream_description?: string | null
+          dream_emotions?: string[] | null
+          dream_symbols?: string[] | null
+          dream_title?: string | null
+          emotional_scale?: number | null
+          energy_level?: string | null
+          entry_date: string
+          entry_types?: string[]
+          gratitude_1?: string | null
+          gratitude_2?: string | null
+          gratitude_3?: string | null
+          id?: string
+          insight_text?: string | null
+          is_private?: boolean
+          manifestation_actions?: string | null
+          manifestation_intention?: string | null
+          manifestation_signs?: string | null
+          manifestation_status?: string | null
+          manifestation_what?: string | null
+          moon_illumination?: number | null
+          moon_phase?: string | null
+          moon_sign?: string | null
+          personal_text?: string | null
+          spiritual_practice?: string | null
+          sync_connections?: string | null
+          sync_description?: string | null
+          sync_feeling?: string | null
+          sync_symbols?: string | null
+          tags?: string[] | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          dream_ai_analysis?: string | null
+          dream_description?: string | null
+          dream_emotions?: string[] | null
+          dream_symbols?: string[] | null
+          dream_title?: string | null
+          emotional_scale?: number | null
+          energy_level?: string | null
+          entry_date?: string
+          entry_types?: string[]
+          gratitude_1?: string | null
+          gratitude_2?: string | null
+          gratitude_3?: string | null
+          id?: string
+          insight_text?: string | null
+          is_private?: boolean
+          manifestation_actions?: string | null
+          manifestation_intention?: string | null
+          manifestation_signs?: string | null
+          manifestation_status?: string | null
+          manifestation_what?: string | null
+          moon_illumination?: number | null
+          moon_phase?: string | null
+          moon_sign?: string | null
+          personal_text?: string | null
+          spiritual_practice?: string | null
+          sync_connections?: string | null
+          sync_description?: string | null
+          sync_feeling?: string | null
+          sync_symbols?: string | null
+          tags?: string[] | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       payment_transactions: {
         Row: {
           amount: number
@@ -165,6 +273,54 @@ export type Database = {
           credits_remaining?: number
           id?: string
           total_credits_used?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_lunar_profiles: {
+        Row: {
+          birth_city: string
+          birth_date: string
+          birth_moon_phase: string | null
+          birth_state: string | null
+          birth_time: string | null
+          created_at: string
+          full_name: string
+          id: string
+          lunar_house: string | null
+          lunar_node: string | null
+          lunar_sign: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          birth_city?: string
+          birth_date: string
+          birth_moon_phase?: string | null
+          birth_state?: string | null
+          birth_time?: string | null
+          created_at?: string
+          full_name?: string
+          id?: string
+          lunar_house?: string | null
+          lunar_node?: string | null
+          lunar_sign?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          birth_city?: string
+          birth_date?: string
+          birth_moon_phase?: string | null
+          birth_state?: string | null
+          birth_time?: string | null
+          created_at?: string
+          full_name?: string
+          id?: string
+          lunar_house?: string | null
+          lunar_node?: string | null
+          lunar_sign?: string | null
           updated_at?: string
           user_id?: string
         }

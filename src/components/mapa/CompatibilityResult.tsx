@@ -107,14 +107,13 @@ export default function CompatibilityResult({ userName, partnerName, userSigns, 
       <ElementChart userName={userName} partnerName={partnerName} userSigns={userSigns} partnerSigns={partnerSigns} />
 
       {/* Practical Tips */}
-      <Card className="border-border bg-card p-4 space-y-3">
-        <p className="font-display text-[10px] tracking-widest text-muted-foreground uppercase">✦ Dicas Práticas</p>
-        <div className="space-y-2 text-xs text-muted-foreground font-body">
-          <p>💬 <strong className="text-foreground">Comunicação:</strong> Respeitem os ritmos diferentes. {userSigns.sun} precisa de {SIGN_ELEMENT[userSigns.sun] === 'Fogo' || SIGN_ELEMENT[userSigns.sun] === 'Ar' ? 'espaço para se expressar' : 'tempo para processar'}.</p>
-          <p>💛 <strong className="text-foreground">Valorizar:</strong> {partnerName} oferece {SIGN_ELEMENT[partnerSigns.sun] === 'Terra' ? 'estabilidade' : SIGN_ELEMENT[partnerSigns.sun] === 'Água' ? 'profundidade emocional' : SIGN_ELEMENT[partnerSigns.sun] === 'Fogo' ? 'energia e entusiasmo' : 'leveza e ideias'}.</p>
-          <p>⚡ <strong className="text-foreground">Conflitos:</strong> Quando surgirem, lembrem que as diferenças são oportunidades de crescimento mútuo.</p>
-        </div>
-      </Card>
+      <PracticalTips
+        userSun={userSigns.sun}
+        partnerSun={partnerSigns.sun}
+        userName={userName}
+        partnerName={partnerName}
+        relationshipType={relationshipType}
+      />
 
       <div className="text-center pt-2">
         <Button variant="outline" onClick={onBack} className="font-display tracking-wider text-xs">

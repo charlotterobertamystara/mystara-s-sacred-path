@@ -42,6 +42,7 @@ const MapaAstralPage = () => {
   const [done, setDone] = useState(false);
   const resultRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
+  const { saveSession } = useSessionHistory();
 
   const canSubmit = birthDate && birthTime && birthCity;
 

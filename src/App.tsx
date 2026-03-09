@@ -38,6 +38,7 @@ const App = () => (
               <Route path="/cristais" element={<SubscriptionGate featureName="Guia de Cristais"><CristaisPage /></SubscriptionGate>} />
               <Route path="/limpeza" element={<SubscriptionGate featureName="Limpeza Energética"><LimpezaPage /></SubscriptionGate>} />
               <Route path="/mapa-astral" element={<SubscriptionGate featureName="Mapa Astral"><MapaAstralPage /></SubscriptionGate>} />
+              <Route path="/numerologia" element={<NumerologiaPage />} />
               <Route path="/diario" element={<DiarioPage />} />
               <Route path="/perfil" element={<ProfilePage />} />
             </Route>

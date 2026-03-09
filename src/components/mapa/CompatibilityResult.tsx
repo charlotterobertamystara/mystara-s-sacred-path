@@ -37,7 +37,8 @@ export default function CompatibilityResult({ userName, partnerName, userSigns, 
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
       {/* Overall Score */}
       <Card className="border-border bg-card p-5 text-center space-y-3">
-        <p className="font-display text-[10px] tracking-widest text-muted-foreground uppercase">Compatibilidade Geral</p>
+        <p className="font-display text-[10px] tracking-widest text-muted-foreground uppercase">{relFocus.title}</p>
+        <p className="text-[9px] text-muted-foreground italic">{relFocus.tip}</p>
         <div className="relative mx-auto w-28 h-28">
           <svg viewBox="0 0 100 100" className="w-full h-full -rotate-90">
             <circle cx="50" cy="50" r="42" fill="none" stroke="hsl(var(--border))" strokeWidth="6" />

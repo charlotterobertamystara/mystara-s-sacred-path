@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
+import { useSessionHistory } from "@/hooks/useSessionHistory";
 import CompatibilityTab from "@/components/mapa/CompatibilityTab";
 import { estimateSunSign } from "@/lib/astro-compatibility-utils";
 

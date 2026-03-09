@@ -29,7 +29,7 @@ export default function CompatibilityTab({ userSigns }: { userSigns?: UserSigns 
   const [showQuick, setShowQuick] = useState(false);
   const [addLoading, setAddLoading] = useState(false);
   const [selectedProfile, setSelectedProfile] = useState<CompatibilityProfile | null>(null);
-  const [activeSection, setActiveSection] = useState<"main" | "matches">("main");
+  const [activeSection, setActiveSection] = useState<"main" | "matches" | "guide">("main");
 
   const uSigns: PersonSigns = {
     sun: userSigns?.sun || 'Áries',

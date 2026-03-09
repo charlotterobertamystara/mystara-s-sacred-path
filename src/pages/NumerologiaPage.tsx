@@ -240,13 +240,22 @@ const NumerologiaPage = () => {
               Calcular Mapa Numerológico
             </Button>
 
-            <button
-              onClick={() => setStep("fundamentals")}
-              className="flex items-center justify-center gap-2 w-full py-2 font-body text-xs text-muted-foreground hover:text-primary transition-colors"
-            >
-              <BookOpen className="h-3.5 w-3.5" />
-              Conhecer os Fundamentos
-            </button>
+            <div className="flex gap-2">
+              <button
+                onClick={() => setStep("compatibility")}
+                className="flex items-center justify-center gap-2 flex-1 py-2 font-body text-xs text-muted-foreground hover:text-primary transition-colors"
+              >
+                <Users className="h-3.5 w-3.5" />
+                Compatibilidade
+              </button>
+              <button
+                onClick={() => setStep("fundamentals")}
+                className="flex items-center justify-center gap-2 flex-1 py-2 font-body text-xs text-muted-foreground hover:text-primary transition-colors"
+              >
+                <BookOpen className="h-3.5 w-3.5" />
+                Fundamentos
+              </button>
+            </div>
           </motion.div>
         )}
 

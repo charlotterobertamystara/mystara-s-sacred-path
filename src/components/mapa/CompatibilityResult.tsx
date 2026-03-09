@@ -31,6 +31,7 @@ const RELATIONSHIP_FOCUS: Record<string, { title: string; tip: string }> = {
 export default function CompatibilityResult({ userName, partnerName, userSigns, partnerSigns, scores, relationshipType, onBack }: Props) {
   const { label, emoji, colorClass } = getScoreLabel(scores.overall);
   const scoreColor = getScoreColor(scores.overall);
+  const relFocus = RELATIONSHIP_FOCUS[relationshipType || 'outro'] || RELATIONSHIP_FOCUS['outro'];
 
   return (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">

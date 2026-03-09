@@ -9,6 +9,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useCredits } from "@/hooks/useCredits";
 import { useNavigate } from "react-router-dom";
 import NumeroCompatibilidade from "@/components/numerologia/NumeroCompatibilidade";
+import NumeroGuide from "@/components/numerologia/NumeroGuide";
 import {
   calculateFullNumerology,
   isMasterNumber,
@@ -487,6 +488,10 @@ const NumerologiaPage = () => {
 
             <ScrollArea className="h-[60vh]">
               <div className="space-y-4 pr-2">
+                {/* Numerology Guide - Interactive */}
+                <NumeroGuide />
+
+                {/* Traditional Fundamentals */}
                 {FUNDAMENTALS.map((section, i) => (
                   <motion.div
                     key={i}

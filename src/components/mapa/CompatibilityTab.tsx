@@ -8,6 +8,7 @@ import AddPersonModal from "./AddPersonModal";
 import CompatibilityResult from "./CompatibilityResult";
 import QuickComparisonModal from "./QuickComparisonModal";
 import IdealMatchSection from "./IdealMatchSection";
+import AstroGuide from "./AstroGuide";
 import {
   SIGNS, SIGN_SYMBOLS, getCompatibleSigns, getScoreLabel,
   estimateSunSign, calculateCompatibility, PersonSigns,
@@ -28,7 +29,7 @@ export default function CompatibilityTab({ userSigns }: { userSigns?: UserSigns 
   const [showQuick, setShowQuick] = useState(false);
   const [addLoading, setAddLoading] = useState(false);
   const [selectedProfile, setSelectedProfile] = useState<CompatibilityProfile | null>(null);
-  const [activeSection, setActiveSection] = useState<"main" | "matches">("main");
+  const [activeSection, setActiveSection] = useState<"main" | "matches" | "guide">("main");
 
   const uSigns: PersonSigns = {
     sun: userSigns?.sun || 'Áries',
@@ -96,26 +97,27 @@ export default function CompatibilityTab({ userSigns }: { userSigns?: UserSigns 
     <div className="space-y-4">
       {/* Section Toggle */}
       <div className="flex gap-1 bg-muted/30 rounded-lg p-1">
-        <button
-          onClick={() => setActiveSection("main")}
-          className={`flex-1 text-[10px] font-display tracking-wider py-1.5 rounded-md transition-all ${
-            activeSection === "main" ? "bg-primary text-primary-foreground" : "text-muted-foreground"
-          }`}
-        >
-          💫 Compatibilidade
-        </button>
-        <button
-          onClick={() => setActiveSection("matches")}
-          className={`flex-1 text-[10px] font-display tracking-wider py-1.5 rounded-md transition-all ${
-            activeSection === "matches" ? "bg-primary text-primary-foreground" : "text-muted-foreground"
-          }`}
-        >
-          🔮 Match Ideal
-        </button>
+        {[
+          { key: 'main', label: '💫 Compatibilidade' },
+          { key: 'matches', label: '🔮 Match Ideal' },
+          { key: 'guide', label: '📖 Fundamentos' },
+        ].map(({ key, label }) => (
+          <button
+            key={key}
+            onClick={() => setActiveSection(key as any)}
+            className={`flex-1 text-[9px] font-display tracking-wider py-1.5 rounded-md transition-all ${
+              activeSection === key ? 'bg-primary text-primary-foreground' : 'text-muted-foreground'
+            }`}
+          >
+            {label}
+          </button>
+        ))}
       </div>
 
       {activeSection === "matches" ? (
         <IdealMatchSection userSigns={uSigns} />
+      ) : activeSection === "guide" ? (
+        <AstroGuide />
       ) : (
         <>
           {/* User Profile Card */}

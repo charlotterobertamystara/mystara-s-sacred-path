@@ -17,7 +17,7 @@ import {
   NumerologyResult,
 } from "@/lib/numerology-utils";
 
-type Step = "input" | "calculating" | "result" | "fundamentals";
+type Step = "input" | "calculating" | "result" | "fundamentals" | "compatibility";
 
 const NumerologiaPage = () => {
   const [step, setStep] = useState<Step>("input");

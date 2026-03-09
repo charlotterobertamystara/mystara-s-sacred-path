@@ -34,13 +34,13 @@ const App = () => (
             <Route element={<AppLayout />}>
               <Route path="/" element={<Index />} />
               <Route path="/tarot" element={<TarotPage />} />
-              <Route path="/runas" element={<SubscriptionGate featureName="Runas Nórdicas"><RunasPage /></SubscriptionGate>} />
-              <Route path="/radiestesia" element={<SubscriptionGate featureName="Radiestesia"><RadiestesiaPage /></SubscriptionGate>} />
-              <Route path="/cristais" element={<SubscriptionGate featureName="Guia de Cristais"><CristaisPage /></SubscriptionGate>} />
-              <Route path="/limpeza" element={<SubscriptionGate featureName="Limpeza Energética"><LimpezaPage /></SubscriptionGate>} />
-              <Route path="/mapa-astral" element={<SubscriptionGate featureName="Mapa Astral"><MapaAstralPage /></SubscriptionGate>} />
-              <Route path="/numerologia" element={<SubscriptionGate featureName="Numerologia"><NumerologiaPage /></SubscriptionGate>} />
-              <Route path="/diario" element={<SubscriptionGate featureName="Diário Místico"><DiarioPage /></SubscriptionGate>} />
+              <Route path="/runas" element={<RunasPage />} />
+              <Route path="/radiestesia" element={<RadiestesiaPage />} />
+              <Route path="/cristais" element={<CristaisPage />} />
+              <Route path="/limpeza" element={<LimpezaPage />} />
+              <Route path="/mapa-astral" element={<MapaAstralPage />} />
+              <Route path="/numerologia" element={<NumerologiaPage />} />
+              <Route path="/diario" element={<DiarioPage />} />
               
               <Route path="/perfil" element={<ProfilePage />} />
             </Route>

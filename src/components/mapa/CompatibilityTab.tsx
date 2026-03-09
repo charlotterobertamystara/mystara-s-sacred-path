@@ -116,6 +116,8 @@ export default function CompatibilityTab({ userSigns }: { userSigns?: UserSigns 
 
       {activeSection === "matches" ? (
         <IdealMatchSection userSigns={uSigns} />
+      ) : activeSection === "guide" ? (
+        <AstroGuide />
       ) : (
         <>
           {/* User Profile Card */}

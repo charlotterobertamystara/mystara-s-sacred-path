@@ -30,6 +30,7 @@ const NumerologiaPage = () => {
   const { toast } = useToast();
   const { user } = useAuth();
   const { isSubscribed } = useCredits();
+  const { saveSession } = useSessionHistory();
   const navigate = useNavigate();
 
   const handleCalculate = async () => {

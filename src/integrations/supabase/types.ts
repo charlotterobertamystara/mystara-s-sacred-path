@@ -14,6 +14,104 @@ export type Database = {
   }
   public: {
     Tables: {
+      compatibility_analyses: {
+        Row: {
+          analysis_data: Json | null
+          asc_score: number | null
+          created_at: string
+          cross_score: number | null
+          id: string
+          moon_score: number | null
+          overall_score: number
+          profile_id: string
+          sun_score: number | null
+          user_id: string
+        }
+        Insert: {
+          analysis_data?: Json | null
+          asc_score?: number | null
+          created_at?: string
+          cross_score?: number | null
+          id?: string
+          moon_score?: number | null
+          overall_score: number
+          profile_id: string
+          sun_score?: number | null
+          user_id: string
+        }
+        Update: {
+          analysis_data?: Json | null
+          asc_score?: number | null
+          created_at?: string
+          cross_score?: number | null
+          id?: string
+          moon_score?: number | null
+          overall_score?: number
+          profile_id?: string
+          sun_score?: number | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "compatibility_analyses_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "compatibility_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      compatibility_profiles: {
+        Row: {
+          ascendant_sign: string | null
+          birth_date: string
+          birth_place: string | null
+          birth_time: string | null
+          created_at: string
+          id: string
+          last_viewed: string | null
+          moon_sign: string | null
+          name: string
+          photo_url: string | null
+          relationship_type: string
+          sun_sign: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          ascendant_sign?: string | null
+          birth_date: string
+          birth_place?: string | null
+          birth_time?: string | null
+          created_at?: string
+          id?: string
+          last_viewed?: string | null
+          moon_sign?: string | null
+          name: string
+          photo_url?: string | null
+          relationship_type?: string
+          sun_sign?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          ascendant_sign?: string | null
+          birth_date?: string
+          birth_place?: string | null
+          birth_time?: string | null
+          created_at?: string
+          id?: string
+          last_viewed?: string | null
+          moon_sign?: string | null
+          name?: string
+          photo_url?: string | null
+          relationship_type?: string
+          sun_sign?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       diary_entries: {
         Row: {
           created_at: string

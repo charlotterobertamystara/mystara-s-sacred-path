@@ -5,9 +5,8 @@ const tabs = [
   { path: "/", label: "Início", icon: "✦" },
   { path: "/tarot", label: "Tarot", icon: "🂡" },
   { path: "/runas", label: "Runas", icon: "ᚱ" },
-  { path: "/mapa-astral", label: "Astral", icon: "☉" },
-  { path: "/limpeza", label: "Limpeza", icon: "🌿" },
   { path: "/radiestesia", label: "Radiestesia", icon: "◎" },
+  { path: "/diario", label: "Diário", icon: "📔" },
   { path: "/perfil", label: "Perfil", icon: "☽" },
 ];
 

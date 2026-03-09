@@ -32,7 +32,13 @@ const profileSchema = z.object({
   birth_state: z.string().optional(),
 });
 
-type ProfileFormData = z.infer<typeof profileSchema>;
+interface ProfileFormData {
+  full_name: string;
+  birth_date: string;
+  birth_time?: string;
+  birth_city: string;
+  birth_state?: string;
+}
 
 interface LunarProfileSetupProps {
   open: boolean;

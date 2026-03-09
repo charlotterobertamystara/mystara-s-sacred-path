@@ -6,6 +6,7 @@ import { Card } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import CompatibilityTab from "@/components/mapa/CompatibilityTab";
+import { estimateSunSign } from "@/lib/astro-compatibility-utils";
 
 const SECTIONS = [
   { icon: "☉", label: "Panorama Geral" },

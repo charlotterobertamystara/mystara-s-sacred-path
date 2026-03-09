@@ -7,6 +7,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Badge } from "@/components/ui/badge";
 import { MAJOR_ARCANA, TarotCard } from "@/data/tarot-cards";
 import { useToast } from "@/hooks/use-toast";
+import { useSessionHistory } from "@/hooks/useSessionHistory";
 import { ChevronLeft, RotateCcw, Sparkles, BookOpen, X, FlipVertical } from "lucide-react";
 
 type Step = "question" | "select" | "reading";

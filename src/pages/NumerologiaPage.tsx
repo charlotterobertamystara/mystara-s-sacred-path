@@ -446,6 +446,25 @@ const NumerologiaPage = () => {
           </motion.div>
         )}
 
+        {/* Step: Compatibility */}
+        {step === "compatibility" && (
+          <motion.div
+            key="compatibility"
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -16 }}
+            className="space-y-4"
+          >
+            <button
+              onClick={() => setStep(result ? "result" : "input")}
+              className="flex items-center gap-1 font-body text-xs text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <ChevronLeft className="h-3 w-3" /> Voltar
+            </button>
+            <NumeroCompatibilidade userFullName={fullName || "Você"} userBirthDate={birthDate || "2000-01-01"} />
+          </motion.div>
+        )}
+
         {/* Step: Fundamentals */}
         {step === "fundamentals" && (
           <motion.div

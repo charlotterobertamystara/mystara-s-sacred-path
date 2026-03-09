@@ -141,6 +141,23 @@ const TarotPage = () => {
           }
         }
       }
+
+      // Save to history
+      if (accumulated) {
+        saveSession({
+          session_type: "tarot",
+          question,
+          session_data: {
+            cards: selectedCards.map((s) => ({
+              name: s.card.name,
+              position: s.position,
+              reversed: s.reversed,
+            })),
+            numCards,
+          },
+          interpretation: accumulated,
+        });
+      }
     } catch (e) {
       toast({
         title: "Erro de conexão",
@@ -152,27 +169,6 @@ const TarotPage = () => {
       setIsLoading(false);
     }
   };
-
-  // Save after interpretation completes
-  const saveReading = (finalInterpretation: string) => {
-    if (finalInterpretation) {
-      saveSession({
-        session_type: "tarot",
-        question,
-        session_data: {
-          cards: selectedCards.map((s) => ({
-            name: s.card.name,
-            position: s.position,
-            reversed: s.reversed,
-          })),
-          numCards,
-        },
-        interpretation: finalInterpretation,
-      });
-    }
-  };
-
-
   const resetAll = () => {
     setStep("question");
     setQuestion("");

@@ -18,7 +18,7 @@ import NumerologiaPage from "./pages/NumerologiaPage";
 import ProfilePage from "./pages/ProfilePage";
 import AuthPage from "./pages/AuthPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
-import HistoricoPage from "./pages/HistoricoPage";
+
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -41,7 +41,7 @@ const App = () => (
               <Route path="/mapa-astral" element={<SubscriptionGate featureName="Mapa Astral"><MapaAstralPage /></SubscriptionGate>} />
               <Route path="/numerologia" element={<SubscriptionGate featureName="Numerologia"><NumerologiaPage /></SubscriptionGate>} />
               <Route path="/diario" element={<SubscriptionGate featureName="Diário Místico"><DiarioPage /></SubscriptionGate>} />
-              <Route path="/historico" element={<HistoricoPage />} />
+              
               <Route path="/perfil" element={<ProfilePage />} />
             </Route>
             <Route path="/auth" element={<AuthPage />} />

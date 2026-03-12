@@ -166,6 +166,14 @@ const RunasPage = () => {
             numRunes,
           },
           interpretation: accumulated,
+          reading_items: selectedRunes.map((s, i) => ({
+            item_type: "rune",
+            item_name: s.rune.name,
+            item_position: s.position,
+            is_reversed: s.reversed,
+            sort_order: i,
+            item_data: { unicode: s.rune.unicode, phonetic: s.rune.phonetic },
+          })),
         });
       }
     } catch {

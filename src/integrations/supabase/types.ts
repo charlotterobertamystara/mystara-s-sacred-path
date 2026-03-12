@@ -220,6 +220,98 @@ export type Database = {
         }
         Relationships: []
       }
+      favorites: {
+        Row: {
+          created_at: string
+          id: string
+          note: string | null
+          session_id: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          note?: string | null
+          session_id?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          note?: string | null
+          session_id?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "favorites_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "user_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      payment_history: {
+        Row: {
+          amount: number | null
+          created_at: string
+          currency: string | null
+          event_type: string
+          id: string
+          metadata: Json | null
+          payment_id: string | null
+          provider: string | null
+          provider_event_id: string | null
+          status: string
+          subscription_id: string | null
+          user_id: string
+        }
+        Insert: {
+          amount?: number | null
+          created_at?: string
+          currency?: string | null
+          event_type: string
+          id?: string
+          metadata?: Json | null
+          payment_id?: string | null
+          provider?: string | null
+          provider_event_id?: string | null
+          status: string
+          subscription_id?: string | null
+          user_id: string
+        }
+        Update: {
+          amount?: number | null
+          created_at?: string
+          currency?: string | null
+          event_type?: string
+          id?: string
+          metadata?: Json | null
+          payment_id?: string | null
+          provider?: string | null
+          provider_event_id?: string | null
+          status?: string
+          subscription_id?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payment_history_payment_id_fkey"
+            columns: ["payment_id"]
+            isOneToOne: false
+            referencedRelation: "payment_transactions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payment_history_subscription_id_fkey"
+            columns: ["subscription_id"]
+            isOneToOne: false
+            referencedRelation: "subscriptions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       payment_transactions: {
         Row: {
           amount: number
@@ -228,6 +320,8 @@ export type Database = {
           description: string | null
           id: string
           mp_payment_id: string | null
+          plan_id: string | null
+          provider: string | null
           status: string
           user_id: string
         }
@@ -238,6 +332,8 @@ export type Database = {
           description?: string | null
           id?: string
           mp_payment_id?: string | null
+          plan_id?: string | null
+          provider?: string | null
           status?: string
           user_id: string
         }
@@ -248,10 +344,20 @@ export type Database = {
           description?: string | null
           id?: string
           mp_payment_id?: string | null
+          plan_id?: string | null
+          provider?: string | null
           status?: string
           user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "payment_transactions_plan_id_fkey"
+            columns: ["plan_id"]
+            isOneToOne: false
+            referencedRelation: "subscription_plans"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       profiles: {
         Row: {
@@ -310,44 +416,147 @@ export type Database = {
         }
         Relationships: []
       }
+      reading_items: {
+        Row: {
+          created_at: string
+          id: string
+          is_reversed: boolean | null
+          item_data: Json | null
+          item_name: string
+          item_position: string | null
+          item_type: string
+          session_id: string
+          sort_order: number | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_reversed?: boolean | null
+          item_data?: Json | null
+          item_name: string
+          item_position?: string | null
+          item_type: string
+          session_id: string
+          sort_order?: number | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_reversed?: boolean | null
+          item_data?: Json | null
+          item_name?: string
+          item_position?: string | null
+          item_type?: string
+          session_id?: string
+          sort_order?: number | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reading_items_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "user_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      subscription_plans: {
+        Row: {
+          billing_period: string
+          created_at: string
+          credits_included: number | null
+          currency: string
+          description: string | null
+          features: Json | null
+          id: string
+          is_active: boolean | null
+          name: string
+          price: number
+          updated_at: string
+        }
+        Insert: {
+          billing_period?: string
+          created_at?: string
+          credits_included?: number | null
+          currency?: string
+          description?: string | null
+          features?: Json | null
+          id?: string
+          is_active?: boolean | null
+          name: string
+          price?: number
+          updated_at?: string
+        }
+        Update: {
+          billing_period?: string
+          created_at?: string
+          credits_included?: number | null
+          currency?: string
+          description?: string | null
+          features?: Json | null
+          id?: string
+          is_active?: boolean | null
+          name?: string
+          price?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       subscriptions: {
         Row: {
+          auto_renew: boolean | null
           created_at: string
           current_period_end: string | null
           current_period_start: string | null
           id: string
           mp_preapproval_id: string | null
           mp_subscription_id: string | null
+          plan_id: string | null
           plan_type: string
           status: string
           updated_at: string
           user_id: string
         }
         Insert: {
+          auto_renew?: boolean | null
           created_at?: string
           current_period_end?: string | null
           current_period_start?: string | null
           id?: string
           mp_preapproval_id?: string | null
           mp_subscription_id?: string | null
+          plan_id?: string | null
           plan_type?: string
           status?: string
           updated_at?: string
           user_id: string
         }
         Update: {
+          auto_renew?: boolean | null
           created_at?: string
           current_period_end?: string | null
           current_period_start?: string | null
           id?: string
           mp_preapproval_id?: string | null
           mp_subscription_id?: string | null
+          plan_id?: string | null
           plan_type?: string
           status?: string
           updated_at?: string
           user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "subscriptions_plan_id_fkey"
+            columns: ["plan_id"]
+            isOneToOne: false
+            referencedRelation: "subscription_plans"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       user_credits: {
         Row: {
@@ -450,6 +659,42 @@ export type Database = {
           question?: string | null
           session_data?: Json | null
           session_type?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_settings: {
+        Row: {
+          created_at: string
+          id: string
+          language: string | null
+          notifications_enabled: boolean | null
+          preferred_reading_type: string | null
+          spiritual_preferences: Json | null
+          theme: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          language?: string | null
+          notifications_enabled?: boolean | null
+          preferred_reading_type?: string | null
+          spiritual_preferences?: Json | null
+          theme?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          language?: string | null
+          notifications_enabled?: boolean | null
+          preferred_reading_type?: string | null
+          spiritual_preferences?: Json | null
+          theme?: string | null
+          updated_at?: string
           user_id?: string
         }
         Relationships: []

@@ -156,6 +156,14 @@ const TarotPage = () => {
             numCards,
           },
           interpretation: accumulated,
+          reading_items: selectedCards.map((s, i) => ({
+            item_type: "tarot_card",
+            item_name: s.card.name,
+            item_position: s.position,
+            is_reversed: s.reversed,
+            sort_order: i,
+            item_data: { number: s.card.number, symbol: s.card.symbol },
+          })),
         });
       }
     } catch (e) {

@@ -76,7 +76,7 @@ const ProfilePage = () => {
   const [filter, setFilter] = useState<SessionType | "all">("all");
   const [selectedSession, setSelectedSession] = useState<UserSession | null>(null);
   const { sessions, isLoading: histLoading } = useSessionHistory(filter === "all" ? undefined : filter);
-
+  const { isFavorited, addFavorite, removeFavorite, getFavoriteBySession } = useFavorites();
   useEffect(() => {
     if (user) {
       fetchProfile();

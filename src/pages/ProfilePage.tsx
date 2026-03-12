@@ -488,6 +488,22 @@ const ProfilePage = () => {
                       </div>
                       <DialogDescription className="sr-only">Detalhes da sessão</DialogDescription>
                     </DialogHeader>
+                    {/* Favorite toggle */}
+                    <div className="flex justify-end -mt-2 mb-1">
+                      <button
+                        onClick={() => {
+                          if (isFavorited(selectedSession.id)) {
+                            const fav = getFavoriteBySession(selectedSession.id);
+                            if (fav) removeFavorite(fav.id);
+                          } else {
+                            addFavorite({ session_id: selectedSession.id });
+                          }
+                        }}
+                        className="flex items-center gap-1 px-2 py-1 rounded-full border border-border text-[10px] font-display tracking-wider transition-colors hover:border-primary/40"
+                      >
+                        {isFavorited(selectedSession.id) ? "⭐ Favoritado" : "☆ Favoritar"}
+                      </button>
+                    </div>
                     <ScrollArea className="max-h-[60vh] pr-3">
                       <div className="space-y-4">
                         {selectedSession.question && (

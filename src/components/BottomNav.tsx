@@ -9,7 +9,7 @@ const tabs = [
   { path: "/numerologia", label: "Números", icon: "✡" },
   { path: "/limpeza", label: "Limpeza", icon: "🌿" },
   { path: "/radiestesia", label: "Radiestesia", icon: "◎" },
-  
+  { path: "/loja", label: "Loja", icon: "🔮" },
   { path: "/diario", label: "Diário", icon: "📔" },
   { path: "/perfil", label: "Perfil", icon: "☽" },
 ];

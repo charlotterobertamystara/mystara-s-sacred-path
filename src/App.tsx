@@ -42,6 +42,7 @@ const App = () => (
               <Route path="/mapa-astral" element={<MapaAstralPage />} />
               <Route path="/numerologia" element={<NumerologiaPage />} />
               <Route path="/diario" element={<DiarioPage />} />
+              <Route path="/loja" element={<LojaPage />} />
               
               <Route path="/perfil" element={<ProfilePage />} />
             </Route>

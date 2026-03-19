@@ -11,6 +11,7 @@ import TarotPage from "./pages/TarotPage";
 import RunasPage from "./pages/RunasPage";
 import RadiestesiaPage from "./pages/RadiestesiaPage";
 import CristaisPage from "./pages/CristaisPage";
+import LojaPage from "./pages/LojaPage";
 import LimpezaPage from "./pages/LimpezaPage";
 import MapaAstralPage from "./pages/MapaAstralPage";
 import DiarioPage from "./pages/DiarioPage";

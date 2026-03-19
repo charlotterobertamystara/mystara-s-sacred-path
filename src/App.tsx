@@ -11,6 +11,7 @@ import TarotPage from "./pages/TarotPage";
 import RunasPage from "./pages/RunasPage";
 import RadiestesiaPage from "./pages/RadiestesiaPage";
 import CristaisPage from "./pages/CristaisPage";
+import LojaPage from "./pages/LojaPage";
 import LimpezaPage from "./pages/LimpezaPage";
 import MapaAstralPage from "./pages/MapaAstralPage";
 import DiarioPage from "./pages/DiarioPage";
@@ -41,6 +42,7 @@ const App = () => (
               <Route path="/mapa-astral" element={<MapaAstralPage />} />
               <Route path="/numerologia" element={<NumerologiaPage />} />
               <Route path="/diario" element={<DiarioPage />} />
+              <Route path="/loja" element={<LojaPage />} />
               
               <Route path="/perfil" element={<ProfilePage />} />
             </Route>

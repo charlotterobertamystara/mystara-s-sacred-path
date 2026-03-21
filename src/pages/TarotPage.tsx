@@ -6,6 +6,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { MAJOR_ARCANA, TarotCard } from "@/data/tarot-cards";
+import { MINOR_ARCANA } from "@/data/tarot-minor-arcana";
 import { useToast } from "@/hooks/use-toast";
 import { useSessionHistory } from "@/hooks/useSessionHistory";
 import { ChevronLeft, RotateCcw, Sparkles, BookOpen, X, FlipVertical } from "lucide-react";
@@ -40,7 +41,13 @@ const TarotPage = () => {
 
   const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
 
-  const filteredCards = MAJOR_ARCANA.filter(
+  const ALL_CARDS = [...MAJOR_ARCANA, ...MINOR_ARCANA];
+
+  const [filterType, setFilterType] = useState<"all" | "major" | "minor">("all");
+
+  const baseCards = filterType === "major" ? MAJOR_ARCANA : filterType === "minor" ? MINOR_ARCANA : ALL_CARDS;
+
+  const filteredCards = baseCards.filter(
     (c) =>
       c.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       c.nameOriginal.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -316,10 +323,27 @@ const TarotPage = () => {
               </div>
             )}
 
+            {/* Filtro de tipo */}
+            <div className="flex gap-1.5">
+              {([["all", "Todos (78)"], ["major", "Maiores (22)"], ["minor", "Menores (56)"]] as const).map(([val, label]) => (
+                <button
+                  key={val}
+                  onClick={() => setFilterType(val)}
+                  className={`flex-1 rounded-lg border py-1.5 font-display text-[10px] tracking-wider transition-all ${
+                    filterType === val
+                      ? "border-primary bg-secondary text-primary"
+                      : "border-border bg-card text-muted-foreground hover:border-primary/40"
+                  }`}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+
             {/* Busca */}
             <input
               type="text"
-              placeholder="Buscar arcano..."
+              placeholder="Buscar carta..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full rounded-lg border border-border bg-card px-3 py-2 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary/50"

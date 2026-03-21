@@ -67,6 +67,9 @@ const ProfilePage = () => {
   const [editData, setEditData] = useState<Profile | null>(null);
   const [subscribing, setSubscribing] = useState(false);
   const [activeTab, setActiveTab] = useState<"perfil" | "historico">("perfil");
+  const [cancelModalOpen, setCancelModalOpen] = useState(false);
+  const [cancelConfirmation, setCancelConfirmation] = useState("");
+  const [cancelling, setCancelling] = useState(false);
 
   // Change password
   const [showChangePassword, setShowChangePassword] = useState(false);
@@ -248,9 +251,9 @@ const ProfilePage = () => {
 
         {activeTab === "perfil" ? (
           <>
-            {/* Subscription */}
+            {/* Minha Assinatura */}
             <div className="rounded-xl border border-border bg-card p-4 space-y-3">
-              <h2 className="font-display text-xs tracking-wider text-muted-foreground uppercase">Sua Assinatura</h2>
+              <h2 className="font-display text-xs tracking-wider text-muted-foreground uppercase">Minha Assinatura</h2>
               <div className="flex items-center justify-between">
                 <span className="font-body text-sm text-foreground">
                   {creditsLoading ? "Carregando..." : isSubscribed ? "Plano Premium Ativo" : "Plano Gratuito"}
@@ -261,6 +264,21 @@ const ProfilePage = () => {
                   </span>
                 )}
               </div>
+              {isSubscribed && (
+                <div className="space-y-2">
+                  <p className="font-body text-xs text-primary">Acesso ilimitado a todas as funcionalidades!</p>
+                  <p className="font-body text-[10px] text-muted-foreground">
+                    Status: {subscriptionStatus === "active" ? "Ativa" : subscriptionStatus || "—"} · Renovação automática
+                  </p>
+                  <Button
+                    variant="outline"
+                    className="w-full font-display tracking-wider text-destructive border-destructive/30 hover:bg-destructive/10"
+                    onClick={() => setCancelModalOpen(true)}
+                  >
+                    Cancelar Assinatura
+                  </Button>
+                </div>
+              )}
               {!isSubscribed && (
                 <div className="space-y-2 pt-1">
                   <p className="font-body text-xs text-muted-foreground">
@@ -284,9 +302,6 @@ const ProfilePage = () => {
                     {subscribing ? "Processando..." : "✨ Assinar Plano Premium"}
                   </Button>
                 </div>
-              )}
-              {isSubscribed && (
-                <p className="font-body text-xs text-primary">Acesso ilimitado a todas as funcionalidades!</p>
               )}
             </div>
 
@@ -384,6 +399,72 @@ const ProfilePage = () => {
             <p className="text-center text-[10px] text-muted-foreground">
               Ao excluir sua conta, todos os dados pessoais serão apagados conforme LGPD/GDPR.
             </p>
+
+            {/* Cancel Subscription Modal */}
+            <Dialog open={cancelModalOpen} onOpenChange={setCancelModalOpen}>
+              <DialogContent className="max-w-sm border-border bg-card">
+                <DialogHeader>
+                  <DialogTitle className="font-display tracking-wider text-foreground">
+                    Cancelar Assinatura
+                  </DialogTitle>
+                  <DialogDescription className="font-body text-muted-foreground">
+                    Para confirmar o cancelamento, digite seu email cadastrado abaixo.
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="space-y-4">
+                  <Input
+                    value={cancelConfirmation}
+                    onChange={(e) => setCancelConfirmation(e.target.value)}
+                    placeholder="Seu email cadastrado"
+                    className="border-border bg-muted font-body text-foreground placeholder:text-muted-foreground"
+                  />
+                  <div className="flex gap-2">
+                    <Button
+                      variant="outline"
+                      onClick={() => {
+                        setCancelModalOpen(false);
+                        setCancelConfirmation("");
+                      }}
+                      className="flex-1 font-display tracking-wider"
+                    >
+                      Voltar
+                    </Button>
+                    <Button
+                      variant="destructive"
+                      disabled={cancelConfirmation !== user.email || cancelling}
+                      onClick={async () => {
+                        setCancelling(true);
+                        try {
+                          const { data: { session } } = await supabase.auth.getSession();
+                          if (!session) throw new Error("Não autenticado");
+                          const { error } = await supabase
+                            .from("subscriptions")
+                            .update({ status: "cancelled", auto_renew: false })
+                            .eq("user_id", user.id)
+                            .eq("status", "active");
+                          if (error) throw error;
+                          toast({ title: "Assinatura cancelada", description: "Seu plano será encerrado no fim do período atual." });
+                          setCancelModalOpen(false);
+                          setCancelConfirmation("");
+                          // Refresh subscription state
+                          window.location.reload();
+                        } catch (e) {
+                          toast({ title: "Erro", description: e instanceof Error ? e.message : "Erro ao cancelar", variant: "destructive" });
+                        } finally {
+                          setCancelling(false);
+                        }
+                      }}
+                      className="flex-1 font-display tracking-wider"
+                    >
+                      {cancelling ? "Cancelando..." : "Confirmar Cancelamento"}
+                    </Button>
+                  </div>
+                  <p className="text-[10px] text-muted-foreground text-center">
+                    O acesso premium será mantido até o fim do período já pago.
+                  </p>
+                </div>
+              </DialogContent>
+            </Dialog>
           </>
         ) : (
           /* Histórico Tab */

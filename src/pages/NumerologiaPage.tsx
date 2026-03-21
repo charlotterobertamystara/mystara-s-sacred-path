@@ -224,7 +224,7 @@ const NumerologiaPage = () => {
           >
             <div>
               <label className="font-display text-xs tracking-wider text-muted-foreground uppercase">
-                Nome completo
+                Nome completo *
               </label>
               <Input
                 value={fullName}

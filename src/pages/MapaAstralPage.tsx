@@ -44,7 +44,7 @@ const MapaAstralPage = () => {
   const { toast } = useToast();
   const { saveSession } = useSessionHistory();
 
-  const canSubmit = birthDate && birthTime && birthCity;
+  const canSubmit = fullName.trim() && birthDate && birthTime && birthCity;
 
   const handleGenerate = async () => {
     if (!canSubmit) return;

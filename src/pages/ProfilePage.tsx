@@ -248,9 +248,9 @@ const ProfilePage = () => {
 
         {activeTab === "perfil" ? (
           <>
-            {/* Subscription */}
+            {/* Minha Assinatura */}
             <div className="rounded-xl border border-border bg-card p-4 space-y-3">
-              <h2 className="font-display text-xs tracking-wider text-muted-foreground uppercase">Sua Assinatura</h2>
+              <h2 className="font-display text-xs tracking-wider text-muted-foreground uppercase">Minha Assinatura</h2>
               <div className="flex items-center justify-between">
                 <span className="font-body text-sm text-foreground">
                   {creditsLoading ? "Carregando..." : isSubscribed ? "Plano Premium Ativo" : "Plano Gratuito"}
@@ -261,6 +261,21 @@ const ProfilePage = () => {
                   </span>
                 )}
               </div>
+              {isSubscribed && (
+                <div className="space-y-2">
+                  <p className="font-body text-xs text-primary">Acesso ilimitado a todas as funcionalidades!</p>
+                  <p className="font-body text-[10px] text-muted-foreground">
+                    Status: {subscriptionStatus === "active" ? "Ativa" : subscriptionStatus || "—"} · Renovação automática
+                  </p>
+                  <Button
+                    variant="outline"
+                    className="w-full font-display tracking-wider text-destructive border-destructive/30 hover:bg-destructive/10"
+                    onClick={() => setCancelModalOpen(true)}
+                  >
+                    Cancelar Assinatura
+                  </Button>
+                </div>
+              )}
               {!isSubscribed && (
                 <div className="space-y-2 pt-1">
                   <p className="font-body text-xs text-muted-foreground">
@@ -284,9 +299,6 @@ const ProfilePage = () => {
                     {subscribing ? "Processando..." : "✨ Assinar Plano Premium"}
                   </Button>
                 </div>
-              )}
-              {isSubscribed && (
-                <p className="font-body text-xs text-primary">Acesso ilimitado a todas as funcionalidades!</p>
               )}
             </div>
 

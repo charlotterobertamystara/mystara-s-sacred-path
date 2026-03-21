@@ -6,6 +6,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { MAJOR_ARCANA, TarotCard } from "@/data/tarot-cards";
+import { MINOR_ARCANA } from "@/data/tarot-minor-arcana";
 import { useToast } from "@/hooks/use-toast";
 import { useSessionHistory } from "@/hooks/useSessionHistory";
 import { ChevronLeft, RotateCcw, Sparkles, BookOpen, X, FlipVertical } from "lucide-react";

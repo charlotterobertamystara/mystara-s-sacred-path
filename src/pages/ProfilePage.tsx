@@ -67,6 +67,9 @@ const ProfilePage = () => {
   const [editData, setEditData] = useState<Profile | null>(null);
   const [subscribing, setSubscribing] = useState(false);
   const [activeTab, setActiveTab] = useState<"perfil" | "historico">("perfil");
+  const [cancelModalOpen, setCancelModalOpen] = useState(false);
+  const [cancelConfirmation, setCancelConfirmation] = useState("");
+  const [cancelling, setCancelling] = useState(false);
 
   // Change password
   const [showChangePassword, setShowChangePassword] = useState(false);

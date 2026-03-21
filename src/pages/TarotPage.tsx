@@ -41,7 +41,13 @@ const TarotPage = () => {
 
   const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
 
-  const filteredCards = MAJOR_ARCANA.filter(
+  const ALL_CARDS = [...MAJOR_ARCANA, ...MINOR_ARCANA];
+
+  const [filterType, setFilterType] = useState<"all" | "major" | "minor">("all");
+
+  const baseCards = filterType === "major" ? MAJOR_ARCANA : filterType === "minor" ? MINOR_ARCANA : ALL_CARDS;
+
+  const filteredCards = baseCards.filter(
     (c) =>
       c.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       c.nameOriginal.toLowerCase().includes(searchQuery.toLowerCase()) ||

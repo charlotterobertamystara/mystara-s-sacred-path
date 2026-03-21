@@ -193,13 +193,14 @@ const MapaAstralPage = () => {
               <Card className="space-y-4 border-border bg-card p-5">
                 <div>
                   <label className="font-display text-xs tracking-wider text-muted-foreground uppercase">
-                    Nome completo (opcional)
+                    Nome completo *
                   </label>
                   <Input
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
                     placeholder="Ex: Maria da Silva"
                     className="mt-2 border-border bg-background font-body text-foreground placeholder:text-muted-foreground"
+                    required
                   />
                 </div>
                 <div>

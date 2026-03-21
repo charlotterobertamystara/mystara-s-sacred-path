@@ -399,6 +399,72 @@ const ProfilePage = () => {
             <p className="text-center text-[10px] text-muted-foreground">
               Ao excluir sua conta, todos os dados pessoais serão apagados conforme LGPD/GDPR.
             </p>
+
+            {/* Cancel Subscription Modal */}
+            <Dialog open={cancelModalOpen} onOpenChange={setCancelModalOpen}>
+              <DialogContent className="max-w-sm border-border bg-card">
+                <DialogHeader>
+                  <DialogTitle className="font-display tracking-wider text-foreground">
+                    Cancelar Assinatura
+                  </DialogTitle>
+                  <DialogDescription className="font-body text-muted-foreground">
+                    Para confirmar o cancelamento, digite seu email cadastrado abaixo.
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="space-y-4">
+                  <Input
+                    value={cancelConfirmation}
+                    onChange={(e) => setCancelConfirmation(e.target.value)}
+                    placeholder="Seu email cadastrado"
+                    className="border-border bg-muted font-body text-foreground placeholder:text-muted-foreground"
+                  />
+                  <div className="flex gap-2">
+                    <Button
+                      variant="outline"
+                      onClick={() => {
+                        setCancelModalOpen(false);
+                        setCancelConfirmation("");
+                      }}
+                      className="flex-1 font-display tracking-wider"
+                    >
+                      Voltar
+                    </Button>
+                    <Button
+                      variant="destructive"
+                      disabled={cancelConfirmation !== user.email || cancelling}
+                      onClick={async () => {
+                        setCancelling(true);
+                        try {
+                          const { data: { session } } = await supabase.auth.getSession();
+                          if (!session) throw new Error("Não autenticado");
+                          const { error } = await supabase
+                            .from("subscriptions")
+                            .update({ status: "cancelled", auto_renew: false })
+                            .eq("user_id", user.id)
+                            .eq("status", "active");
+                          if (error) throw error;
+                          toast({ title: "Assinatura cancelada", description: "Seu plano será encerrado no fim do período atual." });
+                          setCancelModalOpen(false);
+                          setCancelConfirmation("");
+                          // Refresh subscription state
+                          window.location.reload();
+                        } catch (e) {
+                          toast({ title: "Erro", description: e instanceof Error ? e.message : "Erro ao cancelar", variant: "destructive" });
+                        } finally {
+                          setCancelling(false);
+                        }
+                      }}
+                      className="flex-1 font-display tracking-wider"
+                    >
+                      {cancelling ? "Cancelando..." : "Confirmar Cancelamento"}
+                    </Button>
+                  </div>
+                  <p className="text-[10px] text-muted-foreground text-center">
+                    O acesso premium será mantido até o fim do período já pago.
+                  </p>
+                </div>
+              </DialogContent>
+            </Dialog>
           </>
         ) : (
           /* Histórico Tab */

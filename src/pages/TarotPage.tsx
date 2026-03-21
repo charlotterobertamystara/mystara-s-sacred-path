@@ -323,10 +323,27 @@ const TarotPage = () => {
               </div>
             )}
 
+            {/* Filtro de tipo */}
+            <div className="flex gap-1.5">
+              {([["all", "Todos (78)"], ["major", "Maiores (22)"], ["minor", "Menores (56)"]] as const).map(([val, label]) => (
+                <button
+                  key={val}
+                  onClick={() => setFilterType(val)}
+                  className={`flex-1 rounded-lg border py-1.5 font-display text-[10px] tracking-wider transition-all ${
+                    filterType === val
+                      ? "border-primary bg-secondary text-primary"
+                      : "border-border bg-card text-muted-foreground hover:border-primary/40"
+                  }`}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+
             {/* Busca */}
             <input
               type="text"
-              placeholder="Buscar arcano..."
+              placeholder="Buscar carta..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full rounded-lg border border-border bg-card px-3 py-2 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary/50"

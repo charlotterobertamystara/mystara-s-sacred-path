@@ -10,6 +10,7 @@ const features = [
   { title: "Cristais", description: "Poder das pedras sagradas", icon: "◆", path: "/cristais" },
   { title: "Limpeza Espiritual", description: "Banhos, ervas e defumações", icon: "🌿", path: "/limpeza" },
   { title: "Mapa Astral", description: "Seu mapa celeste pessoal", icon: "☉", path: "/mapa-astral" },
+  { title: "Radiestesia", description: "Gráficos radiônicos sagrados", icon: "◎", path: "/radiestesia" },
   { title: "Diário Lunar", description: "Registre sua jornada lunar", icon: "📔", path: "/diario" },
 ];
 

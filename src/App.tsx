@@ -9,7 +9,7 @@ import SubscriptionGate from "./components/SubscriptionGate";
 import Index from "./pages/Index";
 import TarotPage from "./pages/TarotPage";
 import RunasPage from "./pages/RunasPage";
-import RadiestesiaPage from "./pages/RadiestesiaPage";
+
 import CristaisPage from "./pages/CristaisPage";
 import LojaPage from "./pages/LojaPage";
 import LimpezaPage from "./pages/LimpezaPage";

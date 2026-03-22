@@ -14,7 +14,7 @@ const SESSION_TYPE_CONFIG: Record<string, { label: string; icon: string; color: 
   runas: { label: "Runas", icon: "ᚱ", color: "border-accent/30 bg-accent/10 text-accent-foreground" },
   "mapa-astral": { label: "Mapa Astral", icon: "☉", color: "border-primary/30 bg-primary/10 text-primary" },
   numerologia: { label: "Numerologia", icon: "✡", color: "border-primary/30 bg-secondary/30 text-primary" },
-  radiestesia: { label: "Radiestesia", icon: "◎", color: "border-muted bg-muted/30 text-muted-foreground" },
+  
   cristais: { label: "Cristais", icon: "◆", color: "border-muted bg-muted/30 text-muted-foreground" },
   limpeza: { label: "Limpeza", icon: "🌿", color: "border-muted bg-muted/30 text-muted-foreground" },
 };

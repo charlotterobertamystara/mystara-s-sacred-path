@@ -9,7 +9,7 @@ import SubscriptionGate from "./components/SubscriptionGate";
 import Index from "./pages/Index";
 import TarotPage from "./pages/TarotPage";
 import RunasPage from "./pages/RunasPage";
-import RadiestesiaPage from "./pages/RadiestesiaPage";
+
 import CristaisPage from "./pages/CristaisPage";
 import LojaPage from "./pages/LojaPage";
 import LimpezaPage from "./pages/LimpezaPage";
@@ -36,7 +36,7 @@ const App = () => (
               <Route path="/" element={<Index />} />
               <Route path="/tarot" element={<TarotPage />} />
               <Route path="/runas" element={<RunasPage />} />
-              <Route path="/radiestesia" element={<RadiestesiaPage />} />
+              
               <Route path="/cristais" element={<CristaisPage />} />
               <Route path="/limpeza" element={<LimpezaPage />} />
               <Route path="/mapa-astral" element={<MapaAstralPage />} />

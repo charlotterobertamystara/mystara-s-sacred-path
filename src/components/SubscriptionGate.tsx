@@ -60,7 +60,7 @@ const SubscriptionGate = ({ children, featureName }: SubscriptionGateProps) => {
             <ul className="font-body text-xs text-muted-foreground space-y-1">
               <li>✦ Leitura de Runas Nórdicas</li>
               <li>✦ Mapa Astral Completo</li>
-              <li>✦ Radiestesia & Gráficos</li>
+              
               <li>✦ Guia de Cristais</li>
               <li>✦ Limpeza Energética</li>
               <li>✦ Uso ilimitado de todas as ferramentas</li>

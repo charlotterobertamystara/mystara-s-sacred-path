@@ -3,7 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "./useAuth";
 import { Json } from "@/integrations/supabase/types";
 
-export type SessionType = "tarot" | "runas" | "mapa-astral" | "numerologia" | "radiestesia" | "cristais" | "limpeza";
+export type SessionType = "tarot" | "runas" | "mapa-astral" | "numerologia" | "cristais" | "limpeza";
 
 export interface UserSession {
   id: string;

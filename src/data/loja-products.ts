@@ -107,43 +107,6 @@ export const products: Product[] = [
     link: "https://exemplo.com/runas-madeira",
   },
 
-  // ── Radiestesia ──
-  {
-    id: 11,
-    categoria: "radiestesia",
-    nome: "Pêndulo de Cristal Quartzo",
-    descricao: "Pêndulo lapidado para uso radiestésico",
-    preco: "R$ 55,00",
-    imagem: "/placeholder.svg",
-    link: "https://exemplo.com/pendulo-quartzo",
-  },
-  {
-    id: 12,
-    categoria: "radiestesia",
-    nome: "Pêndulo de Metal Dourado",
-    descricao: "Pêndulo cônico em latão com corrente",
-    preco: "R$ 45,00",
-    imagem: "/placeholder.svg",
-    link: "https://exemplo.com/pendulo-metal",
-  },
-  {
-    id: 13,
-    categoria: "radiestesia",
-    nome: "Gráfico Decágono em MDF",
-    descricao: "Gráfico radiônico para limpeza energética",
-    preco: "R$ 68,00",
-    imagem: "/placeholder.svg",
-    link: "https://exemplo.com/grafico-decagono",
-  },
-  {
-    id: 14,
-    categoria: "radiestesia",
-    nome: "Gráfico Mesa Damiens em MDF",
-    descricao: "Mesa radiônica completa em MDF premium",
-    preco: "R$ 150,00",
-    imagem: "/placeholder.svg",
-    link: "https://exemplo.com/mesa-damiens-mdf",
-  },
 ];
 
 export const categorias = [
@@ -151,5 +114,4 @@ export const categorias = [
   { key: "cristais" as const, label: "Cristais e Itens", icon: "◆" },
   { key: "tarot" as const, label: "Deck de Tarot", icon: "🂡" },
   { key: "runas" as const, label: "Runas", icon: "ᚱ" },
-  { key: "radiestesia" as const, label: "Radiestesia", icon: "◎" },
 ];

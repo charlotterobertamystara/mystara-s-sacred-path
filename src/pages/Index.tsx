@@ -6,7 +6,7 @@ const features = [
   { title: "Tarot de Marselha", description: "Leitura simbólica e arquetípica", icon: "🂡", path: "/tarot" },
   { title: "Runas", description: "Sabedoria ancestral nórdica", icon: "ᚱ", path: "/runas" },
   { title: "Numerologia", description: "Números sagrados cabalísticos", icon: "✡", path: "/numerologia" },
-  { title: "Radiestesia", description: "Orientação energética", icon: "◎", path: "/radiestesia" },
+  
   { title: "Cristais", description: "Poder das pedras sagradas", icon: "◆", path: "/cristais" },
   { title: "Limpeza Espiritual", description: "Banhos, ervas e defumações", icon: "🌿", path: "/limpeza" },
   { title: "Mapa Astral", description: "Seu mapa celeste pessoal", icon: "☉", path: "/mapa-astral" },

@@ -16,6 +16,7 @@ import LimpezaPage from "./pages/LimpezaPage";
 import MapaAstralPage from "./pages/MapaAstralPage";
 import DiarioPage from "./pages/DiarioPage";
 import NumerologiaPage from "./pages/NumerologiaPage";
+import RadiestesiaPage from "./pages/RadiestesiaPage";
 import ProfilePage from "./pages/ProfilePage";
 import AuthPage from "./pages/AuthPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";

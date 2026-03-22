@@ -1,6 +1,6 @@
 export interface Product {
   id: number;
-  categoria: "livros" | "cristais" | "tarot" | "runas" | "radiestesia";
+  categoria: "livros" | "cristais" | "tarot" | "runas";
   nome: string;
   descricao: string;
   preco: string;

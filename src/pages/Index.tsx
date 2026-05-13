@@ -110,11 +110,6 @@ const Index = () => {
           </button>
         </motion.div>
 
-        {/* Disclaimer */}
-        <p className="mt-8 text-center text-[10px] text-muted-foreground leading-relaxed">
-          Mystara é um serviço de orientação espiritual e simbólica. Não substitui
-          aconselhamento médico, psicológico, jurídico ou profissional. Não garantimos resultados.
-        </p>
       </div>
     </div>
   );

@@ -12,6 +12,7 @@ const AuthPage = () => {
   const navigate = useNavigate();
   const [mode, setMode] = useState<AuthMode>("login");
   const [loading, setLoading] = useState(false);
+  const [termsAccepted, setTermsAccepted] = useState(false);
 
   // Login fields
   const [email, setEmail] = useState("");
@@ -48,6 +49,10 @@ const AuthPage = () => {
   const handleSignup = async () => {
     if (!email || !password || !fullName) {
       toast({ title: "Preencha nome, e-mail e senha", variant: "destructive" });
+      return;
+    }
+    if (!termsAccepted) {
+      toast({ title: "Aceite os termos para continuar", variant: "destructive" });
       return;
     }
     setLoading(true);
@@ -174,6 +179,24 @@ const AuthPage = () => {
                   <Input value={addressZip} onChange={(e) => setAddressZip(e.target.value)} placeholder="CEP" className="border-border bg-card font-body text-foreground placeholder:text-muted-foreground" />
                 </div>
               </>
+            )}
+
+            {mode === "signup" && (
+              <div className="flex items-start gap-3 pt-2 pb-1">
+                <input
+                  type="checkbox"
+                  id="terms"
+                  checked={termsAccepted}
+                  onChange={(e) => setTermsAccepted(e.target.checked)}
+                  className="mt-1 h-4 w-4 cursor-pointer accent-primary"
+                />
+                <label htmlFor="terms" className="font-body text-[11px] text-muted-foreground leading-relaxed cursor-pointer">
+                  Li e aceito os <span className="text-primary">Termos de Uso</span> e a{" "}
+                  <span className="text-primary">Política de Privacidade</span>. Compreendo que o
+                  Mystara é um serviço de orientação espiritual e simbólica, não substituindo
+                  aconselhamento médico, psicológico, jurídico ou profissional.
+                </label>
+              </div>
             )}
 
             <div className="pt-2">

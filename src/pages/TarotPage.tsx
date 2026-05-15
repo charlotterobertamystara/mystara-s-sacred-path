@@ -126,6 +126,7 @@ function parseCardsFromText(text: string, numCards: number): SelectedCard[] {
 const TarotPage = () => {
   const [step, setStep] = useState<Step>("input");
   const [text, setText] = useState("");
+  const [numCards, setNumCards] = useState(3);
   const [readingCards, setReadingCards] = useState<SelectedCard[]>([]);
   const [detailCard, setDetailCard] = useState<TarotCard | null>(null);
   const [interpretation, setInterpretation] = useState("");
@@ -133,7 +134,7 @@ const TarotPage = () => {
   const { saveSession } = useSessionHistory();
 
   const startReading = async () => {
-    const cards = parseCardsFromText(text, 10); // até 10 cartas detectadas automaticamente
+    const cards = parseCardsFromText(text, numCards);
     setReadingCards(cards);
     setIsLoading(true);
     setInterpretation("");
@@ -229,6 +230,32 @@ const TarotPage = () => {
               />
               <p className="mt-1.5 font-body text-[11px] text-muted-foreground italic">
                 Descreva sua situação e mencione as cartas que saíram no baralho físico. O app as encontra automaticamente.
+              </p>
+            </div>
+
+            <div>
+              <label className="font-display text-xs tracking-wider text-muted-foreground uppercase">
+                Tiragem
+              </label>
+              <div className="mt-2 flex gap-2">
+                {[1, 3, 5].map((n) => (
+                  <button
+                    key={n}
+                    onClick={() => setNumCards(n)}
+                    className={`flex-1 rounded-lg border py-3 font-display text-sm tracking-wider transition-all ${
+                      numCards === n
+                        ? "border-primary bg-secondary text-primary shadow-gold"
+                        : "border-border bg-card text-muted-foreground hover:border-primary/40"
+                    }`}
+                  >
+                    {n} {n === 1 ? "carta" : "cartas"}
+                  </button>
+                ))}
+              </div>
+              <p className="mt-2 font-body text-xs text-muted-foreground italic">
+                {numCards === 1 && "Carta única — foco direto na questão"}
+                {numCards === 3 && "3 cartas — passado · presente · conselho"}
+                {numCards === 5 && "5 cartas — leitura completa da situação"}
               </p>
             </div>
 

@@ -24,8 +24,8 @@ const RadiestesiaGraficos = () => {
           <title>${nome} — Mystara</title>
           <style>
             body { margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; background: #fff; }
-            img { max-width: 100%; max-height: 100vh; object-fit: contain; }
-            @media print { body { margin: 0; } img { max-width: 100%; } }
+            img { max-width: 100%; max-height: 100vh; object-fit: contain; filter: invert(1); }
+            @media print { body { margin: 0; } img { max-width: 100%; filter: invert(1); } }
           </style>
         </head>
         <body>

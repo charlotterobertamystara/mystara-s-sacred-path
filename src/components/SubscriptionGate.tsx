@@ -53,7 +53,7 @@ const SubscriptionGate = ({ children, featureName }: SubscriptionGateProps) => {
           <h2 className="font-display text-lg tracking-widest text-foreground">Conteúdo Premium</h2>
           <p className="font-body text-sm text-muted-foreground leading-relaxed">
             <strong>{featureName}</strong> faz parte do plano premium.<br />
-            Assine por apenas <span className="text-primary font-semibold">R$ 5,99/mês</span> e tenha acesso ilimitado a todas as funcionalidades do Mystara.
+            Assine por apenas <span className="text-primary font-semibold">R$ 9,90/mês</span> e tenha acesso ilimitado a todas as funcionalidades do Mystara.
           </p>
           <div className="rounded-xl border border-border bg-card p-4 text-left space-y-2">
             <p className="font-display text-xs tracking-wider text-primary uppercase">Incluído no Premium:</p>

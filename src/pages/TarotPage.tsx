@@ -1,8 +1,7 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { MAJOR_ARCANA, TarotCard } from "@/data/tarot-cards";
@@ -10,7 +9,7 @@ import { MINOR_ARCANA } from "@/data/tarot-minor-arcana";
 import { interpretTarot } from "@/lib/tarotEngine";
 import { useToast } from "@/hooks/use-toast";
 import { useSessionHistory } from "@/hooks/useSessionHistory";
-import { ChevronLeft, RotateCcw, Sparkles, BookOpen, X, FlipVertical } from "lucide-react";
+import { ChevronLeft, RotateCcw, Sparkles, BookOpen, X, FlipVertical, Search } from "lucide-react";
 
 type Step = "question" | "select" | "reading";
 
@@ -28,66 +27,216 @@ const POSITION_NAMES: Record<number, string> = {
   5: "Futuro Próximo",
 };
 
+const ALL_CARDS = [...MAJOR_ARCANA, ...MINOR_ARCANA];
+
+// ── Slot de busca de carta por posição ───────────────────────────────────────
+
+interface CardSlotProps {
+  index: number;
+  position: string;
+  selected: SelectedCard | undefined;
+  onSelect: (card: TarotCard) => void;
+  onRemove: () => void;
+  onToggleReversed: () => void;
+  onViewDetail: (card: TarotCard) => void;
+  usedIds: Set<number>;
+}
+
+function CardSlot({ index, position, selected, onSelect, onRemove, onToggleReversed, onViewDetail, usedIds }: CardSlotProps) {
+  const [query, setQuery] = useState("");
+  const [open, setOpen] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const suggestions = query.trim().length >= 2
+    ? ALL_CARDS.filter(c =>
+        !usedIds.has(c.id) &&
+        (c.name.toLowerCase().includes(query.toLowerCase()) ||
+         c.nameOriginal.toLowerCase().includes(query.toLowerCase()) ||
+         c.keywords.some(k => k.toLowerCase().includes(query.toLowerCase())))
+      ).slice(0, 7)
+    : [];
+
+  function handleSelect(card: TarotCard) {
+    onSelect(card);
+    setQuery("");
+    setOpen(false);
+  }
+
+  useEffect(() => {
+    if (!selected) {
+      setQuery("");
+      setOpen(false);
+    }
+  }, [selected]);
+
+  return (
+    <div className="rounded-xl border border-border bg-card p-4 space-y-3">
+      {/* Position label */}
+      <div className="flex items-center gap-2">
+        <span className="flex h-6 w-6 items-center justify-center rounded-full bg-primary/20 text-xs font-display text-primary">
+          {index + 1}
+        </span>
+        <p className="font-display text-xs tracking-wider text-muted-foreground uppercase">
+          {position}
+        </p>
+      </div>
+
+      {selected ? (
+        /* Card confirmed */
+        <div className="space-y-2">
+          <div className="flex items-center gap-3">
+            <span className="text-2xl">{selected.card.symbol}</span>
+            <div className="flex-1 min-w-0">
+              <p className="font-display text-sm text-primary leading-tight">{selected.card.number}</p>
+              <p className="font-body text-sm text-foreground leading-tight">{selected.card.name}</p>
+              <p className="font-body text-[10px] text-muted-foreground">{selected.card.nameOriginal}</p>
+            </div>
+            <button onClick={onRemove} className="text-muted-foreground hover:text-destructive transition-colors">
+              <X className="h-4 w-4" />
+            </button>
+          </div>
+          <div className="flex gap-2">
+            <button
+              onClick={onToggleReversed}
+              className={`flex items-center gap-1.5 rounded-lg border px-3 py-1.5 font-display text-[10px] tracking-wider transition-all ${
+                selected.reversed
+                  ? "border-primary bg-secondary text-primary"
+                  : "border-border text-muted-foreground hover:border-primary/40"
+              }`}
+            >
+              <FlipVertical className="h-3 w-3" />
+              {selected.reversed ? "Invertida ✓" : "Inverter?"}
+            </button>
+            <button
+              onClick={() => onViewDetail(selected.card)}
+              className="rounded-lg border border-border px-3 py-1.5 font-body text-[10px] text-muted-foreground hover:text-primary hover:border-primary/40 transition-all"
+            >
+              Ver significado
+            </button>
+          </div>
+        </div>
+      ) : (
+        /* Search input */
+        <div className="relative">
+          <div className="flex items-center gap-2 rounded-lg border border-border bg-background px-3 py-2 focus-within:ring-1 focus-within:ring-primary/50">
+            <Search className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
+            <input
+              ref={inputRef}
+              type="text"
+              value={query}
+              onChange={(e) => { setQuery(e.target.value); setOpen(true); }}
+              onFocus={() => setOpen(true)}
+              onBlur={() => setTimeout(() => setOpen(false), 150)}
+              placeholder="Digite o nome da carta que saiu..."
+              className="w-full bg-transparent font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none"
+            />
+            {query && (
+              <button onClick={() => { setQuery(""); setOpen(false); }} className="text-muted-foreground hover:text-foreground">
+                <X className="h-3 w-3" />
+              </button>
+            )}
+          </div>
+
+          {/* Dropdown */}
+          <AnimatePresence>
+            {open && suggestions.length > 0 && (
+              <motion.div
+                initial={{ opacity: 0, y: -4 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -4 }}
+                className="absolute z-50 mt-1 w-full rounded-xl border border-border bg-card shadow-lg overflow-hidden"
+              >
+                {suggestions.map((card) => (
+                  <button
+                    key={card.id}
+                    onMouseDown={() => handleSelect(card)}
+                    className="flex w-full items-center gap-3 px-3 py-2.5 text-left hover:bg-secondary/40 transition-colors border-b border-border/50 last:border-0"
+                  >
+                    <span className="text-lg shrink-0">{card.symbol}</span>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-display text-xs text-primary truncate">{card.number}</p>
+                      <p className="font-body text-sm text-foreground truncate">{card.name}</p>
+                      <p className="font-body text-[10px] text-muted-foreground truncate">{card.nameOriginal}</p>
+                    </div>
+                  </button>
+                ))}
+              </motion.div>
+            )}
+            {open && query.trim().length >= 2 && suggestions.length === 0 && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="absolute z-50 mt-1 w-full rounded-xl border border-border bg-card px-4 py-3"
+              >
+                <p className="font-body text-xs text-muted-foreground">Nenhuma carta encontrada. Tente outro nome.</p>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ── Página principal ─────────────────────────────────────────────────────────
+
 const TarotPage = () => {
   const [step, setStep] = useState<Step>("question");
   const [question, setQuestion] = useState("");
   const [numCards, setNumCards] = useState(3);
-  const [selectedCards, setSelectedCards] = useState<SelectedCard[]>([]);
+  const [selectedCards, setSelectedCards] = useState<(SelectedCard | undefined)[]>([]);
   const [detailCard, setDetailCard] = useState<TarotCard | null>(null);
-  const [searchQuery, setSearchQuery] = useState("");
   const [interpretation, setInterpretation] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const { saveSession } = useSessionHistory();
 
-  const ALL_CARDS = [...MAJOR_ARCANA, ...MINOR_ARCANA];
+  // Reset slots when numCards changes
+  useEffect(() => {
+    setSelectedCards(Array(numCards).fill(undefined));
+  }, [numCards]);
 
-  const [filterType, setFilterType] = useState<"all" | "major" | "minor">("all");
+  const confirmedCards = selectedCards.filter((s): s is SelectedCard => !!s);
+  const allFilled = confirmedCards.length === numCards;
 
-  const baseCards = filterType === "major" ? MAJOR_ARCANA : filterType === "minor" ? MINOR_ARCANA : ALL_CARDS;
+  const usedIds = new Set(confirmedCards.map(s => s.card.id));
 
-  const filteredCards = baseCards.filter(
-    (c) =>
-      c.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      c.nameOriginal.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      c.keywords.some((k) => k.toLowerCase().includes(searchQuery.toLowerCase()))
-  );
+  function handleSelectCard(slotIndex: number, card: TarotCard) {
+    const position = POSITION_NAMES[slotIndex + 1] || `Carta ${slotIndex + 1}`;
+    setSelectedCards(prev => {
+      const next = [...prev];
+      next[slotIndex] = { card, reversed: false, position };
+      return next;
+    });
+  }
 
-  const isCardSelected = (card: TarotCard) =>
-    selectedCards.some((s) => s.card.id === card.id);
+  function handleRemoveCard(slotIndex: number) {
+    setSelectedCards(prev => {
+      const next = [...prev];
+      next[slotIndex] = undefined;
+      return next;
+    });
+  }
 
-  const toggleCard = (card: TarotCard) => {
-    if (isCardSelected(card)) {
-      setSelectedCards((prev) => prev.filter((s) => s.card.id !== card.id));
-    } else if (selectedCards.length < numCards) {
-      const positionIndex = selectedCards.length + 1;
-      setSelectedCards((prev) => [
-        ...prev,
-        {
-          card,
-          reversed: false,
-          position: POSITION_NAMES[positionIndex] || `Carta ${positionIndex}`,
-        },
-      ]);
-    }
-  };
+  function handleToggleReversed(slotIndex: number) {
+    setSelectedCards(prev => {
+      const next = [...prev];
+      const slot = next[slotIndex];
+      if (slot) next[slotIndex] = { ...slot, reversed: !slot.reversed };
+      return next;
+    });
+  }
 
-  const toggleReversed = (cardId: number) => {
-    setSelectedCards((prev) =>
-      prev.map((s) => (s.card.id === cardId ? { ...s, reversed: !s.reversed } : s))
-    );
-  };
-
-  const streamInterpretation = async () => {
+  const startReading = async () => {
     setIsLoading(true);
     setInterpretation("");
     setStep("reading");
 
     try {
-      // Small delay to let the loading UI render
       await new Promise((r) => setTimeout(r, 400));
 
-      const cards = selectedCards.map((s) => ({
+      const cards = confirmedCards.map((s) => ({
         name: s.card.name,
         position: s.position,
         reversed: s.reversed,
@@ -98,44 +247,44 @@ const TarotPage = () => {
       const result = interpretTarot(question, cards);
       setInterpretation(result);
 
-      saveSession({
-        session_type: "tarot",
-        question,
-        session_data: {
-          cards: selectedCards.map((s) => ({
-            name: s.card.name,
-            position: s.position,
-            reversed: s.reversed,
+      try {
+        saveSession({
+          session_type: "tarot",
+          question,
+          session_data: {
+            cards: confirmedCards.map((s) => ({
+              name: s.card.name,
+              position: s.position,
+              reversed: s.reversed,
+            })),
+            numCards,
+          },
+          interpretation: result,
+          reading_items: confirmedCards.map((s, i) => ({
+            item_type: "tarot_card",
+            item_name: s.card.name,
+            item_position: s.position,
+            is_reversed: s.reversed,
+            sort_order: i,
+            item_data: { number: s.card.number, symbol: s.card.symbol },
           })),
-          numCards,
-        },
-        interpretation: result,
-        reading_items: selectedCards.map((s, i) => ({
-          item_type: "tarot_card",
-          item_name: s.card.name,
-          item_position: s.position,
-          is_reversed: s.reversed,
-          sort_order: i,
-          item_data: { number: s.card.number, symbol: s.card.symbol },
-        })),
-      });
+        });
+      } catch {
+        // Silently ignore — session saving is optional
+      }
     } catch (e) {
-      toast({
-        title: "Erro na leitura",
-        description: "Tente novamente.",
-        variant: "destructive",
-      });
+      console.error("Tarot reading error:", e);
       setStep("select");
     } finally {
       setIsLoading(false);
     }
   };
+
   const resetAll = () => {
     setStep("question");
     setQuestion("");
-    setSelectedCards([]);
+    setSelectedCards(Array(numCards).fill(undefined));
     setInterpretation("");
-    setSearchQuery("");
   };
 
   return (
@@ -155,8 +304,8 @@ const TarotPage = () => {
         </p>
       </motion.div>
 
-      {/* Step: Pergunta */}
       <AnimatePresence mode="wait">
+        {/* Step: Pergunta */}
         {step === "question" && (
           <motion.div
             key="question"
@@ -210,12 +359,12 @@ const TarotPage = () => {
               onClick={() => setStep("select")}
             >
               <BookOpen className="mr-2 h-4 w-4" />
-              Escolher Cartas
+              Informar as Cartas
             </Button>
           </motion.div>
         )}
 
-        {/* Step: Seleção de Cartas */}
+        {/* Step: Informar as Cartas */}
         {step === "select" && (
           <motion.div
             key="select"
@@ -231,135 +380,37 @@ const TarotPage = () => {
               <ChevronLeft className="h-3 w-3" /> Voltar
             </button>
 
-            {/* Cartas selecionadas */}
-            {selectedCards.length > 0 && (
-              <div className="rounded-xl border border-primary/20 bg-secondary/20 p-3">
-                <p className="mb-2 font-display text-xs tracking-wider text-primary uppercase">
-                  Cartas selecionadas ({selectedCards.length}/{numCards})
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {selectedCards.map((s, i) => (
-                    <div
-                      key={s.card.id}
-                      className="flex items-center gap-1.5 rounded-lg border border-primary/30 bg-card px-2 py-1"
-                    >
-                      <span className="font-body text-xs text-primary">{i + 1}.</span>
-                      <span className="font-body text-xs text-foreground">
-                        {s.card.name}
-                        {s.reversed && (
-                          <span className="ml-1 text-muted-foreground">(inv.)</span>
-                        )}
-                      </span>
-                      <button
-                        onClick={() => toggleReversed(s.card.id)}
-                        title="Inverter carta"
-                        className="ml-0.5 text-muted-foreground hover:text-primary transition-colors"
-                      >
-                        <FlipVertical className="h-3 w-3" />
-                      </button>
-                      <button
-                        onClick={() => toggleCard(s.card)}
-                        className="ml-0.5 text-muted-foreground hover:text-destructive transition-colors"
-                      >
-                        <X className="h-3 w-3" />
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
+            <div className="rounded-xl border border-primary/20 bg-secondary/10 p-3">
+              <p className="font-body text-xs text-muted-foreground italic leading-relaxed">
+                Faça a tiragem fisicamente e <strong className="text-foreground">digite o nome de cada carta</strong> que saiu. O app encontra automaticamente.
+              </p>
+            </div>
 
-            {/* Filtro de tipo */}
-            <div className="flex gap-1.5">
-              {([["all", "Todos (78)"], ["major", "Maiores (22)"], ["minor", "Menores (56)"]] as const).map(([val, label]) => (
-                <button
-                  key={val}
-                  onClick={() => setFilterType(val)}
-                  className={`flex-1 rounded-lg border py-1.5 font-display text-[10px] tracking-wider transition-all ${
-                    filterType === val
-                      ? "border-primary bg-secondary text-primary"
-                      : "border-border bg-card text-muted-foreground hover:border-primary/40"
-                  }`}
-                >
-                  {label}
-                </button>
+            <div className="space-y-3">
+              {Array.from({ length: numCards }, (_, i) => (
+                <CardSlot
+                  key={i}
+                  index={i}
+                  position={POSITION_NAMES[i + 1] || `Carta ${i + 1}`}
+                  selected={selectedCards[i]}
+                  onSelect={(card) => handleSelectCard(i, card)}
+                  onRemove={() => handleRemoveCard(i)}
+                  onToggleReversed={() => handleToggleReversed(i)}
+                  onViewDetail={setDetailCard}
+                  usedIds={usedIds}
+                />
               ))}
             </div>
 
-            {/* Busca */}
-            <input
-              type="text"
-              placeholder="Buscar carta..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full rounded-lg border border-border bg-card px-3 py-2 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary/50"
-            />
-
-            <p className="font-body text-xs text-muted-foreground">
-              {selectedCards.length < numCards
-                ? `Selecione ${numCards - selectedCards.length} carta(s) que você tirou fisicamente`
-                : "Todas as cartas selecionadas. Você pode inverter ou remover."}
+            <p className="font-body text-xs text-muted-foreground text-center">
+              {confirmedCards.length}/{numCards} carta{numCards !== 1 ? "s" : ""} informada{numCards !== 1 ? "s" : ""}
             </p>
-
-            {/* Grid dos arcanos */}
-            <ScrollArea className="h-[340px]">
-              <div className="grid grid-cols-2 gap-2 pr-2">
-                {filteredCards.map((card) => {
-                  const selected = isCardSelected(card);
-                  const full = selectedCards.length >= numCards && !selected;
-                  return (
-                    <motion.button
-                      key={card.id}
-                      whileTap={{ scale: 0.97 }}
-                      onClick={() => !full && toggleCard(card)}
-                      className={`relative rounded-xl border p-3 text-left transition-all ${
-                        selected
-                          ? "border-primary bg-secondary shadow-gold"
-                          : full
-                          ? "cursor-not-allowed border-border bg-card/40 opacity-40"
-                          : "border-border bg-card hover:border-primary/50 hover:bg-secondary/30"
-                      }`}
-                    >
-                      <div className="flex items-start gap-2">
-                        <span className="text-xl">{card.symbol}</span>
-                        <div className="flex-1 min-w-0">
-                          <p className="font-display text-xs text-primary leading-tight">
-                            {card.number}
-                          </p>
-                          <p className="font-body text-xs font-medium text-foreground leading-tight truncate">
-                            {card.name}
-                          </p>
-                          <p className="font-body text-[10px] text-muted-foreground leading-tight">
-                            {card.nameOriginal}
-                          </p>
-                        </div>
-                        {selected && (
-                          <span className="flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[9px] font-bold text-primary-foreground">
-                            {selectedCards.findIndex((s) => s.card.id === card.id) + 1}
-                          </span>
-                        )}
-                      </div>
-                      <button
-                        type="button"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setDetailCard(card);
-                        }}
-                        className="mt-1.5 font-body text-[10px] text-muted-foreground underline hover:text-primary"
-                      >
-                        ver significado
-                      </button>
-                    </motion.button>
-                  );
-                })}
-              </div>
-            </ScrollArea>
 
             <Button
               className="w-full font-display tracking-widest"
               size="lg"
-              disabled={selectedCards.length < numCards}
-              onClick={streamInterpretation}
+              disabled={!allFilled}
+              onClick={startReading}
             >
               <Sparkles className="mr-2 h-4 w-4" />
               Iniciar Leitura
@@ -381,7 +432,7 @@ const TarotPage = () => {
                 Sua Tiragem
               </p>
               <div className="space-y-2">
-                {selectedCards.map((s, i) => (
+                {confirmedCards.map((s, i) => (
                   <div key={s.card.id} className="flex items-center gap-3">
                     <div className="flex h-9 w-9 items-center justify-center rounded-full border border-primary/30 bg-secondary/30 text-xl">
                       {s.card.symbol}
@@ -403,7 +454,7 @@ const TarotPage = () => {
               </div>
             </div>
 
-            {/* Interpretação IA */}
+            {/* Interpretação */}
             <div className="rounded-xl border border-primary/20 bg-card p-4">
               <div className="mb-3 flex items-center gap-2">
                 <Sparkles className="h-3.5 w-3.5 text-primary" />
@@ -423,9 +474,6 @@ const TarotPage = () => {
               )}
               <div className="font-body text-sm leading-relaxed text-foreground whitespace-pre-wrap">
                 {interpretation}
-                {isLoading && interpretation && (
-                  <span className="ml-0.5 inline-block h-4 w-0.5 bg-primary animate-pulse" />
-                )}
               </div>
             </div>
 
@@ -440,7 +488,7 @@ const TarotPage = () => {
                 <p className="font-display text-xs tracking-widest text-muted-foreground uppercase">
                   Significados das Cartas
                 </p>
-                {selectedCards.map((s) => (
+                {confirmedCards.map((s) => (
                   <div
                     key={s.card.id}
                     className="rounded-xl border border-border bg-card p-4 space-y-2"
@@ -463,15 +511,13 @@ const TarotPage = () => {
                         </Badge>
                       ))}
                     </div>
-                    <div className="space-y-2">
-                      <div>
-                        <p className="font-display text-[10px] tracking-wider text-primary uppercase mb-1">
-                          {s.reversed ? "Invertida" : "Direita"}
-                        </p>
-                        <p className="font-body text-xs text-muted-foreground leading-relaxed">
-                          {s.reversed ? s.card.reversedMeaning : s.card.uprightMeaning}
-                        </p>
-                      </div>
+                    <div>
+                      <p className="font-display text-[10px] tracking-wider text-primary uppercase mb-1">
+                        {s.reversed ? "Invertida" : "Direita"}
+                      </p>
+                      <p className="font-body text-xs text-muted-foreground leading-relaxed">
+                        {s.reversed ? s.card.reversedMeaning : s.card.uprightMeaning}
+                      </p>
                     </div>
                   </div>
                 ))}

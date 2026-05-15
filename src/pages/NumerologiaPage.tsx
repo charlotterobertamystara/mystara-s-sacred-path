@@ -449,7 +449,7 @@ const NumerologiaPage = () => {
                   className="w-full font-display tracking-wider"
                   onClick={() => navigate("/perfil")}
                 >
-                  ✨ Assinar por R$ 5,99/mês
+                  ✨ Assinar por R$ 9,90/mês
                 </Button>
               </motion.div>
             )}

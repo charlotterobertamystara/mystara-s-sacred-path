@@ -4,10 +4,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { useToast } from "@/hooks/use-toast";
 import { useSessionHistory } from "@/hooks/useSessionHistory";
 import CompatibilityTab from "@/components/mapa/CompatibilityTab";
 import { estimateSunSign } from "@/lib/astro-compatibility-utils";
+import { generateMapaAstral } from "@/lib/mapaAstralEngine";
 
 const SECTIONS = [
   { icon: "☉", label: "Panorama Geral" },
@@ -41,7 +41,6 @@ const MapaAstralPage = () => {
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
   const resultRef = useRef<HTMLDivElement>(null);
-  const { toast } = useToast();
   const { saveSession } = useSessionHistory();
 
   const canSubmit = fullName.trim() && birthDate && birthTime && birthCity;
@@ -52,71 +51,22 @@ const MapaAstralPage = () => {
     setReading("");
     setDone(false);
 
+    // Small delay for the mystical loading feel
+    await new Promise((r) => setTimeout(r, 800));
+
     try {
-      const resp = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/mapa-astral`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
-          },
-          body: JSON.stringify({ fullName, birthDate, birthTime, birthCity }),
-        }
-      );
-
-      if (!resp.ok) {
-        const err = await resp.json().catch(() => ({ error: "Erro desconhecido" }));
-        toast({ title: "Erro", description: err.error, variant: "destructive" });
-        setLoading(false);
-        return;
-      }
-
-      setTimeout(() => resultRef.current?.scrollIntoView({ behavior: "smooth" }), 300);
-
-      const reader = resp.body!.getReader();
-      const decoder = new TextDecoder();
-      let buffer = "";
-      let accumulated = "";
-
-      while (true) {
-        const { done: streamDone, value } = await reader.read();
-        if (streamDone) break;
-        buffer += decoder.decode(value, { stream: true });
-
-        let idx: number;
-        while ((idx = buffer.indexOf("\n")) !== -1) {
-          let line = buffer.slice(0, idx);
-          buffer = buffer.slice(idx + 1);
-          if (line.endsWith("\r")) line = line.slice(0, -1);
-          if (!line.startsWith("data: ")) continue;
-          const jsonStr = line.slice(6).trim();
-          if (jsonStr === "[DONE]") break;
-          try {
-            const parsed = JSON.parse(jsonStr);
-            const content = parsed.choices?.[0]?.delta?.content;
-            if (content) {
-              accumulated += content;
-              setReading(accumulated);
-            }
-          } catch {
-            buffer = line + "\n" + buffer;
-            break;
-          }
-        }
-      }
-
+      const result = generateMapaAstral({ fullName, birthDate, birthTime, birthCity });
+      setReading(result);
       setDone(true);
-      // Save to history
+      setTimeout(() => resultRef.current?.scrollIntoView({ behavior: "smooth" }), 300);
       saveSession({
         session_type: "mapa-astral",
         question: `${fullName} - ${birthDate} ${birthTime} ${birthCity}`,
         session_data: { fullName, birthDate, birthTime, birthCity },
-        interpretation: accumulated,
+        interpretation: result,
       });
     } catch (e) {
       console.error(e);
-      toast({ title: "Erro", description: "Falha na conexão.", variant: "destructive" });
     } finally {
       setLoading(false);
     }

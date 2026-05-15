@@ -15,26 +15,45 @@ const RadiestesiaGraficos = () => {
     : RADIESTESIA_GRAPHS.filter((g) => g.categoria === categoria);
 
   const handlePrint = (imagem: string, nome: string) => {
-    const printWindow = window.open("", "_blank");
-    if (printWindow) {
-      printWindow.document.write(`
-        <!DOCTYPE html>
-        <html>
-        <head>
-          <title>${nome} — Mystara</title>
-          <style>
-            body { margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; background: #fff; }
-            img { max-width: 100%; max-height: 100vh; object-fit: contain; filter: invert(1); }
-            @media print { body { margin: 0; } img { max-width: 100%; filter: invert(1); } }
-          </style>
-        </head>
-        <body>
-          <img src="${imagem}" alt="${nome}" onload="window.print()" />
-        </body>
-        </html>
-      `);
-      printWindow.document.close();
-    }
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    img.onload = () => {
+      canvas.width = img.width;
+      canvas.height = img.height;
+      ctx!.drawImage(img, 0, 0);
+      const imageData = ctx!.getImageData(0, 0, canvas.width, canvas.height);
+      const data = imageData.data;
+      for (let i = 0; i < data.length; i += 4) {
+        data[i] = 255 - data[i];
+        data[i + 1] = 255 - data[i + 1];
+        data[i + 2] = 255 - data[i + 2];
+      }
+      ctx!.putImageData(imageData, 0, 0);
+      const invertedUrl = canvas.toDataURL("image/png");
+      const printWindow = window.open("", "_blank");
+      if (printWindow) {
+        printWindow.document.write(`
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <title>${nome} — Mystara</title>
+            <style>
+              body { margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; background: #fff; }
+              img { max-width: 100%; max-height: 100vh; object-fit: contain; }
+              @media print { body { margin: 0; } img { max-width: 100%; } }
+            </style>
+          </head>
+          <body>
+            <img src="${invertedUrl}" alt="${nome}" onload="window.print()" />
+          </body>
+          </html>
+        `);
+        printWindow.document.close();
+      }
+    };
+    img.src = imagem;
   };
 
   return (

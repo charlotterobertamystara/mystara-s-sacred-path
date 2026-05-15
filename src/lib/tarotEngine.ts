@@ -598,10 +598,193 @@ function getFinalOrientation(theme: Theme, hasReversed: boolean): string {
 
 // ─── Interpretação individual de carta ───────────────────────────────────────
 
+// ─── Interpretações específicas por carta (Arcanos Menores) ─────────────────
+// Cada carta tem sua própria mensagem, não apenas a mensagem genérica do naipe.
+
+const SPECIFIC_MINOR: Record<string, Record<Theme, string[]>> = {
+
+  // ── PAUS ─────────────────────────────────────────────────────────────────
+  "Ás de Paus": {
+    financas: ["O Ás de Paus é uma centelha — uma ideia ou oportunidade nova está surgindo para transformar sua situação financeira. O potencial existe, mas ele precisa de ação. Não espere que o dinheiro venha; crie o movimento que o atrai.", "Uma nova iniciativa ou projeto tem o poder de mudar sua realidade financeira. O Ás de Paus convida você a confiar na faísca criativa que está dentro de você e agir com coragem."],
+    trabalho: ["Uma nova fase profissional começa — seja um projeto, um cargo ou até um novo negócio. O Ás de Paus traz a energia do pioneirismo; é hora de apostar na sua ideia.", "Há uma oportunidade de trabalho ou empreendimento surgindo. O Ás de Paus diz: não deixe o medo apagar essa chama. Comece."],
+    amor: ["Um novo amor ou uma renovação intensa está chegando. O Ás de Paus traz paixão, atração e o início excitante de uma conexão que pode transformar sua vida afetiva.", "A faísca do desejo e da conexão se acende. O Ás de Paus indica que há espaço para um novo amor entrar — ou para reignitar o que já existe."],
+    saude: ["O Ás de Paus traz energia vital renovada. É um bom momento para começar uma nova rotina de cuidado com o corpo — exercício, alimentação ou prática terapêutica.", "Uma nova abordagem à saúde pode transformar seu bem-estar. O Ás de Paus traz disposição e vontade de recomeçar."],
+    espiritual: ["Uma nova jornada espiritual se abre. O Ás de Paus é a chama do despertar — algo novo em sua busca interior está começando.", "A centelha divina em você está se acendendo. O Ás de Paus convida a um novo início no caminho espiritual — uma prática, um estudo, uma iluminação."],
+    geral: ["O Ás de Paus traz a energia do começo puro — uma oportunidade, uma ideia, uma faísca. A mensagem é: aja agora, antes que o momento passe.", "Uma nova fase começa com força e criatividade. O Ás de Paus pede que você confie em sua iniciativa e dê o primeiro passo."],
+  },
+  "Dois de Paus": {
+    financas: ["O Dois de Paus mostra alguém que já deu um primeiro passo e agora precisa decidir o caminho. Há duas direções financeiras à sua frente — analise antes de escolher.", "Você está em um ponto de bifurcação financeira. O Dois de Paus indica que há poder em suas mãos, mas a expansão real exige que você escolha e se comprometa com um caminho."],
+    trabalho: ["O Dois de Paus indica que você está no início de uma expansão — talvez planejando um novo projeto ou considerando uma parceria. Mantenha o foco na visão de longo prazo.", "Há uma decisão profissional importante se aproximando. O Dois de Paus diz: você tem o poder, agora use-o com estratégia."],
+    amor: ["Você está na encruzilhada do amor — avaliando se um relacionamento tem futuro ou se há algo novo no horizonte. O Dois de Paus pede honestidade com você mesmo.", "O Dois de Paus traz uma pausa reflexiva no amor. Antes de avançar, certifique-se de que seus planos e os da outra pessoa estão alinhados."],
+    saude: ["O Dois de Paus sugere um momento de avaliação da saúde — talvez entre dois tratamentos ou abordagens. Busque informação antes de decidir.", "Há uma decisão sobre saúde ou bem-estar que precisa ser tomada com calma. O Dois de Paus pede planejamento, não pressa."],
+    espiritual: ["O Dois de Paus indica um momento de contemplação espiritual — você está entre dois caminhos ou sistemas de crença. Reserve tempo para sentir, não apenas pensar.", "Você está expandindo sua perspectiva espiritual. O Dois de Paus convida a olhar além do familiar e a planejar uma jornada interior mais profunda."],
+    geral: ["O Dois de Paus indica que você está no ponto de partida de algo maior. Há poder em suas mãos — mas é preciso escolher a direção e se comprometer.", "Uma decisão importante está à sua frente. O Dois de Paus pede visão estratégica e coragem para se expandir."],
+  },
+  "Três de Paus": {
+    financas: ["O Três de Paus mostra que os primeiros investimentos ou esforços estão começando a dar frutos. Aguarde com confiança — o que você plantou está crescendo.", "Há sinais de progresso financeiro vindo do horizonte. O Três de Paus indica expansão — talvez de um negócio, uma nova fonte de renda ou um projeto que começou a se firmar."],
+    trabalho: ["O Três de Paus indica que seus projetos estão avançando. Há colaborações e oportunidades chegando — esteja aberto para parcerias e expansões profissionais.", "Você está vendo os primeiros resultados do seu esforço. O Três de Paus convida a continuar com confiança — o sucesso está se construindo."],
+    amor: ["O Três de Paus traz expansão no amor — talvez um relacionamento se aprofundando, uma decisão de seguir em frente ou novas possibilidades surgindo.", "O amor está se expandindo. O Três de Paus pode indicar uma nova fase em um relacionamento ou a chegada de alguém que amplia seus horizontes afetivos."],
+    saude: ["O Três de Paus indica progresso na saúde. Tratamentos ou mudanças de hábito estão trazendo resultados — continue no caminho.", "Há expansão de vitalidade chegando. O Três de Paus indica que suas ações de cuidado estão dando resultado — não desanime."],
+    espiritual: ["O Três de Paus indica que sua jornada espiritual está se expandindo — novos conhecimentos, práticas ou mestres podem entrar em sua vida.", "Você está colhendo os primeiros frutos de uma jornada espiritual. O Três de Paus convida a avançar com confiança."],
+    geral: ["O Três de Paus traz a energia da expansão e do progresso. Algo que você iniciou está crescendo — confie no processo.", "Os primeiros resultados estão chegando. O Três de Paus pede que você continue com confiança e olhe para o horizonte com otimismo."],
+  },
+  "Quatro de Paus": {
+    financas: ["O Quatro de Paus traz celebração e estabilidade conquistada. Há uma conquista financeira para comemorar — um patamar de segurança sendo alcançado.", "Este é um momento de estabilidade e colheita. O Quatro de Paus indica que o trabalho duro está se consolidando em fundações sólidas."],
+    trabalho: ["O Quatro de Paus anuncia uma conquista profissional — uma entrega, uma promoção ou um projeto concluído com sucesso. Comemore.", "Há harmonia e reconhecimento no trabalho. O Quatro de Paus indica um período de celebração e estabilidade profissional."],
+    amor: ["O Quatro de Paus é uma das cartas mais felizes para o amor — traz celebração, comprometimento e a alegria de um lar construído a dois.", "Um momento de celebração no amor está chegando. O Quatro de Paus indica festa, compromisso e a construção de algo sólido e feliz."],
+    saude: ["O Quatro de Paus traz saúde estável e vitalidade recuperada. É um momento de celebrar o bem-estar e solidificar novos hábitos saudáveis.", "Há estabilidade e harmonia na saúde. O Quatro de Paus convida a celebrar o equilíbrio conquistado."],
+    espiritual: ["O Quatro de Paus indica chegada — um santuário interior, uma prática estável, uma celebração espiritual. Você encontrou uma base sólida.", "Uma fase de paz e integração espiritual. O Quatro de Paus convida a celebrar o caminho percorrido."],
+    geral: ["O Quatro de Paus traz celebração, estabilidade e conquista. Um ciclo se completa com sucesso — comemore antes de seguir em frente.", "Há harmonia e alegria nesse momento. O Quatro de Paus pede que você reconheça o que foi conquistado."],
+  },
+  "Cinco de Paus": {
+    financas: ["O Cinco de Paus indica uma disputa ou competição financeira. Há conflitos em torno de recursos, contratos ou oportunidades — é preciso defender seu espaço com estratégia.", "A situação financeira está tensa e competitiva. O Cinco de Paus pede que você não recue, mas também que não desperdice energia em batalhas desnecessárias."],
+    trabalho: ["O Cinco de Paus mostra competição e conflito no ambiente de trabalho. Há discordâncias, disputas ou falta de cooperação — mantenha o foco no que realmente importa.", "O ambiente profissional está agitado. O Cinco de Paus pede discernimento para saber quais batalhas valem sua energia."],
+    amor: ["O Cinco de Paus indica conflitos e desentendimentos no amor. Há tensão e competição — talvez ciúmes, brigas ou mal-entendidos precisando ser resolvidos.", "Há um período de conflito no amor. O Cinco de Paus pede que você e a outra pessoa decidam se preferem lutar um contra o outro ou juntos."],
+    saude: ["O Cinco de Paus indica uma fase de resistência física — o corpo está lutando contra algo. Pode ser estresse, conflito interno ou um desafio de saúde que exige atenção.", "Há tensão no corpo. O Cinco de Paus pede que você reduza o conflito interno e externo que está consumindo sua energia vital."],
+    espiritual: ["O Cinco de Paus mostra um conflito espiritual — dúvidas, batalhas internas ou choques de crença. Não fuja desse embate; ele é parte necessária do crescimento.", "A jornada espiritual passa por uma fase de teste e conflito. O Cinco de Paus convida a questionar, mas não a desistir."],
+    geral: ["O Cinco de Paus indica tensão, conflito e competição. Há uma batalha sendo travada — o desafio é agir com estratégia, não com reatividade.", "Um período de turbulência e disputas. O Cinco de Paus pede foco e discernimento para navegar os conflitos sem perder energia."],
+  },
+  "Seis de Paus": {
+    financas: ["O Seis de Paus é a carta da vitória — uma conquista financeira está chegando. Reconhecimento, sucesso e colheita de esforços anteriores se manifestam.", "Você está vencendo a batalha financeira. O Seis de Paus anuncia que o esforço e a persistência estão prestes a ser recompensados publicamente."],
+    trabalho: ["O Seis de Paus traz reconhecimento e vitória profissional. Um projeto bem-sucedido, uma promoção ou elogio público está no horizonte.", "Há uma conquista profissional sendo celebrada. O Seis de Paus confirma que você está no caminho certo."],
+    amor: ["O Seis de Paus traz uma fase de triunfo e celebração no amor — seja o início de uma relação especial ou o reconhecimento do valor dentro de um relacionamento existente.", "Há reciprocidade e vitória no amor. O Seis de Paus indica que você se sente visto e valorizado."],
+    saude: ["O Seis de Paus anuncia recuperação e vitória na saúde. Um tratamento que estava difícil começa a mostrar resultados positivos.", "Há progresso significativo na saúde. O Seis de Paus é uma carta de triunfo — seu corpo está respondendo bem."],
+    espiritual: ["O Seis de Paus indica um momento de clareza e conquista espiritual. Você superou um desafio interno e está em um novo patamar de consciência.", "Há uma vitória espiritual sendo celebrada. O Seis de Paus confirma que seu caminho está correto."],
+    geral: ["O Seis de Paus anuncia triunfo e reconhecimento. Uma fase difícil passou e você sai vencedor — receba essa conquista com gratidão.", "Vitória e reconhecimento estão chegando. O Seis de Paus confirma que você está colhendo os frutos do esforço."],
+  },
+  "Sete de Paus": {
+    financas: ["O Sete de Paus mostra que você está defendendo sua posição financeira contra pressões externas. Há desafios e competição, mas você tem o que é preciso para se manter.", "Você está sendo desafiado financeiramente por muitas frentes ao mesmo tempo. O Sete de Paus pede resiliência — defenda o que é seu sem deixar o medo paralisá-lo."],
+    trabalho: ["O Sete de Paus indica que você está sendo desafiado no trabalho — talvez por concorrentes, críticos ou situações que exigem que você defenda suas ideias e posição.", "Há pressão no ambiente profissional. O Sete de Paus pede que você se mantenha firme e defenda sua visão com confiança."],
+    amor: ["O Sete de Paus indica um momento de pressão no amor — talvez ciúmes de fora, julgamentos de terceiros ou a necessidade de defender a relação de interferências.", "Há desafios externos no amor. O Sete de Paus pede que você defenda o que sente com coragem, sem deixar que opiniões alheias contaminem a relação."],
+    saude: ["O Sete de Paus indica um momento de resistência na saúde — o corpo está lutando, mas tem força. Mantenha os cuidados e não desanime.", "Há uma fase de resistência física ou emocional. O Sete de Paus pede que você persista nas práticas de saúde mesmo quando parecer difícil."],
+    espiritual: ["O Sete de Paus mostra um momento de defesa espiritual — crenças sendo questionadas, ou a necessidade de manter sua fé diante de pressões do mundo.", "Você está defendendo sua jornada interior contra dúvidas e críticas externas. O Sete de Paus pede firmeza."],
+    geral: ["O Sete de Paus indica resistência e defesa. Você está em posição de vantagem, mas precisa se manter firme diante das pressões que surgem.", "Há desafios que exigem coragem para defender sua posição. O Sete de Paus confirma que você tem a força necessária."],
+  },
+  "Oito de Paus": {
+    financas: ["O Oito de Paus anuncia movimento rápido nas finanças — dinheiro em movimento, oportunidades surgindo rapidamente, contratos ou transações se concretizando.", "A situação financeira está se acelerando. O Oito de Paus pede que você esteja pronto para agir rápido — as oportunidades vêm e vão em alta velocidade agora."],
+    trabalho: ["O Oito de Paus indica um período de intensa atividade profissional — projetos avançando, comunicações rápidas, viagens ou decisões que precisam ser tomadas com agilidade.", "Tudo está se movendo rápido no trabalho. O Oito de Paus pede foco e ação — agora não é hora de hesitar."],
+    amor: ["O Oito de Paus pode indicar um novo amor chegando rapidamente, mensagens inesperadas ou um relacionamento que avança de forma acelerada.", "Há movimento rápido no amor. O Oito de Paus pode trazer notícias, encontros ou desenvolvimentos que surpreendem pela velocidade."],
+    saude: ["O Oito de Paus traz recuperação rápida — tratamentos que começam a funcionar com velocidade. Há energia e movimento positivo no corpo.", "A saúde está em movimento de recuperação acelerada. O Oito de Paus indica que as mudanças estão acontecendo."],
+    espiritual: ["O Oito de Paus indica uma fase de insights rápidos e revelações — como se as peças estivessem se encaixando com velocidade surpreendente.", "Há uma aceleração espiritual. O Oito de Paus traz revelações, clareza e movimento interior intenso."],
+    geral: ["O Oito de Paus é velocidade pura — coisas que estavam estagnadas agora se movem com força. Esteja pronto para agir rápido.", "Movimento, velocidade e ação. O Oito de Paus indica que o momento de agir é agora."],
+  },
+  "Nove de Paus": {
+    financas: ["O Nove de Paus mostra alguém que está exausto, mas ainda de pé. Você passou por muitos desafios financeiros e carrega as cicatrizes disso — mas ainda há reserva para continuar.", "Você está quase no fim de uma fase financeira difícil. O Nove de Paus pede perseverança — não desista quando já percorreu quase todo o caminho."],
+    trabalho: ["O Nove de Paus indica cansaço profissional acumulado — você está guardado, defensivo e precavido depois de várias batalhas no trabalho.", "Você está resistindo com garra, mas sentindo o peso de uma fase longa e desafiadora no trabalho. O Nove de Paus pede que você não ceda à exaustão — o fim está próximo."],
+    amor: ["O Nove de Paus traz a energia de quem já foi machucado e agora tem muros no coração. Há proteção excessiva que pode estar impedindo conexões verdadeiras.", "Há cansaço e desconfiança no amor. O Nove de Paus pede que você questione: os muros que ergueu ainda estão protegendo, ou estão aprisionando?"],
+    saude: ["O Nove de Paus indica resistência física e emocional, mas também esgotamento acumulado. O corpo está pedindo mais descanso e cuidado.", "Você está resistindo, mas com custo alto de energia. O Nove de Paus pede atenção aos sinais de esgotamento antes que se tornem adoecimento."],
+    espiritual: ["O Nove de Paus mostra uma fase de provação espiritual — você foi testado repetidamente e está cansado, mas mais sábio. A perseverança tem um propósito.", "Você está próximo de uma importante conclusão espiritual. O Nove de Paus pede que você não abandone a jornada agora."],
+    geral: ["O Nove de Paus indica que você está chegando quase ao fim de uma fase difícil — não desista agora. A resiliência que você desenvolveu é um tesouro.", "Perseverança diante do cansaço. O Nove de Paus pede que você se mantenha firme — o fim da fase desafiadora está próximo."],
+  },
+  "Dez de Paus": {
+    financas: ["O Dez de Paus revela o peso esmagador de responsabilidades financeiras acumuladas. Você carrega dívidas, compromissos ou obrigações que estão além do que pode sustentar sozinho. Esta carta não traz crescimento — traz o convite urgente a examinar o que pode ser delegado, renegociado ou simplesmente deixado para trás. Continuar carregando tudo sem ajuda levará ao colapso.", "Você está no limite. O Dez de Paus mostra que a carga financeira sobre seus ombros é enorme — talvez dívidas acumuladas, obrigações que não pediu para assumir, ou o peso de sustentar uma situação que não é mais viável. A questão não é trabalhar mais; é aprender a soltar o que não é seu para carregar."],
+    trabalho: ["O Dez de Paus indica esgotamento no trabalho — responsabilidades excessivas, tarefas acumuladas e a sensação de que o fardo é grande demais. É hora de delegar, pedir ajuda ou repensar o que está carregando.", "Você assumiu mais do que deveria no trabalho. O Dez de Paus pede que você estabeleça limites — ninguém consegue carregar tudo sozinho por tempo indeterminado."],
+    amor: ["O Dez de Paus no amor indica que um dos lados está carregando um fardo desproporcional na relação — responsabilidades, preocupações ou emoções que deveriam ser divididas.", "Você está carregando o relacionamento nas costas. O Dez de Paus pede um reequilíbrio — amor real divide o peso, não multiplica."],
+    saude: ["O Dez de Paus é um alerta sério de esgotamento físico e emocional. O corpo está carregando um fardo enorme — estresse, tensões acumuladas, fadiga crônica. É hora de parar antes que o colapso force a parada.", "O peso que você carrega está adoecendo seu corpo. O Dez de Paus exige que você coloque o fardo no chão — descanso não é luxo, é necessidade urgente."],
+    espiritual: ["O Dez de Paus indica que você está carregando apegos, crenças pesadas ou responsabilidades espirituais que não são suas. Há uma libertação necessária.", "Há um fardo espiritual que você precisa soltar. O Dez de Paus pede que você examine o que está carregando por obrigação e não por amor."],
+    geral: ["O Dez de Paus mostra o peso máximo — você está carregando mais do que pode ou deve. A mensagem central desta carta é: coloque parte desse fardo no chão. Peça ajuda. Delegue. Solte o que não é seu.", "Você chegou ao limite do que consegue carregar sozinho. O Dez de Paus não é derrota — é o aviso necessário para que você reorganize suas responsabilidades antes do colapso."],
+  },
+  "Valete de Paus": {
+    financas: ["O Valete de Paus traz uma energia jovem e entusiasmada em relação a dinheiro — pode indicar uma ideia nova, um aprendizado sobre finanças ou o início de um empreendimento.", "Há uma faísca de empreendedorismo. O Valete de Paus representa o jovem que está começando a entender seu potencial criativo para gerar renda."],
+    trabalho: ["O Valete de Paus é o aprendiz entusiasmado — traz energia nova, ideias frescas e a disposição para aprender. Uma fase de aprendizado ou novo começo profissional.", "Há entusiasmo e criatividade em um novo papel profissional. O Valete de Paus indica que você está desenvolvendo suas habilidades com energia e curiosidade."],
+    amor: ["O Valete de Paus traz a energia de um novo amor cheio de faísca e aventura — ou uma fase de renovação apaixonada num relacionamento.", "Há paixão jovem e espontânea chegando. O Valete de Paus indica uma conexão vibrante, cheia de energia e novidade."],
+    saude: ["O Valete de Paus traz energia e entusiasmo para novos hábitos de saúde. É uma boa fase para começar uma atividade física ou prática de bem-estar.", "Há vitalidade jovem. O Valete de Paus convida a mover o corpo com alegria e curiosidade."],
+    espiritual: ["O Valete de Paus é o estudante espiritual — curioso, entusiasmado, em busca do conhecimento. Uma fase de exploração e descobertas.", "Há uma abertura espiritual nova. O Valete de Paus convida a explorar práticas e conhecimentos com olhos de aprendiz."],
+    geral: ["O Valete de Paus traz energia jovem, entusiasta e criativa. Um começo cheio de potencial — abrace a curiosidade e a ação.", "Há uma energia vibrante e cheia de potencial. O Valete de Paus pede que você aja com entusiasmo e não perca o fôlego."],
+  },
+  "Cavaleiro de Paus": {
+    financas: ["O Cavaleiro de Paus indica movimento rápido nas finanças — uma oportunidade que exige ação imediata. Não demore; esta janela não ficará aberta por muito tempo.", "Há uma energia de urgência financeira — seja para aproveitar uma oportunidade ou para resolver uma situação que não pode esperar."],
+    trabalho: ["O Cavaleiro de Paus representa alguém em plena ação — movimentos rápidos, decisões ousadas, projetos que avançam com velocidade. Cuidado para não ser impulsivo demais.", "Há dinamismo e velocidade no trabalho. O Cavaleiro de Paus pede que você canalise essa energia com foco, sem perder a direção."],
+    amor: ["O Cavaleiro de Paus no amor indica paixão intensa e rápida — um relacionamento que avança rapidamente. Aproveite a energia, mas certifique-se de que há profundidade além da faísca.", "Há uma conexão apaixonada e intensa chegando. O Cavaleiro de Paus traz aventura e emoção no amor."],
+    saude: ["O Cavaleiro de Paus indica alta energia e disposição física. Bom momento para atividades que exigem força e movimento. Cuidado com excesso ou imprudência.", "Há vitalidade e energia em alta. O Cavaleiro de Paus convida ao movimento — use essa energia de forma consciente."],
+    espiritual: ["O Cavaleiro de Paus representa uma jornada espiritual acelerada — insights rápidos, transformações intensas. Aja com o coração, mas não esqueça o discernimento.", "Há uma fase de expansão espiritual intensa. O Cavaleiro de Paus convida à aventura interior com coragem."],
+    geral: ["O Cavaleiro de Paus é ação pura — velocidade, coragem e movimento. Este é o momento de avançar com força. Não espere a hora perfeita.", "Há uma energia impetuosa pedindo ação agora. O Cavaleiro de Paus confirma: o momento de mover é este."],
+  },
+  "Rainha de Paus": {
+    financas: ["A Rainha de Paus é a empreendedora natural — criativa, carismática e confiante. Ela diz que você tem todos os recursos internos para prosperar; confie no seu poder.", "Há uma energia de liderança e autoconfiança nas finanças. A Rainha de Paus convida você a assumir as rédeas com confiança e criatividade."],
+    trabalho: ["A Rainha de Paus representa uma liderança carismática, criativa e magnética. Ela convida você a brilhar no seu papel, liderando pelo exemplo e pela força do caráter.", "Há poder e carisma em seu ambiente de trabalho. A Rainha de Paus confirma que você tem o que é preciso para se destacar."],
+    amor: ["A Rainha de Paus é apaixonada, vibrante e independente no amor. Ela ama com intensidade, mas nunca perde sua própria essência.", "Há uma energia magnética no amor. A Rainha de Paus convida a ser você mesmo com plenitude — é exatamente isso que atrai."],
+    saude: ["A Rainha de Paus traz vitalidade, autoconfiança e energia solar para a saúde. Cuide-se com a mesma paixão que você dedica ao que ama.", "Há força e vitalidade disponíveis. A Rainha de Paus convida ao autocuidado com alegria e amor próprio."],
+    espiritual: ["A Rainha de Paus é a sacerdotisa solar — conectada ao fogo sagrado, ao poder criativo e à luz interior. Sua espiritualidade é vivida, não apenas pensada.", "Há poder espiritual genuíno em você. A Rainha de Paus convida a expressá-lo com confiança e alegria."],
+    geral: ["A Rainha de Paus traz confiança, carisma e poder criativo. Seja quem você é com plenitude — essa é a sua maior força.", "Há uma energia magnética e poderosa disponível para você. A Rainha de Paus confirma: você tem o que precisa."],
+  },
+  "Rei de Paus": {
+    financas: ["O Rei de Paus é o líder visionário que transforma ideias em prosperidade real. Ele convida você a assumir o comando da sua vida financeira com visão e determinação.", "Há uma oportunidade de exercer liderança financeira. O Rei de Paus diz: tome as decisões, assuma o risco calculado e construa com visão de longo prazo."],
+    trabalho: ["O Rei de Paus representa o líder nato — aquele que inspira, dirige e conquista com paixão. Há uma posição de liderança ou reconhecimento de autoridade se aproximando.", "Há reconhecimento de sua capacidade de liderança. O Rei de Paus convida a assumir o papel que é seu com dignidade e visão."],
+    amor: ["O Rei de Paus ama com intensidade e lealdade, mas sem perder sua independência. No amor, ele representa uma parceria entre iguais, baseada em respeito e paixão.", "Há uma energia de maturidade e intensidade no amor. O Rei de Paus indica uma conexão com alguém forte, apaixonado e leal."],
+    saude: ["O Rei de Paus traz vitalidade madura e consistente. Há energia para realizar, mas também sabedoria para não se queimar. Equilíbrio entre fogo e moderação.", "Há saúde robusta disponível. O Rei de Paus convida a manter a vitalidade com consistência e autoconhecimento."],
+    espiritual: ["O Rei de Paus representa a maestria espiritual — aquele que não apenas conhece o caminho, mas o vive e o ensina. Há uma fase de liderança espiritual se aproximando.", "Há uma maturidade espiritual sendo reconhecida. O Rei de Paus convida a compartilhar sua sabedoria com o mundo."],
+    geral: ["O Rei de Paus é liderança, visão e domínio da energia criativa. Você está em posição de comando — exerça esse poder com sabedoria.", "Há autoridade e poder disponíveis para você. O Rei de Paus confirma que você tem a visão e a força para liderar."],
+  },
+
+  // ── COPAS ─────────────────────────────────────────────────────────────────
+  "Ás de Copas": {
+    financas: ["O Ás de Copas nas finanças indica que uma nova fonte de abundância flui do coração — um presente, uma oportunidade que nasce de conexões genuínas, ou o início de uma fase de prosperidade emocional.", "Há uma abertura emocional que cria espaço para a abundância entrar. O Ás de Copas convida você a receber com o coração aberto."],
+    trabalho: ["O Ás de Copas traz o início de um trabalho que alimenta a alma — seja uma nova vocação, um projeto que ressoa emocionalmente, ou uma conexão com colegas que transforma o ambiente.", "Há uma abertura emocional no trabalho. O Ás de Copas indica que uma nova fase cheia de significado e conexão está começando."],
+    amor: ["O Ás de Copas é a carta do amor em sua forma mais pura — um novo amor chegando, um coração se abrindo, ou uma renovação profunda dentro de um relacionamento existente.", "Há um transbordamento de amor e emoção chegando. O Ás de Copas anuncia uma nova fase emocional belíssima."],
+    saude: ["O Ás de Copas traz cura emocional profunda — um coração que se abre, um bloqueio que se dissolve, uma paz que começa a se instalar.", "Há uma abertura para a cura. O Ás de Copas indica que o coração está pronto para sair de um período de dor."],
+    espiritual: ["O Ás de Copas é o cálice sagrado — a abertura para a graça, a intuição e o amor divino. Uma conexão espiritual profunda está disponível para você.", "Há um derramamento de graça espiritual. O Ás de Copas indica que sua alma está pronta para receber."],
+    geral: ["O Ás de Copas é pura abertura do coração — amor, emoção e graça disponíveis em sua forma mais pura. Esteja aberto para receber.", "Há uma nova onda emocional chegando. O Ás de Copas convida à vulnerabilidade e à abertura."],
+  },
+  "Dez de Copas": {
+    financas: ["O Dez de Copas nas finanças indica que a prosperidade que verdadeiramente importa está chegando — não apenas dinheiro, mas a segurança emocional e familiar que o sustenta.", "Há uma fase de realização completa se aproximando — onde as finanças se estabilizam e a vida familiar florescente que você deseja se torna realidade."],
+    trabalho: ["O Dez de Copas no trabalho traz realização — o sentimento de que seu trabalho contribui para uma vida feliz e significativa.", "Há harmonia e felicidade em relação ao trabalho e ao que ele possibilita na sua vida. O Dez de Copas confirma que você está no caminho certo."],
+    amor: ["O Dez de Copas é a realização plena do amor — felicidade familiar, harmonia, a sensação de que seu lar está completo e abençoado. Uma das cartas mais belas do Tarot.", "Há uma fase de plenitude e alegria no amor e na família chegando. O Dez de Copas anuncia paz, harmonia e amor genuíno."],
+    saude: ["O Dez de Copas traz saúde emocional e alegria de viver. Há um equilíbrio profundo sendo alcançado — mente, coração e corpo em harmonia.", "Há bem-estar genuíno chegando. O Dez de Copas indica que a saúde emocional está sendo restaurada."],
+    espiritual: ["O Dez de Copas representa a realização espiritual no plano humano — a vivência do paraíso aqui na Terra, através do amor, da família e da comunidade.", "Há uma bênção espiritual se manifestando na vida concreta. O Dez de Copas confirma que você está colhendo os frutos de um caminho amoroso."],
+    geral: ["O Dez de Copas é a felicidade plena — amor, família, harmonia e realização emocional. Esta carta confirma que o que você almeja no coração está próximo de se tornar realidade.", "Há realização completa disponível para você. O Dez de Copas é uma das melhores cartas do Tarot — abrace a plenitude que se aproxima."],
+  },
+
+  // ── ESPADAS ──────────────────────────────────────────────────────────────
+  "Ás de Espadas": {
+    financas: ["O Ás de Espadas nas finanças traz clareza cortante — a verdade sobre sua situação financeira está prestes a vir à tona. Enfrente os números com honestidade e use essa clareza para agir.", "Há uma revelação financeira importante. O Ás de Espadas convida à honestidade total com você mesmo — sem ilusões, com o poder da verdade."],
+    trabalho: ["O Ás de Espadas traz clareza mental e decisão. Uma verdade importante sobre sua situação profissional está emergindo — e a clareza, mesmo que doa, liberta.", "Há uma decisão precisa e necessária no trabalho. O Ás de Espadas convida ao pensamento claro e à ação corajosa."],
+    amor: ["O Ás de Espadas no amor traz a verdade à tona — uma conversa necessária, uma decisão que precisa ser tomada ou uma clareza dolorosa que liberta.", "Há uma revelação ou decisão importante no amor. O Ás de Espadas convida à honestidade radical, mesmo que seja difícil."],
+    saude: ["O Ás de Espadas indica uma clareza sobre a saúde — talvez um diagnóstico, uma decisão de tratamento ou uma verdade sobre hábitos que precisam mudar.", "Há clareza e decisão necessárias em relação à saúde. O Ás de Espadas convida à honestidade e à ação precisa."],
+    espiritual: ["O Ás de Espadas é o raio da verdade — um insight poderoso, uma revelação espiritual que corta as ilusões e traz clareza sobre o caminho.", "Há uma iluminação chegando. O Ás de Espadas indica que a verdade está prestes a se revelar de forma poderosa."],
+    geral: ["O Ás de Espadas é poder mental e clareza pura. A verdade surge com força — pode cortar, mas também liberta. Esteja pronto para ver as coisas como elas realmente são.", "Há clareza e poder disponíveis para você. O Ás de Espadas convida à decisão corajosa baseada na verdade."],
+  },
+  "Três de Espadas": {
+    financas: ["O Três de Espadas nas finanças indica uma perda ou dor financeira — uma traição, um projeto que não deu certo, ou o fim doloroso de uma fase. A dor é real, mas necessária para a cura.", "Há uma mágoa financeira que precisa ser reconhecida e processada. O Três de Espadas não deixa espaço para negação — sinta a dor, para poder seguir em frente."],
+    trabalho: ["O Três de Espadas indica desgosto no trabalho — uma traição, uma demissão, um projeto perdido. A dor é legítima e precisa ser sentida antes de ser superada.", "Há uma decepção profissional que dói. O Três de Espadas convida a não suprimir essa dor — ela é parte do processo de transformação."],
+    amor: ["O Três de Espadas é a carta da dor do coração — separação, traição, mágoa profunda. Esta dor, embora real, não é o fim; ela abre espaço para o que é mais autêntico.", "Há um desgosto no amor que não pode ser ignorado. O Três de Espadas convida a sentir a dor com honestidade — é o primeiro passo para a cura."],
+    saude: ["O Três de Espadas indica dor emocional que está afetando o corpo — ansiedade, depressão, mágoas não resolvidas se manifestando fisicamente.", "Há uma dor emocional profunda. O Três de Espadas convida a buscar apoio — essa dor precisa ser cuidada, não escondida."],
+    espiritual: ["O Três de Espadas mostra a dor que purifica — um momento de sofrimento que, quando atravessado com consciência, transforma profundamente.", "Há uma noite escura da alma. O Três de Espadas convida a não fugir da dor espiritual — ela carrega uma transformação necessária."],
+    geral: ["O Três de Espadas é dor, separação e mágoa. Não há como contornar — mas há como atravessar. Permita-se sentir, para que a cura possa começar.", "Há uma dor que precisa ser reconhecida. O Três de Espadas diz: não fuja, sinta — e do outro lado da dor está a liberdade."],
+  },
+  "Dez de Espadas": {
+    financas: ["O Dez de Espadas nas finanças indica um fim doloroso — uma crise, uma falência de um plano ou uma situação que chegou ao fundo do poço. Mas o Dez de Espadas também é a alvorada após a noite mais escura: a partir daqui, só melhora.", "Você está no ponto mais difícil de uma crise financeira. O Dez de Espadas diz: isso aqui é o fundo — e do fundo, a única direção é para cima."],
+    trabalho: ["O Dez de Espadas indica o fim abrupto e doloroso de um ciclo profissional. Uma demissão, um fracasso, uma traição. Mas toda noite tem fim — e este ciclo está se encerrando para que algo melhor possa começar.", "Há uma conclusão dolorosa no trabalho. O Dez de Espadas indica que um capítulo difícil está fechando — e um novo, mais iluminado, está prestes a começar."],
+    amor: ["O Dez de Espadas no amor indica o fim definitivo de um relacionamento ou de uma ilusão. A dor é intensa, mas há algo verdadeiro emergindo das cinzas.", "Há uma conclusão dolorosa no amor. O Dez de Espadas diz: este ciclo terminou — e esse fim, por mais que doa, é o que abre espaço para algo real."],
+    saude: ["O Dez de Espadas indica que o ponto de crise na saúde foi atingido. Este pode ser um alerta urgente para buscar ajuda — e também um indicativo de que a partir daqui, a recuperação começa.", "Há um ponto crítico na saúde que precisa de atenção imediata. O Dez de Espadas pede que você não ignore o que seu corpo está dizendo."],
+    espiritual: ["O Dez de Espadas representa a morte do ego — um colapso de crenças ou identidades que já não servem. É doloroso, mas é o limiar da transformação mais profunda.", "Há uma desestruturação espiritual que leva ao renascimento. O Dez de Espadas indica que o que está sendo destruído precisava ser destruído."],
+    geral: ["O Dez de Espadas é o fim de um ciclo difícil — doloroso, mas necessário. Esta carta diz: você sobreviveu à noite mais escura. A alvorada está chegando.", "Há um encerramento definitivo e doloroso. O Dez de Espadas indica que o pior ficou para trás — a recuperação começa agora."],
+  },
+
+  // ── OUROS ────────────────────────────────────────────────────────────────
+  "Ás de Ouros": {
+    financas: ["O Ás de Ouros é a semente da prosperidade — uma nova oportunidade financeira concreta está surgindo. Seja um novo emprego, um negócio ou um investimento, há um terreno fértil para plantar.", "Há uma nova oportunidade material se apresentando. O Ás de Ouros convida a agir com os pés no chão e plantar as sementes da prosperidade com cuidado."],
+    trabalho: ["O Ás de Ouros traz o início de uma nova jornada profissional — um emprego, um projeto ou um contrato que representa uma fundação sólida.", "Há uma nova oportunidade concreta no trabalho. O Ás de Ouros indica que os recursos necessários para uma nova fase estão disponíveis."],
+    amor: ["O Ás de Ouros no amor indica uma nova relação que tem base concreta — estabilidade, cuidado mútuo e o desejo de construir algo real juntos.", "Há uma conexão que promete solidez e cuidado. O Ás de Ouros indica um amor que se constrói com atenção e comprometimento."],
+    saude: ["O Ás de Ouros indica o início de uma nova abordagem à saúde — um tratamento que começa a dar frutos, hábitos mais saudáveis se solidificando.", "Há uma semente de saúde e bem-estar sendo plantada. O Ás de Ouros convida a cuidar do corpo com consistência."],
+    espiritual: ["O Ás de Ouros convida a espiritualidade que se manifesta na matéria — a graça que se vive no cotidiano, no cuidado com o corpo e com o mundo.", "Há uma conexão entre o espiritual e o material se abrindo. O Ás de Ouros lembra que o sagrado também vive na terra."],
+    geral: ["O Ás de Ouros é abundância em sua forma mais concreta — uma nova oportunidade, um novo começo material. O terreno está fértil; plante com cuidado.", "Há uma nova fase de prosperidade e solidez começando. O Ás de Ouros convida à ação concreta e com os pés no chão."],
+  },
+  "Dez de Ouros": {
+    financas: ["O Dez de Ouros é uma das cartas mais prósperas do Tarot. Ele indica riqueza estabelecida, herança, abundância familiar e segurança financeira duradoura. O que você está construindo agora tem potencial para beneficiar não só você, mas as gerações que virão.", "Há uma fase de prosperidade sólida e duradoura chegando. O Dez de Ouros confirma que a abundância que você busca é alcançável — e que está muito mais próxima do que parece."],
+    trabalho: ["O Dez de Ouros no trabalho indica realização material plena — uma carreira estabelecida, reconhecimento de legado e a satisfação de ter construído algo duradouro.", "Há uma fase de colheita profissional significativa chegando. O Dez de Ouros confirma que seus esforços estão criando uma base sólida e duradoura."],
+    amor: ["O Dez de Ouros indica um amor que se manifesta como família, herança e lar — um relacionamento que vai além da paixão e cria raízes profundas.", "Há uma riqueza emocional e familiar se consolidando. O Dez de Ouros anuncia uma fase de amor maduro, generoso e estável."],
+    saude: ["O Dez de Ouros traz saúde e bem-estar que se transmite para gerações — hábitos saudáveis criados agora que beneficiarão toda a família.", "Há uma fase de vitalidade e saúde duradoura chegando. O Dez de Ouros convida ao cuidado com o corpo como legado."],
+    espiritual: ["O Dez de Ouros indica que a riqueza espiritual se manifesta no plano material — há uma bênção concreta chegando, resultado de um longo caminho de fé e trabalho.", "Há uma prosperidade que vem da conexão com os ancestrais e com a terra. O Dez de Ouros representa o sagrado manifestado na vida cotidiana."],
+    geral: ["O Dez de Ouros é a realização material completa — abundância, segurança, legado e família próspera. É a carta que diz: você pode ter tudo que realmente importa.", "Há riqueza e plenitude chegando em todos os aspectos. O Dez de Ouros é uma das melhores cartas para a vida material — abrace essa energia."],
+  },
+};
+
 function interpretCard(card: CardInput, theme: Theme, pick: number): string {
   const cardName = card.name;
-  const context = MAJOR_CONTEXT[cardName];
 
+  // 1. Arcanos Maiores — interpretação específica por carta
+  const context = MAJOR_CONTEXT[cardName];
   if (context) {
     const options = card.reversed ? context.reversed[theme] : context.upright[theme];
     const text = options[pick % options.length];
@@ -611,37 +794,44 @@ function interpretCard(card: CardInput, theme: Theme, pick: number): string {
     return text;
   }
 
-  // Para Arcanos Menores — interpretação por naipe
+  // 2. Arcanos Menores — interpretação específica por carta (lookup prioritário)
+  const specificEntry = SPECIFIC_MINOR[cardName];
+  if (specificEntry) {
+    const options = specificEntry[theme];
+    const text = options[pick % options.length];
+    if (card.reversed) {
+      return `**${cardName}** aparece invertida. Quando esta carta se inverte, a energia se volta para dentro — pode indicar resistência, bloqueio ou exagero do tema central. ${text} Neste momento invertido, a carta convida a questionar o que está impedindo esse fluxo de se expressar livremente.`;
+    }
+    return text;
+  }
+
+  // 3. Fallback por naipe — para cartas não listadas no SPECIFIC_MINOR
   const suitMap: Record<string, string> = {
-    copas: "copas", "de Copas": "copas", "Ás de Copas": "copas",
-    espadas: "espadas", "de Espadas": "espadas", "Ás de Espadas": "espadas",
-    ouros: "ouros", "de Ouros": "ouros", "Ás de Ouros": "ouros",
-    paus: "paus", "de Paus": "paus", "Ás de Paus": "paus",
+    "de Copas": "copas", "de Espadas": "espadas",
+    "de Ouros": "ouros", "de Paus": "paus",
   };
 
   let suitKey = "";
   for (const [key, val] of Object.entries(suitMap)) {
-    if (cardName.toLowerCase().includes(key.toLowerCase())) {
-      suitKey = val;
-      break;
-    }
+    if (cardName.includes(key)) { suitKey = val; break; }
   }
 
   if (suitKey && SUIT_DATA[suitKey]) {
     const suitInfo = SUIT_DATA[suitKey];
     const baseText = card.reversed ? suitInfo.reversed[theme] : suitInfo.upright[theme];
     const numberInsight = getNumberInsight(cardName);
+    const elemName = suitInfo.element;
+
     if (card.reversed) {
-      return `**${cardName}** invertida, do naipe de ${suitKey.charAt(0).toUpperCase() + suitKey.slice(1)} (elemento ${suitInfo.element}), traz uma mensagem que merece atenção particular: ${baseText}${numberInsight ? " " + numberInsight : ""}`;
+      return `**${cardName}** invertida carrega uma energia de ${suitKey} (elemento ${elemName}) que pede revisão: ${baseText}${numberInsight ? " " + numberInsight : ""}`;
     }
-    return `**${cardName}**, do naipe de ${suitKey.charAt(0).toUpperCase() + suitKey.slice(1)} (elemento ${suitInfo.element}), carrega a seguinte mensagem: ${baseText}${numberInsight ? " " + numberInsight : ""}`;
+    return `**${cardName}** traz a energia de ${suitKey} (elemento ${elemName}): ${baseText}${numberInsight ? " " + numberInsight : ""}`;
   }
 
-  // Fallback genérico
-  const fallback = card.reversed
-    ? `**${cardName}** invertida traz um convite importante a revisar padrões e libertar o que já não serve. Há uma transformação pedindo passagem.`
-    : `**${cardName}** traz uma energia significativa para esse momento. Observe os temas e padrões que ela evoca em sua vida atual.`;
-  return fallback;
+  // 4. Fallback genérico
+  return card.reversed
+    ? `**${cardName}** invertida convida a olhar para bloqueios internos que estão impedindo o fluxo natural dessa energia em sua vida.`
+    : `**${cardName}** traz uma mensagem poderosa para esse momento. Observe o que ela desperta em você — o inconsciente já sabe o que precisa.`;
 }
 
 function getNumberInsight(cardName: string): string {
@@ -679,14 +869,12 @@ export function interpretTarot(question: string, cards: CardInput[]): string {
   const abertura = aberturas[Math.floor(Math.random() * aberturas.length)];
 
   let reading = `✦ A MENSAGEM DAS CARTAS\n\n${abertura}\n\n`;
-  reading += `Sua pergunta: "${question}"\n\n`;
 
-  // Interpretação de cada carta
+  // Interpretação de cada carta — direto ao ponto, sem intro mecânica
   cards.forEach((card, index) => {
-    const posIntro = getPositionIntro(card.position);
     const cardText = interpretCard(card, theme, index);
-    reading += `✦ ${card.position.toUpperCase()}\n`;
-    reading += `${posIntro} ${card.name}${card.reversed ? " (invertida)" : ""}.\n\n`;
+    const reversedLabel = card.reversed ? " (invertida)" : "";
+    reading += `✦ ${card.name.toUpperCase()}${reversedLabel}\n\n`;
     reading += `${cardText}\n\n`;
   });
 
@@ -695,7 +883,7 @@ export function interpretTarot(question: string, cards: CardInput[]): string {
   reading += getSynthesis(cards, theme) + "\n\n";
 
   // Orientação final
-  reading += `✦ ORIENTAÇÃO\n\n`;
+  reading += `✦ O QUE AS CARTAS PEDEM DE VOCÊ\n\n`;
   reading += getFinalOrientation(theme, hasReversed);
 
   return reading;

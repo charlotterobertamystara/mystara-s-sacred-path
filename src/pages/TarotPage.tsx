@@ -8,7 +8,43 @@ import { MAJOR_ARCANA, TarotCard } from "@/data/tarot-cards";
 import { MINOR_ARCANA } from "@/data/tarot-minor-arcana";
 import { interpretTarot } from "@/lib/tarotEngine";
 import { useSessionHistory } from "@/hooks/useSessionHistory";
-import { RotateCcw, Sparkles } from "lucide-react";
+import { RotateCcw, Sparkles, BookOpen } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+
+// Renderiza negrito (**texto**) e seções (✦) em JSX
+function RichText({ text }: { text: string }) {
+  const lines = text.split("\n");
+  return (
+    <div className="space-y-2">
+      {lines.map((line, i) => {
+        if (!line.trim()) return <div key={i} className="h-1" />;
+        // Linha de seção (começa com ✦)
+        if (line.startsWith("✦")) {
+          return (
+            <p key={i} className="font-display text-xs tracking-widest text-primary uppercase mt-4 first:mt-0">
+              {line}
+            </p>
+          );
+        }
+        // Linha com **negrito**
+        const parts = line.split(/(\*\*[^*]+\*\*)/g);
+        return (
+          <p key={i} className="font-body text-sm leading-relaxed text-foreground">
+            {parts.map((part, j) =>
+              part.startsWith("**") && part.endsWith("**") ? (
+                <strong key={j} className="font-semibold text-foreground">
+                  {part.slice(2, -2)}
+                </strong>
+              ) : (
+                part
+              )
+            )}
+          </p>
+        );
+      })}
+    </div>
+  );
+}
 
 type Step = "input" | "reading";
 
@@ -98,11 +134,12 @@ function parseCardsFromText(text: string, numCards: number): SelectedCard[] {
   for (const card of ALL_CARDS) {
     if (usedIds.has(card.id)) continue;
 
-    const cardNorm = prepareText(card.name).replace(/^(o |a |os |as )/, "").trim();
+    // Remove article only when NOT followed by "de/do/da" (ex: "O Louco" → "louco", mas "Ás de Paus" NÃO perde o "as")
+    const cardNorm = prepareText(card.name).replace(/^(o |a |os |as )(?!d[eoa])/, "").trim();
     let matchIndex = normText.indexOf(cardNorm);
 
     if (matchIndex < 0) {
-      const origNorm = prepareText(card.nameOriginal).replace(/^(le |la |les |l )/, "").trim();
+      const origNorm = prepareText(card.nameOriginal).replace(/^(le |la |les |l )(?!d[eoa])/, "").trim();
       matchIndex = normText.indexOf(origNorm);
     }
 
@@ -132,6 +169,7 @@ const TarotPage = () => {
   const [interpretation, setInterpretation] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { saveSession } = useSessionHistory();
+  const navigate = useNavigate();
 
   const startReading = async () => {
     const cards = parseCardsFromText(text, numCards);
@@ -204,6 +242,13 @@ const TarotPage = () => {
         <p className="mt-1 font-body text-sm text-muted-foreground italic">
           Leitura simbólica e arquetípica tradicional
         </p>
+        <button
+          onClick={() => navigate("/tarot/cartas")}
+          className="mt-3 inline-flex items-center gap-1.5 font-body text-xs text-muted-foreground hover:text-primary transition-colors underline"
+        >
+          <BookOpen className="h-3 w-3" />
+          Ver todas as 78 cartas e seus significados
+        </button>
       </motion.div>
 
       <AnimatePresence mode="wait">
@@ -333,9 +378,7 @@ const TarotPage = () => {
                   <span className="font-body text-sm italic">As cartas estão falando...</span>
                 </div>
               )}
-              <div className="font-body text-sm leading-relaxed text-foreground whitespace-pre-wrap">
-                {interpretation}
-              </div>
+              {interpretation && <RichText text={interpretation} />}
             </div>
 
             {!isLoading && (

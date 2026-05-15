@@ -8,6 +8,7 @@ import AppLayout from "./components/AppLayout";
 import SubscriptionGate from "./components/SubscriptionGate";
 import Index from "./pages/Index";
 import TarotPage from "./pages/TarotPage";
+import TarotCardsPage from "./pages/TarotCardsPage";
 import RunasPage from "./pages/RunasPage";
 
 import CristaisPage from "./pages/CristaisPage";
@@ -36,6 +37,7 @@ const App = () => (
             <Route element={<AppLayout />}>
               <Route path="/" element={<Index />} />
               <Route path="/tarot" element={<TarotPage />} />
+              <Route path="/tarot/cartas" element={<TarotCardsPage />} />
               <Route path="/runas" element={<RunasPage />} />
               
               <Route path="/cristais" element={<CristaisPage />} />

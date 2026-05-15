@@ -186,6 +186,7 @@ const TarotPage = () => {
   const [question, setQuestion] = useState("");
   const [numCards, setNumCards] = useState(3);
   const [selectedCards, setSelectedCards] = useState<(SelectedCard | undefined)[]>([]);
+  const [readingCards, setReadingCards] = useState<SelectedCard[]>([]);
   const [detailCard, setDetailCard] = useState<TarotCard | null>(null);
   const [interpretation, setInterpretation] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -229,6 +230,8 @@ const TarotPage = () => {
   }
 
   const startReading = async () => {
+    const captured = [...confirmedCards]; // captura as cartas antes de qualquer mudança de estado
+    setReadingCards(captured);
     setIsLoading(true);
     setInterpretation("");
     setStep("reading");
@@ -236,7 +239,7 @@ const TarotPage = () => {
     try {
       await new Promise((r) => setTimeout(r, 400));
 
-      const cards = confirmedCards.map((s) => ({
+      const engineCards = captured.map((s) => ({
         name: s.card.name,
         position: s.position,
         reversed: s.reversed,
@@ -244,7 +247,7 @@ const TarotPage = () => {
         suit: (s.card as any).suit,
       }));
 
-      const result = interpretTarot(question, cards);
+      const result = interpretTarot(question, engineCards);
       setInterpretation(result);
 
       try {
@@ -252,7 +255,7 @@ const TarotPage = () => {
           session_type: "tarot",
           question,
           session_data: {
-            cards: confirmedCards.map((s) => ({
+            cards: captured.map((s) => ({
               name: s.card.name,
               position: s.position,
               reversed: s.reversed,
@@ -260,7 +263,7 @@ const TarotPage = () => {
             numCards,
           },
           interpretation: result,
-          reading_items: confirmedCards.map((s, i) => ({
+          reading_items: captured.map((s, i) => ({
             item_type: "tarot_card",
             item_name: s.card.name,
             item_position: s.position,
@@ -270,7 +273,7 @@ const TarotPage = () => {
           })),
         });
       } catch {
-        // Silently ignore — session saving is optional
+        // Silently ignore — salvar sessão é opcional
       }
     } catch (e) {
       console.error("Tarot reading error:", e);
@@ -285,6 +288,7 @@ const TarotPage = () => {
     setQuestion("");
     setSelectedCards(Array(numCards).fill(undefined));
     setInterpretation("");
+    setReadingCards([]);
   };
 
   return (
@@ -432,7 +436,7 @@ const TarotPage = () => {
                 Sua Tiragem
               </p>
               <div className="space-y-2">
-                {confirmedCards.map((s, i) => (
+                {readingCards.map((s, i) => (
                   <div key={s.card.id} className="flex items-center gap-3">
                     <div className="flex h-9 w-9 items-center justify-center rounded-full border border-primary/30 bg-secondary/30 text-xl">
                       {s.card.symbol}
@@ -488,7 +492,7 @@ const TarotPage = () => {
                 <p className="font-display text-xs tracking-widest text-muted-foreground uppercase">
                   Significados das Cartas
                 </p>
-                {confirmedCards.map((s) => (
+                {readingCards.map((s) => (
                   <div
                     key={s.card.id}
                     className="rounded-xl border border-border bg-card p-4 space-y-2"

@@ -7,6 +7,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Badge } from "@/components/ui/badge";
 import { MAJOR_ARCANA, TarotCard } from "@/data/tarot-cards";
 import { MINOR_ARCANA } from "@/data/tarot-minor-arcana";
+import { interpretTarot } from "@/lib/tarotEngine";
 import { useToast } from "@/hooks/use-toast";
 import { useSessionHistory } from "@/hooks/useSessionHistory";
 import { ChevronLeft, RotateCcw, Sparkles, BookOpen, X, FlipVertical } from "lucide-react";
@@ -38,8 +39,6 @@ const TarotPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const { saveSession } = useSessionHistory();
-
-  const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
 
   const ALL_CARDS = [...MAJOR_ARCANA, ...MINOR_ARCANA];
 
@@ -84,99 +83,46 @@ const TarotPage = () => {
     setInterpretation("");
     setStep("reading");
 
-    const payload = {
-      question,
-      cards: selectedCards.map((s) => ({
+    try {
+      // Small delay to let the loading UI render
+      await new Promise((r) => setTimeout(r, 400));
+
+      const cards = selectedCards.map((s) => ({
         name: s.card.name,
         position: s.position,
         reversed: s.reversed,
-      })),
-    };
+        number: s.card.number,
+        suit: (s.card as any).suit,
+      }));
 
-    try {
-      const resp = await fetch(`${SUPABASE_URL}/functions/v1/tarot-reading`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
-        },
-        body: JSON.stringify(payload),
-      });
+      const result = interpretTarot(question, cards);
+      setInterpretation(result);
 
-      if (!resp.ok || !resp.body) {
-        const err = await resp.json().catch(() => ({ error: "Erro desconhecido" }));
-        toast({
-          title: "Erro na leitura",
-          description: err.error || "Tente novamente.",
-          variant: "destructive",
-        });
-        setStep("select");
-        setIsLoading(false);
-        return;
-      }
-
-      const reader = resp.body.getReader();
-      const decoder = new TextDecoder();
-      let textBuffer = "";
-      let streamDone = false;
-      let accumulated = "";
-
-      while (!streamDone) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        textBuffer += decoder.decode(value, { stream: true });
-
-        let newlineIndex: number;
-        while ((newlineIndex = textBuffer.indexOf("\n")) !== -1) {
-          let line = textBuffer.slice(0, newlineIndex);
-          textBuffer = textBuffer.slice(newlineIndex + 1);
-          if (line.endsWith("\r")) line = line.slice(0, -1);
-          if (line.startsWith(":") || line.trim() === "") continue;
-          if (!line.startsWith("data: ")) continue;
-          const jsonStr = line.slice(6).trim();
-          if (jsonStr === "[DONE]") { streamDone = true; break; }
-          try {
-            const parsed = JSON.parse(jsonStr);
-            const content = parsed.choices?.[0]?.delta?.content as string | undefined;
-            if (content) {
-              accumulated += content;
-              setInterpretation(accumulated);
-            }
-          } catch {
-            textBuffer = line + "\n" + textBuffer;
-            break;
-          }
-        }
-      }
-
-      // Save to history
-      if (accumulated) {
-        saveSession({
-          session_type: "tarot",
-          question,
-          session_data: {
-            cards: selectedCards.map((s) => ({
-              name: s.card.name,
-              position: s.position,
-              reversed: s.reversed,
-            })),
-            numCards,
-          },
-          interpretation: accumulated,
-          reading_items: selectedCards.map((s, i) => ({
-            item_type: "tarot_card",
-            item_name: s.card.name,
-            item_position: s.position,
-            is_reversed: s.reversed,
-            sort_order: i,
-            item_data: { number: s.card.number, symbol: s.card.symbol },
+      saveSession({
+        session_type: "tarot",
+        question,
+        session_data: {
+          cards: selectedCards.map((s) => ({
+            name: s.card.name,
+            position: s.position,
+            reversed: s.reversed,
           })),
-        });
-      }
+          numCards,
+        },
+        interpretation: result,
+        reading_items: selectedCards.map((s, i) => ({
+          item_type: "tarot_card",
+          item_name: s.card.name,
+          item_position: s.position,
+          is_reversed: s.reversed,
+          sort_order: i,
+          item_data: { number: s.card.number, symbol: s.card.symbol },
+        })),
+      });
     } catch (e) {
       toast({
-        title: "Erro de conexão",
-        description: "Verifique sua conexão e tente novamente.",
+        title: "Erro na leitura",
+        description: "Tente novamente.",
         variant: "destructive",
       });
       setStep("select");
